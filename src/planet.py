@@ -103,5 +103,21 @@ class Planet:
         # YOUR CODE FOLLOWS (remove pass, please!)
         
         number_of_coordinates = len(self.path_dictionary)
-        matrix = [[0] * number_of_coordinates for i in range(number_of_coordinates)]      
-        
+        matrix = [[0] * number_of_coordinates for i in range(number_of_coordinates)]  
+
+        matrix_column = 0
+        matrix_row = 0
+
+        for i in self.path_dictionary: #First: goes through the dictionary/coordinates (First key)
+            for s in Direction: #Second: goes through the direction (Second key)
+                for t in self.path_dictionary: #Third: goes through the coordinates again 
+                    if(self.path_dictionary[i][s][0] == t and matrix_row != matrix_column):
+                        matrix[matrix_row][matrix_column] = self.path_dictionary[i][s][2] #Add the distance when there's a way
+                    elif(matrix_row == matrix_column):
+                        matrix[matrix_row][matrix_column] = 0 #The way to coordinate itself 
+                    else:
+                        if(matrix[matrix_row][matrix_column] == 0):
+                            matrix[matrix_row][matrix_column] = 9999 #9999 stands for Infinity (unreachable coordinates)
+                    matrix_column += 1
+                matrix_column = 0
+            matrix_row += 1
