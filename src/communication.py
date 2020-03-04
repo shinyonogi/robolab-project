@@ -56,7 +56,7 @@ class Communication:
         self.logger.debug(json.dumps(message, indent=2))
 
         # YOUR CODE FOLLOWS (remove pass, please!)
-        pass
+        self.client.publish(topic, json.dumps(message))
 
     # DO NOT EDIT THE METHOD SIGNATURE OR BODY
     #
