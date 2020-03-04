@@ -111,13 +111,16 @@ class Planet:
         for i in self.path_dictionary: #First: goes through the dictionary/coordinates (First key)
             for s in Direction: #Second: goes through the direction (Second key)
                 for t in self.path_dictionary: #Third: goes through the coordinates again 
-                    if(self.path_dictionary[i][s][0] == t and matrix_row != matrix_column):
-                        matrix[matrix_row][matrix_column] = self.path_dictionary[i][s][2] #Add the distance when there's a way
-                    elif(matrix_row == matrix_column):
-                        matrix[matrix_row][matrix_column] = 0 #The way to coordinate itself 
-                    else:
-                        if(matrix[matrix_row][matrix_column] == 0):
-                            matrix[matrix_row][matrix_column] = 9999 #9999 stands for Infinity (unreachable coordinates)
-                    matrix_column += 1
+                    try:
+                        if(self.path_dictionary[i][s][0] == t and matrix_row != matrix_column):
+                            matrix[matrix_row][matrix_column] = self.path_dictionary[i][s][2] #Add the distance when there's a way
+                        elif(matrix_row == matrix_column):
+                            matrix[matrix_row][matrix_column] = 0 #The way to coordinate itself 
+                        else:
+                            if(matrix[matrix_row][matrix_column] == 0):
+                                matrix[matrix_row][matrix_column] = 9999 #9999 stands for Infinity (unreachable coordinates)
+                        matrix_column += 1
+                    except KeyError as e: #To avoid key error 
+                        continue
                 matrix_column = 0
             matrix_row += 1
