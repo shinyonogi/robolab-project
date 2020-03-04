@@ -27,6 +27,7 @@ class Communication:
         self.logger = logger
 
         self.topic = "explorer/004"
+        self.planet_name = ""
 
     # DO NOT EDIT THE METHOD SIGNATURE
     def on_message(self, client, data, message):
