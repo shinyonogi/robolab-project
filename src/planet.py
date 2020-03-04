@@ -54,9 +54,9 @@ class Planet:
 
         # YOUR CODE FOLLOWS (remove pass, please!) 
         
-        if((start[0] in self.path_dictionary) == False): 
+        if((start[0] in self.path_dictionary) == False): #if the key (coordinate) doesn't exist
             self.path_dictionary[start[0]] = dict([(start[1], (target[0], target[1], weight))])
-        else:
+        else: #if the key already exists
             self.path_dictionary[start[0]][start[1]] = (target[0], target[1], weight)
 
         if((target[0] in self.path_dictionary) == False):
