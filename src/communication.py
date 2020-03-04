@@ -26,6 +26,8 @@ class Communication:
 
         self.logger = logger
 
+        self.topic = "explorer/004"
+
     # DO NOT EDIT THE METHOD SIGNATURE
     def on_message(self, client, data, message):
         """
@@ -76,3 +78,11 @@ class Communication:
             import traceback
             traceback.print_exc()
             raise
+
+
+    def testplanet_message(self):
+
+        messsage = {"from": "client", 
+                    "type": "testplanet", 
+                    "payload": {"planetname": self.planet_name}}
+        self.client.send_message(self.topic, message, qos = 1)
