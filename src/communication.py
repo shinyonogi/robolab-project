@@ -83,7 +83,7 @@ class Communication:
 
     def testplanet_message(self):
 
-        messsage = {"from": "client", 
+        message = {"from": "client", 
                     "type": "testplanet", 
                     "payload": {"planetname": self.planet_name}}
         self.client.send_message(self.topic, message, qos = 1)
