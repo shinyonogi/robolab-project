@@ -101,4 +101,7 @@ class Planet:
         """
 
         # YOUR CODE FOLLOWS (remove pass, please!)
-        pass
+        
+        number_of_coordinates = len(self.path_dictionary)
+        matrix = [[0] * number_of_coordinates for i in range(number_of_coordinates)]      
+        
