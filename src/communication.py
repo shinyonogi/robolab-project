@@ -97,6 +97,7 @@ class Communication:
         self.client.send_message(self.topic, message, qos = 1)
         self.client.subscribe(f"planet/{self.planet_name}/004")
 
+
     def path_message(self, Xs, Ys, Ds, Xe, Ye, De, path_status):
 
         message = {"from": "client",
@@ -110,5 +111,18 @@ class Communication:
                        "endDirection": De.value,
                        "pathStatus": path_status
                     }
+        }
+        self.client.send_message(self.topic, message, qos = 1)
+
+
+    def path_select_message(self, Xs, Ys, Ds):
+
+        message = {"from": "client", 
+                   "type": "pathselect",
+                   "payload": {
+                       "startX": Xs,
+                       "startY": Ys,
+                       "startDirection": Ds.value
+                   }
         }
         self.client.send_message(self.topic, message, qos = 1)
