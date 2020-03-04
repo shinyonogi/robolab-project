@@ -120,7 +120,7 @@ class Planet:
                             if(matrix[matrix_row][matrix_column] == 0):
                                 matrix[matrix_row][matrix_column] = 9999 #9999 stands for Infinity (unreachable coordinates)
                         matrix_column += 1
-                    except KeyError as e: #To avoid key error 
+                    except KeyError as e: #To avoid keyerror 
                         continue
                 matrix_column = 0
             matrix_row += 1
