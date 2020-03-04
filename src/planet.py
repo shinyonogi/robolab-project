@@ -53,7 +53,11 @@ class Planet:
         """
 
         # YOUR CODE FOLLOWS (remove pass, please!) 
-        pass
+        
+        if((start[0] in self.path_dictionary) == False): 
+            self.path_dictionary[start[0]] = dict([(start[1], (target[0], target[1], weight))])
+        else:
+            self.path_dictionary[start[0]][start[1]] = (target[0], target[1], weight)
 
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
