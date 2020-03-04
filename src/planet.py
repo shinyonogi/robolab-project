@@ -8,6 +8,9 @@ from typing import List, Tuple, Dict, Union
 @unique
 class Direction(IntEnum):
     """ Directions in shortcut """
+
+    __order__ = 'NORTH SOUTH WEST EAST'
+
     NORTH = 0
     EAST = 90
     SOUTH = 180
@@ -32,7 +35,9 @@ class Planet:
 
     def __init__(self):
         """ Initializes the data structure """
+
         self.target = None
+        self.path_dictionary = {} #all paths get saved in this dictionary
 
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction],
                  weight: int):
@@ -47,8 +52,9 @@ class Planet:
         :return: void
         """
 
-        # YOUR CODE FOLLOWS (remove pass, please!)
+        # YOUR CODE FOLLOWS (remove pass, please!) 
         pass
+
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
         """
@@ -70,7 +76,8 @@ class Planet:
         """
 
         # YOUR CODE FOLLOWS (remove pass, please!)
-        pass
+        
+        return self.path_dictionary
 
     def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]) -> Union[None, List[Tuple[Tuple[int, int], Direction]]]:
         """
