@@ -87,3 +87,12 @@ class Communication:
                     "type": "testplanet", 
                     "payload": {"planetname": self.planet_name}}
         self.client.send_message(self.topic, message, qos = 1)
+
+    
+    def ready_message(self):
+
+        self.client.subscribe(self.explorer_name, qos = 1)
+        message = {"from": "client", 
+                   "type": "ready"}
+        self.client.send_message(self.topic, message, qos = 1)
+        self.client.subscribe(f"planet/{self.planet_name}/004")
