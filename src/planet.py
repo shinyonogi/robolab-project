@@ -59,7 +59,7 @@ class Planet:
         else: #if the key already exists
             self.path_dictionary[start[0]][start[1]] = (target[0], target[1], weight)
 
-        if((target[0] in self.path_dictionary) == False):
+        if((target[0] in self.path_dictionary) == False): #the path from target to start also get added
             self.path_dictionary[target[0]] = dict([(target[1], (start[0], start[1], weight))])
         else:
             self.path_dictionary[target[0]][target[1]] = (start[0], start[1], weight)
