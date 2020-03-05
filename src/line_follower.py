@@ -98,6 +98,43 @@ class LineFollower:
         # TODO: maybe also do something with LEDs here?
         self.speaker.tone([(200, 100, 100), (500, 200)])
 
+    def found_square(self):
+        pass
+
+    def found_path(self):
+        pass
+
+    def scan_for_paths(self):
+        started_at_degrees = 1  # Add odometry stuff here
+
+        # Slowly rotate with half the target power
+        self.motor_right.duty_cycle_sp = self.target_power / 2
+        self.motor_left.duty_cycle_sp = -self.target_power / 2
+
+        self.color_sensor.mode = "COL-COLOR"
+
+        current_degrees = 1  # This is a placeholder for some odometry method call inside the while condition
+
+        # We don't technically have to do a full 360, 270 degrees would be enough
+        while current_degrees < started_at_degrees + 360:
+            color = self.color_sensor.value()
+
+            if color == 1:
+                # black -> path
+                pass
+            elif color == 6:
+                # white -> nothing
+                pass
+            elif color == 2 or color == 5:
+                # blue or red -> square
+                pass
+
+            time.sleep(0.1)
+
+        self.motor_right.duty_cycle_sp = 0
+        self.motor_left.duty_cycle_sp = 0
+        self.color_sensor.mode = "RGB-RAW"
+
     def stop(self):
         self.stop_cmd = True
         while self.is_running:
