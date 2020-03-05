@@ -31,10 +31,10 @@ class Communication:
         self.planet_name = ""
         
         self.client.connect("mothership.inf.tu-dresden.de", port = "8883")
+        self.client.loop_start()
 
         self.testplanet_message()
         self.ready_message()
-        self.client.loop_start()
 
         self.target_determined = False
 
