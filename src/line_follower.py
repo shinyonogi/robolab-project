@@ -17,6 +17,8 @@ class LineFollower:
         self.us_sensor = us_sensor
         self.speaker = speaker
 
+        self.target_power = 20
+
         self.stop_cmd = False
         self.is_running = False
 
@@ -32,12 +34,12 @@ class LineFollower:
         self.motor_left.stop_action = "coast"
 
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
-        Kp = 1/6  # Proportional constant
+        k_p = 1/6  # Proportional constant
         offset = 170  # Light sensor offset
-        Tp = 20  # Target power cycle level (30%)
-        Ki = 0  # Integral constant
+        target_power = self.target_power  # Target power cycle level (20%)
+        k_i = 0  # Integral constant
         integral = 0  # Integral
-        Kd = 0.1  # Derivative constant
+        k_d = 0.1  # Derivative constant
         last_error = 0
 
         while not self.stop_cmd:
@@ -70,9 +72,9 @@ class LineFollower:
             integral = 2/3 * integral + error
             derivative = error - last_error
             last_error = error
-            turn = Kp * error + Ki * integral + Kd * derivative
-            power_right = Tp + turn
-            power_left = Tp - turn
+            turn = k_p * error + k_i * integral + k_d * derivative
+            power_right = target_power + turn
+            power_left = target_power - turn
 
             # Apply motor powers
             self.motor_left.duty_cycle_sp = power_left
