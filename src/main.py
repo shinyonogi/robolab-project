@@ -42,6 +42,7 @@ def run():
     screen = ev3.Screen()
     speaker = ev3.Sound
     button = ev3.Button()
+    led = ev3.Led()
     button.on_up = up_callback
     button.on_down = down_callback
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
