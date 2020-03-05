@@ -32,11 +32,16 @@ class Communication:
         self.topic = "explorer/004"
         self.planet_name = ""
         
-        self.client.connect("mothership.inf.tu-dresden.de", port = "8883")
+        self.client.connect("mothership.inf.tu-dresden.de", port = 8883)
+        print("Connecting to the server...")
+
         self.client.loop_start()
+        print("Loop starting...")
 
         self.testplanet_message()
+
         self.ready_message()
+        print("Ready...")
 
         self.target_determined = False
 
@@ -118,7 +123,7 @@ class Communication:
 
         # YOUR CODE FOLLOWS (remove pass, please!)
         self.client.publish(topic, json.dumps(message))
-        
+
         time.sleep(3)
 
     # DO NOT EDIT THE METHOD SIGNATURE OR BODY

@@ -11,10 +11,10 @@ import uuid
 import json
 import ssl
 
-class CommunicationTest(unittest.Testcase):
+class CommunicationTest(unittest.TestCase):
 
-    def __init__(self):
-        
+    def setUp(self):
+
         client = mqtt.Client(client_id=str(uuid.uuid4()), 
                          clean_session=False, 
                          protocol=mqtt.MQTTv31  
@@ -57,7 +57,7 @@ class CommunicationTest(unittest.Testcase):
     def testplanet_message_test(self):
 
         self.communication.testplanet_message()
-        
+
 
 if __name__ == "__main__":
     unittest.main()
