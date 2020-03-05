@@ -43,12 +43,14 @@ class LineFollower:
         last_error = 0
 
         while not self.stop_cmd:
-            if self.us_sensor.distance_centimeters < 20:
-                self.speaker.tone([(200, 100, 100), (500, 200)])
-                self.motor_right.duty_cycle_sp = Tp
-                self.motor_right.command = "run-direct"
-                self.motor_left.duty_cycle_sp = -Tp
-                self.motor_left.command = "run-direct"
+            if self.us_sensor.distance_centimeters < 15:
+                self.motor_left.duty_cycle_sp = 0
+                self.motor_right.duty_cycle_sp = 0
+                self.warning()
+                self.motor_right.duty_cycle_sp = target_power
+                self.motor_left.duty_cycle_sp = -target_power
+                time.sleep(5)
+                continue
                 # add Odometry!!!!!
 
             rgb = self.color_sensor.bin_data("hhh")  # Read RGB values from sensor
@@ -85,6 +87,10 @@ class LineFollower:
         time.sleep(0.05)
 
         self.is_running = False
+
+    def warning(self):
+        # TODO: maybe also do something with LEDs here?
+        self.speaker.tone([(200, 100, 100), (500, 200)])
 
     def stop(self):
         self.stop_cmd = True
