@@ -29,7 +29,6 @@ class CommunicationTest(unittest.Testcase):
         self.communication = Communication(client, logger)
         self.communication.syntax_prove()
 
-
     def ready_message_test(self):
 
         self.communication.ready_message()
@@ -58,3 +57,7 @@ class CommunicationTest(unittest.Testcase):
     def testplanet_message_test(self):
 
         self.communication.testplanet_message()
+        
+
+if __name__ == "__main__":
+    unittest.main()

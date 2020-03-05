@@ -6,6 +6,8 @@ import ssl
 
 from planet import Planet 
 
+import time 
+
 class Communication:
     """
     Class to hold the MQTT client communication
@@ -98,6 +100,8 @@ class Communication:
                 message = payload["payload"]["message"]
                 print("Message from Mothership", message)
 
+        time.sleep(3)
+
     # DO NOT EDIT THE METHOD SIGNATURE
     #
     # In order to keep the logging working you must provide a topic string and
@@ -114,6 +118,8 @@ class Communication:
 
         # YOUR CODE FOLLOWS (remove pass, please!)
         self.client.publish(topic, json.dumps(message))
+        
+        time.sleep(3)
 
     # DO NOT EDIT THE METHOD SIGNATURE OR BODY
     #
