@@ -30,7 +30,7 @@ class Communication:
         self.logger = logger
 
         self.topic = "explorer/004"
-        self.planet_name = ""
+        self.planet_name = "Ferdinand"
 
         self.client.username_pw_set("004", password = "vexyOo1M27")
         
@@ -161,7 +161,7 @@ class Communication:
         self.client.subscribe(self.topic, qos = 1)
         message = {"from": "client", 
                    "type": "ready"}
-        self.send_message(self.topic, message, qos = 1)
+        self.send_message(self.topic, message)
         self.client.subscribe(f"planet/{self.planet_name}/004", qos = 1)
 
 
@@ -172,14 +172,14 @@ class Communication:
                    "payload": {
                        "startX": Xs,
                        "startY": Ys,
-                       "startDirection": Ds.value,
+                       "startDirection": Ds,
                        "endX": Xe,
                        "endY": Ye,
-                       "endDirection": De.value,
+                       "endDirection": De,
                        "pathStatus": path_status
                     }
         }
-        self.client.send_message(self.topic, message)
+        self.send_message(self.topic, message)
 
 
     def path_select_message(self, Xs, Ys, Ds):
@@ -189,7 +189,7 @@ class Communication:
                    "payload": {
                        "startX": Xs,
                        "startY": Ys,
-                       "startDirection": Ds.value
+                       "startDirection": Ds
                    }
         }
         self.send_message(self.topic, message)

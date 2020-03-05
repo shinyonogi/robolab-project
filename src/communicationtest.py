@@ -29,32 +29,32 @@ class CommunicationTest(unittest.TestCase):
         self.communication = Communication(client, logger)
         self.communication.syntax_prove()
 
-    def ready_message_test(self):
+    def test_ready_message(self):
 
         self.communication.ready_message()
 
 
-    def path_message_test(self):
+    def test_path_message(self):
 
-        self.communication.path_message()
-
-
-    def path_select_message_test(self):
-
-        self.communication.path_select_message()
+        self.communication.path_message(0, 0, 0, 0, 0, 0, "blocked")
 
 
-    def target_reached_message_test(self):
+    def test_path_select_message(self):
 
-        self.communication.complete_message()
+        self.communication.path_select_message(0, 0, 0)
 
 
-    def exploration_completed_message_test(self):
+    def test_target_reached_message(self):
 
         self.communication.target_reached_message()
 
 
-    def testplanet_message_test(self):
+    def test_exploration_completed_message(self):
+
+        self.communication.exploration_completed_message()
+
+
+    def test_testplanet_message(self):
 
         self.communication.testplanet_message()
 
