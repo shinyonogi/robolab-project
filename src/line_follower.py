@@ -29,6 +29,13 @@ class LineFollower:
         Tp = 30
 
         while not self.stop:
+            if self.us_sensor.distance_centimeters < 10:
+                self.motor_right.duty_cycle_sp = Tp
+                self.motor_right.command = "run-direct"
+                self.motor_left.duty_cycle_sp = -Tp
+                self.motor_left.command = "run-direct"
+                # add Odometry!!!!!
+
             rgb = self.color_sensor.bin_data("hhh")
             r = rgb[0]
             g = rgb[1]
