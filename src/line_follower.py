@@ -24,9 +24,10 @@ class LineFollower:
         self.motor_right.reset()
         self.motor_left.reset()
 
-        Kp = 1/6
-        offset = 170
-        Tp = 30
+        # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
+        Kp = 1/6  # Kp contant
+        offset = 170  # Light sensor offset
+        Tp = 30  # Target power cycle level (30%)
 
         while not self.stop:
             if self.us_sensor.distance_centimeters < 10:
@@ -36,11 +37,11 @@ class LineFollower:
                 self.motor_left.command = "run-direct"
                 # add Odometry!!!!!
 
-            rgb = self.color_sensor.bin_data("hhh")
+            rgb = self.color_sensor.bin_data("hhh")  # Read RGB values from sensor
             r = rgb[0]
             g = rgb[1]
             b = rgb[2]
-            gs = self.rgb_to_grayscale(r, g, b)
+            gs = self.rgb_to_grayscale(r, g, b)  # Convert RGB to grayscale
 
             # TODO: this isn't reliable, find a better way to detect red/blue squares
             # if r > 100 > g and b < 100:
@@ -52,17 +53,17 @@ class LineFollower:
             #     gs = self.rgb_to_grayscale(r, g, b)
             #     print(gs)
 
+            # Calculate error, turn and motor powers
             error = gs - offset
             turn = Kp * error
             power_right = Tp + turn
             power_left = Tp - turn
 
+            # Apply motor powers
             self.motor_left.duty_cycle_sp = power_left
             self.motor_right.duty_cycle_sp = power_right
             self.motor_left.command = "run-direct"
             self.motor_right.command = "run-direct"
-
-
 
     def stop(self):
         self.stop = True
