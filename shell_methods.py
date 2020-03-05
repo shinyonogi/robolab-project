@@ -24,6 +24,9 @@ def reset():
     m_left.reset()
 
 
+reset()
+
+
 def stop():
     # Stop motors
     m_left.stop()
@@ -79,4 +82,42 @@ def test_color():
         time.sleep(1)
 
 
-reset()
+def follow(delay=0.1, k_p=1 / 6, offset=170, target_power=20, k_i=0, k_d=0.1):
+    # PID controller method for tuning
+    integral = 0
+    last_error = 0
+    red_counter = 0
+    blue_counter = 0
+    while True:
+        rgb = cs.bin_data("hhh")  # Read RGB values from sensor
+        r = rgb[0]
+        g = rgb[1]
+        b = rgb[2]
+        gs = rgb_to_grayscale(r, g, b)  # Convert RGB to grayscale
+        if r > 100 > g and b < 100:
+            if red_counter > 5:
+                print("red square")
+                red_counter = 0
+            else:
+                red_counter += 1
+        elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
+            if blue_counter > 5:
+                print("blue square")
+                blue_counter = 0
+            else:
+                blue_counter += 1
+        # Calculate error, turn and motor powers
+        error = gs - offset
+        integral = 2 / 3 * integral + error
+        derivative = error - last_error
+        last_error = error
+        turn = k_p * error + k_i * integral + k_d * derivative
+        power_right = target_power + turn
+        power_left = target_power - turn
+        # Apply motor powers
+        m_left.duty_cycle_sp = power_left
+        m_right.duty_cycle_sp = power_right
+        m_left.command = "run-direct"
+        m_right.command = "run-direct"
+        # Sleep
+        time.sleep(delay)
