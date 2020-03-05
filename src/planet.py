@@ -131,3 +131,58 @@ class Planet:
                         continue
                 matrix_column = 0
             matrix_row += 1
+
+        shortest_path_dictionary = {}
+        
+        for i in self.path_dictionary:
+            for j in self.path_dictionary:
+                shortest_path_dictionary[(i, j)] = []
+
+        i_1 = 0
+        k_1 = 0
+        j_1 = 0
+
+        for k in self.path_dictionary:
+            for i in self.path_dictionary:
+                for j in self.path_dictionary:
+                    if(matrix[i_1][k_1] + matrix[k_1][j_1] < matrix[i_1][j_1]):
+                        matrix[i_1][j_1] = min(matrix[i_1][j_1],matrix[i_1][k_1] + matrix[k_1][j_1])
+                        shortest_path_dictionary[(i, j)] = shortest_path_dictionary[(i, k)] + shortest_path_dictionary[(k, j)]
+                        for d in Direction:
+                            try:
+                                if(self.path_dictionary[i][d][0] == k):
+                                    shortest_path_dictionary[(i, j)].append((i, d))
+                            except KeyError as e:
+                                continue
+                        for d in Direction: 
+                            try:
+                                if(self.path_dictionary[k][d][0] == j):
+                                    shortest_path_dictionary[(i, j)].append((k, d))
+                            except KeyError as e:
+                                continue
+                    j_1 += 1
+                j_1 = 0
+                i_1 += 1
+            i_1 = 0
+            k_1 += 1
+
+        for i in shortest_path_dictionary:
+            if((start, target) == i and shortest_path_dictionary[i] != []):
+                shortest_path_dictionary[i] = Planet.sort_shortest_path(start, target, shortest_path_dictionary[i], self.path_dictionary)
+                return shortest_path_dictionary[i]
+        return []
+
+
+        def sort_shortest_path(start, target, shortest_path_list, path_dictionary):
+
+            sorted_shortest_path = []
+
+            for i in range(len(shortest_path_list)): 
+                for j in range(len(shortest_path_list)):
+                    if(start == shortest_path_list[j][0]):
+                        sorted_shortest_path.append(shortest_path_list[j])
+                        for d in Direction:
+                            if(d == shortest_path_list[j][1]):
+                                start = path_dictionary[start][d][0]
+
+            return sorted_shortest_path
