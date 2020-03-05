@@ -34,6 +34,14 @@ def run():
     # THE EXECUTION OF ALL CODE SHALL BE STARTED FROM WITHIN THIS FUNCTION.
     # ADD YOUR OWN IMPLEMENTATION HEREAFTER.
 
+    # Declare hardware components
+    screen = ev3.Screen()
+    speaker = ev3.Sound
+    motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
+    motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
+    color_sensor = ev3.ColorSensor(ev3.INPUT_4)
+    us_sensor = ev3.UltrasonicSensor(ev3.INPUT_1)
+
     print("Hello World!")
 
 
