@@ -13,6 +13,7 @@ from planet import Direction, Planet
 from line_follower import LineFollower
 
 client = None  # DO NOT EDIT
+line_follower = None
 
 
 def run():
@@ -20,7 +21,7 @@ def run():
     #
     # The deploy-script uses the variable "client" to stop the mqtt-client after your program stops or crashes.
     # Your script isn't able to close the client after crashing.
-    global client
+    global client, line_follower
 
     client = mqtt.Client(client_id=str(uuid.uuid4()),  # Unique Client-ID to recognize our program
                          clean_session=False,  # We want to be remembered
@@ -39,19 +40,33 @@ def run():
     # Declare hardware components
     screen = ev3.Screen()
     speaker = ev3.Sound
+    button = ev3.Button()
+    button.on_up = up_callback
+    button.on_down = down_callback
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
     color_sensor = ev3.ColorSensor(ev3.INPUT_4)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_1)
 
-    line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor)
-    line_follower.start()
+    line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
 
-    time.sleep(10)
+    print("Running...")
 
-    line_follower.stop()
+    while True:
+        button.process()
+        time.sleep(0.250)
 
-    print("Hello World!")
+
+def up_callback(state):
+    print("Up-Button pressed" if state else "Up-Button released")
+    if line_follower and not line_follower.is_running:
+        line_follower.start()
+
+
+def down_callback(state):
+    print("Down-Button pressed" if state else "Down-Button released")
+    if line_follower and line_follower.is_running:
+        line_follower.stop()
 
 
 # DO NOT EDIT
