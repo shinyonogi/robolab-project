@@ -2,6 +2,7 @@
 
 import ev3dev.ev3 as ev3
 import logging
+import sys
 import os
 import time
 import paho.mqtt.client as mqtt
@@ -59,14 +60,17 @@ def run():
 
 def up_callback(state):
     print("Up-Button pressed" if state else "Up-Button released")
-    if line_follower and not line_follower.is_running:
-        line_follower.start()
+    # TODO: this doesn't work because the LineFollower start blocks the thread
+    if line_follower:
+        if not line_follower.is_running:
+            line_follower.start()
+        else:
+            line_follower.stop()
 
 
 def down_callback(state):
     print("Down-Button pressed" if state else "Down-Button released")
-    if line_follower and line_follower.is_running:
-        line_follower.stop()
+    sys.exit(0)
 
 
 # DO NOT EDIT

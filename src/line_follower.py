@@ -17,6 +17,7 @@ class LineFollower:
         self.us_sensor = us_sensor
         self.speaker = speaker
 
+        self.stop_cmd = False
         self.is_running = False
 
     def start(self):
@@ -35,7 +36,7 @@ class LineFollower:
         offset = 170  # Light sensor offset
         Tp = 15  # Target power cycle level (30%)
 
-        while self.is_running:
+        while not self.stop_cmd:
             if self.us_sensor.distance_centimeters < 10:
                 self.speaker.tone([(200, 100, 100), (500, 200)])
                 self.motor_right.duty_cycle_sp = Tp
@@ -74,8 +75,13 @@ class LineFollower:
 
         time.sleep(0.05)
 
-    def stop(self):
         self.is_running = False
+
+    def stop(self):
+        self.stop_cmd = True
+        while self.is_running:
+            time.sleep(0.1)
+        self.stop_cmd = False
         self.motor_right.stop()
         self.motor_left.stop()
 
