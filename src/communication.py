@@ -145,7 +145,7 @@ class Communication:
     
     def ready_message(self):
 
-        self.client.subscribe(self.explorer_name, qos = 1)
+        self.client.subscribe(self.topic, qos = 1)
         message = {"from": "client", 
                    "type": "ready"}
         self.client.send_message(self.topic, message, qos = 1)

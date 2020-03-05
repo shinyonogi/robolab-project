@@ -27,4 +27,9 @@ class CommunicationTest(unittest.Testcase):
         logger = logging.getLogger('RoboLab')
 
         self.communication = Communication(client, logger)
-        self.communication
+        self.communication.syntax_prove()
+
+
+    def ready_message_test(self):
+        
+        self.communication.ready_message()
