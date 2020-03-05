@@ -3,12 +3,14 @@
 import ev3dev.ev3 as ev3
 import logging
 import os
+import time
 import paho.mqtt.client as mqtt
 import uuid
 
 from communication import Communication
 from odometry import Odometry
 from planet import Direction, Planet
+from line_follower import LineFollower
 
 client = None  # DO NOT EDIT
 
@@ -41,6 +43,13 @@ def run():
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
     color_sensor = ev3.ColorSensor(ev3.INPUT_4)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_1)
+
+    line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor)
+    line_follower.start()
+
+    time.sleep(10)
+
+    line_follower.stop()
 
     print("Hello World!")
 
