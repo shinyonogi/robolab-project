@@ -23,7 +23,7 @@ class Communication:
         """
         # DO NOT CHANGE THE SETUP HERE
         self.client = mqtt_client
-        self.client.tls_set(tls_version=ssl.PROTOCOL_TLS)
+        #self.client.tls_set(tls_version=ssl.PROTOCOL_TLS)
         self.client.on_message = self.safe_on_message_handler
         # Add your client setup here
 
@@ -31,8 +31,10 @@ class Communication:
 
         self.topic = "explorer/004"
         self.planet_name = ""
+
+        self.client.username_pw_set("004", password = "vexyOo1M27")
         
-        self.client.connect("mothership.inf.tu-dresden.de", port = 8883)
+        self.client.connect("mothership.inf.tu-dresden.de", port = 1883)
         print("Connecting to the server...")
 
         self.client.loop_start()
@@ -151,7 +153,7 @@ class Communication:
         message = {"from": "client", 
                     "type": "testplanet", 
                     "payload": {"planetname": self.planet_name}}
-        self.client.send_message(self.topic, message, qos = 1)
+        self.send_message(self.topic, message)
 
     
     def ready_message(self):
@@ -159,7 +161,7 @@ class Communication:
         self.client.subscribe(self.topic, qos = 1)
         message = {"from": "client", 
                    "type": "ready"}
-        self.client.send_message(self.topic, message, qos = 1)
+        self.send_message(self.topic, message, qos = 1)
         self.client.subscribe(f"planet/{self.planet_name}/004", qos = 1)
 
 
@@ -177,7 +179,7 @@ class Communication:
                        "pathStatus": path_status
                     }
         }
-        self.client.send_message(self.topic, message, qos = 1)
+        self.client.send_message(self.topic, message)
 
 
     def path_select_message(self, Xs, Ys, Ds):
@@ -190,7 +192,7 @@ class Communication:
                        "startDirection": Ds.value
                    }
         }
-        self.client.send_message(self.topic, message, qos = 1)
+        self.send_message(self.topic, message)
 
 
     def target_reached_message(self):
@@ -201,7 +203,7 @@ class Communication:
                        "message": "Target Reached"
                    }
         }
-        self.client.send_message(self.topic, message, qos = 1)
+        self.send_message(self.topic, message)
 
 
     def exploration_completed_message(self):
@@ -212,7 +214,7 @@ class Communication:
                        "message": "Exploration Completed"
                    }
         }
-        self.client.send_message(self.topic, message, qos = 1)
+        self.send_message(self.topic, message)
 
         self.client.loop_stop()
         self.client.disconnect()
