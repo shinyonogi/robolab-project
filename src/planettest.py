@@ -79,27 +79,28 @@ class RoboLabPlanetTests(unittest.TestCase):
 
     def test_add_get_paths(self):
 
-        print(self.planet.get_paths())
+        print("Add Path Test: ", self.planet.get_paths())
 
 
     def test_shortest_path_case1(self):
 
-        print(self.planet.shortest_path((1, 6), (1, 1)))
+        print("Test Case 1: ", self.planet.shortest_path((1, 6), (1, 1)))
 
 
     def test_shortest_path_case2(self):
 
-        print(self.planet.shortest_path((1, 1), (1, 6)))
+        print("Test Case 2: ", self.planet.shortest_path((1, 1), (1, 6)))
 
 
     def test_shortest_path_case3(self):
 
-        print(self.planet.shortest_path((3, 2), (1, 1)))
+        print("Test Case 3: ", self.planet.shortest_path((3, 2), (1, 1)))
 
 
     def test_shortest_path_case4(self):
 
-        print(self.planet.shortest_path((1, 3), (1, 1)))
+        print("Test Case 4: ", self.planet.shortest_path((1, 3), (1, 1)))
+
 
     def test_integrity(self):
         """
@@ -161,7 +162,10 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         Requirement: Minimum of two paths with same cost exists, only one is returned by the logic implemented
         """
-        return False
+        
+        test_shortest_path = self.planet.shortest_path((1, 1), (3, 5))
+
+        print("Same Length Test: ", test_shortest_path)
 
     def test_target_with_loop(self):
         """

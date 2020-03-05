@@ -131,10 +131,18 @@ class Planet:
             matrix_row += 1
 
         shortest_path_dictionary = {}
-        
+
         for i in self.path_dictionary:
             for j in self.path_dictionary:
-                shortest_path_dictionary[(i, j)] = []
+                shortest_path_dictionary[(i, j)] = [] 
+        
+        for i in self.path_dictionary:
+            for d in Direction:
+                try:
+                    j = self.path_dictionary[i][d][0]
+                    shortest_path_dictionary[(i, j)].append((i, d))
+                except: 
+                    continue
 
         i_1 = 0
         k_1 = 0
@@ -146,18 +154,6 @@ class Planet:
                     if(matrix[i_1][k_1] + matrix[k_1][j_1] < matrix[i_1][j_1]):
                         matrix[i_1][j_1] = min(matrix[i_1][j_1],matrix[i_1][k_1] + matrix[k_1][j_1])
                         shortest_path_dictionary[(i, j)] = shortest_path_dictionary[(i, k)] + shortest_path_dictionary[(k, j)]
-                        for d in Direction:
-                            try:
-                                if(self.path_dictionary[i][d][0] == k):
-                                    shortest_path_dictionary[(i, j)].append((i, d))
-                            except KeyError as e:
-                                continue
-                        for d in Direction: 
-                            try:
-                                if(self.path_dictionary[k][d][0] == j):
-                                    shortest_path_dictionary[(i, j)].append((k, d))
-                            except KeyError as e:
-                                continue
                     j_1 += 1
                 j_1 = 0
                 i_1 += 1
