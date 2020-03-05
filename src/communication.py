@@ -149,7 +149,7 @@ class Communication:
         message = {"from": "client", 
                    "type": "ready"}
         self.client.send_message(self.topic, message, qos = 1)
-        self.client.subscribe(f"planet/{self.planet_name}/004")
+        self.client.subscribe(f"planet/{self.planet_name}/004", qos = 1)
 
 
     def path_message(self, Xs, Ys, Ds, Xe, Ye, De, path_status):
@@ -202,6 +202,14 @@ class Communication:
 
         self.client.loop_stop()
         self.client.disconnect()
+
+
+    def syntax_prove(self):
+
+        self.client.subscribe("comtest/004", qos = 1)
+        message = {"from": "client", 
+                   "type": "ready"}
+        self.client.send_message(self.topic, message, qos = 1)
 
 
     
