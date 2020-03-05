@@ -45,8 +45,8 @@ def run():
     button.on_down = down_callback
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
-    color_sensor = ev3.ColorSensor(ev3.INPUT_4)
-    us_sensor = ev3.UltrasonicSensor(ev3.INPUT_1)
+    color_sensor = ev3.ColorSensor(ev3.INPUT_1)
+    us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
     line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
 
