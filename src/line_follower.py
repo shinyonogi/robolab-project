@@ -27,6 +27,8 @@ class LineFollower:
         self.us_sensor.mode = "US-DIST-CM"  # Measure distance in cm
         self.motor_right.reset()
         self.motor_left.reset()
+        self.motor_right.stop_action = "coast"
+        self.motor_left.stop_action = "coast"
 
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
         Kp = 1/6  # Kp contant
@@ -74,6 +76,8 @@ class LineFollower:
 
     def stop(self):
         self.is_running = False
+        self.motor_right.stop()
+        self.motor_left.stop()
 
     @staticmethod
     def rgb_to_grayscale(red, green, blue):
