@@ -9,8 +9,6 @@ from typing import List, Tuple, Dict, Union
 class Direction(IntEnum):
     """ Directions in shortcut """
 
-    __order__ = 'NORTH SOUTH WEST EAST'
-
     NORTH = 0
     EAST = 90
     SOUTH = 180
@@ -173,16 +171,16 @@ class Planet:
         return []
 
 
-        def sort_shortest_path(start, target, shortest_path_list, path_dictionary):
+    def sort_shortest_path(start, target, shortest_path_list, path_dictionary):
 
-            sorted_shortest_path = []
+        sorted_shortest_path = []
 
-            for i in range(len(shortest_path_list)): 
-                for j in range(len(shortest_path_list)):
-                    if(start == shortest_path_list[j][0]):
-                        sorted_shortest_path.append(shortest_path_list[j])
-                        for d in Direction:
-                            if(d == shortest_path_list[j][1]):
-                                start = path_dictionary[start][d][0]
+        for i in range(len(shortest_path_list)): 
+            for j in range(len(shortest_path_list)):
+                if(start == shortest_path_list[j][0]):
+                    sorted_shortest_path.append(shortest_path_list[j])
+                    for d in Direction:
+                        if(d == shortest_path_list[j][1]):
+                            start = path_dictionary[start][d][0]
 
-            return sorted_shortest_path
+        return sorted_shortest_path
