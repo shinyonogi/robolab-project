@@ -31,5 +31,30 @@ class CommunicationTest(unittest.Testcase):
 
 
     def ready_message_test(self):
-        
+
         self.communication.ready_message()
+
+
+    def path_message_test(self):
+
+        self.communication.path_message()
+
+
+    def path_select_message_test(self):
+
+        self.communication.path_select_message()
+
+
+    def target_reached_message_test(self):
+
+        self.communication.complete_message()
+
+
+    def exploration_completed_message_test(self):
+
+        self.communication.target_reached_message()
+
+
+    def testplanet_message_test(self):
+
+        self.communication.testplanet_message()

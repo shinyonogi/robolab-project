@@ -182,7 +182,7 @@ class Communication:
         self.client.send_message(self.topic, message, qos = 1)
 
 
-    def complete_message(self):
+    def target_reached_message(self):
 
         message = {"from": "client",
                    "type": "targetReached",
@@ -191,6 +191,9 @@ class Communication:
                    }
         }
         self.client.send_message(self.topic, message, qos = 1)
+
+
+    def exploration_completed_message(self):
 
         message = {"from": "client", 
                    "type": "explorationCompleted", 
