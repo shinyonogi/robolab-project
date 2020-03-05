@@ -17,10 +17,10 @@ class LineFollower:
         self.us_sensor = us_sensor
         self.speaker = speaker
 
-        self.stop = False
+        self.is_running = False
 
     def start(self):
-        self.stop = False
+        self.is_running = True
 
         # Setup hardware
         self.color_sensor.mode = "RGB-RAW"  # Measure RGB values
@@ -33,7 +33,7 @@ class LineFollower:
         offset = 170  # Light sensor offset
         Tp = 15  # Target power cycle level (30%)
 
-        while not self.stop:
+        while self.is_running:
             if self.us_sensor.distance_centimeters < 10:
                 self.speaker.tone([(200, 100, 100), (500, 200)])
                 self.motor_right.duty_cycle_sp = Tp
@@ -73,7 +73,7 @@ class LineFollower:
         time.sleep(0.05)
 
     def stop(self):
-        self.stop = True
+        self.is_running = False
 
     @staticmethod
     def rgb_to_grayscale(red, green, blue):
