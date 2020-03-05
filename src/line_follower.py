@@ -42,6 +42,9 @@ class LineFollower:
         k_d = 0.1  # Derivative constant
         last_error = 0
 
+        red_counter = 0
+        blue_counter = 0
+
         while not self.stop_cmd:
             if self.us_sensor.distance_centimeters < 15:
                 self.motor_left.duty_cycle_sp = 0
@@ -59,15 +62,18 @@ class LineFollower:
             b = rgb[2]
             gs = self.rgb_to_grayscale(r, g, b)  # Convert RGB to grayscale
 
-            # TODO: this isn't reliable, find a better way to detect red/blue squares
-            # if r > 100 > g and b < 100:
-            #     print("red")
-            # elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
-            #     print("blue")
-            # else:
-            #     print("grayscale")
-            #     gs = self.rgb_to_grayscale(r, g, b)
-            #     print(gs)
+            if r > 100 > g and b < 100:
+                if red_counter > 5:
+                    self.warning()  # for testing
+                    red_counter = 0
+                else:
+                    red_counter += 1
+            elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
+                if blue_counter > 5:
+                    self.warning()  # for testing
+                    blue_counter = 0
+                else:
+                    blue_counter += 1
 
             # Calculate error, turn and motor powers
             error = gs - offset
