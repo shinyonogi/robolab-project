@@ -3,8 +3,63 @@ class LineFollower:
     Class that controls the robots movements.
     """
 
-    def __init__(self, logger, communication, odometry, planet):
+    def __init__(self, logger, communication, odometry, planet, motor_right, motor_left, color_sensor, us_sensor):
         self.logger = logger
         self.communication = communication
         self.odometry = odometry
         self.planet = planet
+        self.motor_right = motor_right
+        self.motor_left = motor_left
+        self.color_sensor = color_sensor
+        self.us_sensor = us_sensor
+
+        self.stop = False
+
+    def start(self):
+        self.stop = False
+
+        # Setup hardware
+        self.color_sensor.mode = "RGB-RAW"  # Measure RGB values
+        self.us_sensor.mode = "US-DIST-CM"  # Measure distance in cm
+        self.motor_right.reset()
+        self.motor_left.reset()
+
+        Kp = 1/6
+        offset = 170
+        Tp = 30
+
+        while not self.stop:
+            rgb = self.color_sensor.bin_data("hhh")
+            r = rgb[0]
+            g = rgb[1]
+            b = rgb[2]
+            gs = self.rgb_to_grayscale(r, g, b)
+
+            # TODO: this isn't reliable, find a better way to detect red/blue squares
+            # if r > 100 > g and b < 100:
+            #     print("red")
+            # elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
+            #     print("blue")
+            # else:
+            #     print("grayscale")
+            #     gs = self.rgb_to_grayscale(r, g, b)
+            #     print(gs)
+
+            error = gs - offset
+            turn = Kp * error
+            power_right = Tp + turn
+            power_left = Tp - turn
+
+            self.motor_left.duty_cycle_sp = power_left
+            self.motor_right.duty_cycle_sp = power_right
+            self.motor_left.command = "run-direct"
+            self.motor_right.command = "run-direct"
+
+
+
+    def stop(self):
+        self.stop = True
+
+    @staticmethod
+    def rgb_to_grayscale(red, green, blue):
+        return 0.3 * red + 0.59 * green + 0.11 * blue
