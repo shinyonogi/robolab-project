@@ -30,7 +30,7 @@ class Communication:
         self.topic = "explorer/004"
         self.planet_name = ""
         
-        self.client.connect("<SERVER>", port = "<PORTNUMBER>")
+        self.client.connect("mothership.inf.tu-dresden.de", port = "8883")
 
         self.testplanet_message()
         self.ready_message()
