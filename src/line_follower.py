@@ -1,3 +1,6 @@
+import time
+
+
 class LineFollower:
     """
     Class that controls the robots movements.
@@ -64,6 +67,8 @@ class LineFollower:
             self.motor_right.duty_cycle_sp = power_right
             self.motor_left.command = "run-direct"
             self.motor_right.command = "run-direct"
+
+        time.sleep(0.05)
 
     def stop(self):
         self.stop = True
