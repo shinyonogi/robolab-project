@@ -44,7 +44,7 @@ def run():
     color_sensor = ev3.ColorSensor(ev3.INPUT_4)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_1)
 
-    line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor)
+    line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
     line_follower.start()
 
     time.sleep(10)

@@ -6,7 +6,7 @@ class LineFollower:
     Class that controls the robots movements.
     """
 
-    def __init__(self, logger, communication, odometry, planet, motor_right, motor_left, color_sensor, us_sensor):
+    def __init__(self, logger, communication, odometry, planet, motor_right, motor_left, color_sensor, us_sensor, speaker):
         self.logger = logger
         self.communication = communication
         self.odometry = odometry
@@ -15,6 +15,7 @@ class LineFollower:
         self.motor_left = motor_left
         self.color_sensor = color_sensor
         self.us_sensor = us_sensor
+        self.speaker = speaker
 
         self.stop = False
 
@@ -34,6 +35,7 @@ class LineFollower:
 
         while not self.stop:
             if self.us_sensor.distance_centimeters < 10:
+                self.speaker.tone([(200, 100, 100), (500, 200)])
                 self.motor_right.duty_cycle_sp = Tp
                 self.motor_right.command = "run-direct"
                 self.motor_left.duty_cycle_sp = -Tp
