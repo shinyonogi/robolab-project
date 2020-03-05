@@ -29,8 +29,7 @@ class Communication:
 
         self.topic = "explorer/004"
         self.planet_name = ""
-
-        self.client.username_pw_set("004", password = "<PASSWORD>")
+        
         self.client.connect("<SERVER>", port = "<PORTNUMBER>")
 
         self.testplanet_message()
@@ -59,7 +58,7 @@ class Communication:
             print("Message from Debug: ", payload)
         elif(payload["from"] == "server"):
             if(payload["type"] == "planet"):
-                self.client.subscribe(f"planet/{payload["payload"]["planetName"]}/004")
+                self.client.subscribe(f"planet/{payload['payload']['planetName']}/004")
                 self.X = payload["payload"]["startX"]
                 self.Y = payload["payload"]["startY"]
 
@@ -82,13 +81,13 @@ class Communication:
                 Xs = payload["payload"]["startX"]
                 Ys = payload["payload"]["startY"]
                 Ds = payload["payload"]["startDirection"]
-                self.Xe = payload["payload"]["endX"]
-                self.Ye = payload["payload"]["endY"]
-                self.De = payload["payload"]["endDirection"]
-                self.path_status = payload["payload"]["pathstatus"]
-                self.path_weight = payload["payload"]["weight"]
+                Xe = payload["payload"]["endX"]
+                Ye = payload["payload"]["endY"]
+                De = payload["payload"]["endDirection"]
+                path_status = payload["payload"]["pathstatus"]
+                path_weight = payload["payload"]["weight"]
 
-                self.planet.add_path(((Xs, Ys), Ds), ((self.Xe, self.Ye), self.De), self.path_weight)
+                self.planet.add_path(((Xs, Ys), Ds), ((Xe, Ye), De), path_weight)
 
             elif(payload["type"] == "target"):
                 self.Xt = payload["payload"]["targetX"]
