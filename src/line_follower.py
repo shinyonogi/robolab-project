@@ -30,7 +30,7 @@ class LineFollower:
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
         Kp = 1/6  # Kp contant
         offset = 170  # Light sensor offset
-        Tp = 30  # Target power cycle level (30%)
+        Tp = 15  # Target power cycle level (30%)
 
         while not self.stop:
             if self.us_sensor.distance_centimeters < 10:
