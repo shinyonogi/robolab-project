@@ -36,8 +36,8 @@ class Explorer:
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
         k_p = 0.11  # Proportional constant
         offset = 170  # Light sensor offset
-        target_power_right = self.target_power + 1  # Target power cycle level (21% for right, 20% for left)
-        target_power_left = self.target_power
+        target_power_right = self.target_power  # Target power cycle level (20% for right, 22% for left)
+        target_power_left = self.target_power + 2
         k_i = 0  # Integral constant
         integral = 0  # Integral
         k_d = 0.04  # Derivative constant
@@ -51,9 +51,9 @@ class Explorer:
                 self.motor_left.duty_cycle_sp = 0
                 self.motor_right.duty_cycle_sp = 0
                 self.warning()
-                self.motor_right.duty_cycle_sp = target_power_right
-                self.motor_left.duty_cycle_sp = -target_power_left
-                time.sleep(5)
+                self.motor_right.duty_cycle_sp = -target_power_right
+                self.motor_left.duty_cycle_sp = target_power_left
+                time.sleep(4)
                 continue
                 # add Odometry!!!!!
 
