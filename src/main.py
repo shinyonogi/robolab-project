@@ -42,6 +42,11 @@ def run():
 
     logger.addHandler(logging.StreamHandler(sys.stdout))
 
+    # Config variables
+    group_id = "004"
+    group_pwd = "vexyOo1M27"
+    planet_name = "Hasselhoff"
+
     # Declare hardware components
     screen = ev3.Screen()
     led = ev3.Led()
@@ -55,8 +60,11 @@ def run():
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
     planet = Planet()
-    communication = Communication(client, logger, planet)
-    communication.connect("004", "vexyOo1M27")
+    communication = Communication(client, logger, planet, group_id, planet_name)
+    communication.connect(group_id, group_pwd)
+
+    communication.testplanet_message()
+
     odometry = Odometry(logger, (0, 0), 0, motor_right, motor_left)
     expression = Expression(logger, screen, led, speaker)
     explorer = Explorer(logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor)

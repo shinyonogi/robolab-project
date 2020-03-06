@@ -15,7 +15,7 @@ class Communication:
     thereby solve the task according to the specifications
     """
 
-    def __init__(self, mqtt_client, logger, planet):
+    def __init__(self, mqtt_client, logger, planet, group_id, planet_name):
         """
         Initializes communication module, connect to server, subscribe, etc.
         :param mqtt_client: paho.mqtt.client.Client
@@ -28,9 +28,10 @@ class Communication:
 
         self.logger = logger
         self.planet = planet
+        self.group_id = group_id
 
-        self.topic = "explorer/004"
-        self.planet_name = "Ferdinand"
+        self.topic = f"explorer/{group_id}"
+        self.planet_name = planet_name
 
         self.target_determined = False
 
@@ -42,10 +43,6 @@ class Communication:
 
         self.client.loop_start()
         self.logger.debug("Starting communication loop")
-
-        # Do this from main class
-        # self.testplanet_message()
-        # self.ready_message()
 
     def disconnect(self):
         self.client.disconnect()
@@ -65,10 +62,10 @@ class Communication:
         # YOUR CODE FOLLOWS (remove pass, please!)
 
         if payload["from"] == "debug":
-            print("Message from Debug: ", payload)
+            self.logger.debug("Message from Debug: ", payload)
         elif payload["from"] == "server":
             if payload["type"] == "planet":
-                self.client.subscribe(f"planet/{payload['payload']['planetName']}/004")
+                self.client.subscribe(f"planet/{payload['payload']['planetName']}/{self.group_id}")
                 self.X = payload["payload"]["startX"]
                 self.Y = payload["payload"]["startY"]
             elif payload["type"] == "path":
@@ -101,7 +98,7 @@ class Communication:
                 self.target_determined = True
             elif payload["type"] == "done":
                 message = payload["payload"]["message"]
-                print("Message from Mothership", message)
+                self.logger.debug("Message from Mothership", message)
 
         time.sleep(3)
 
@@ -154,7 +151,7 @@ class Communication:
         message = {"from": "client",
                    "type": "ready"}
         self.send_message(self.topic, message)
-        self.client.subscribe(f"planet/{self.planet_name}/004", qos=1)
+        self.client.subscribe(f"planet/{self.planet_name}/{self.group_id}", qos=1)
 
     def path_message(self, Xs, Ys, Ds, Xe, Ye, De, path_status):
         message = {"from": "client",
@@ -204,4 +201,4 @@ class Communication:
         self.client.disconnect()
 
     def syntax_prove(self):
-        self.client.subscribe("comtest/004", qos=1)
+        self.client.subscribe(f"comtest/{self.group_id}", qos=1)
