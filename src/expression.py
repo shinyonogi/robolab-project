@@ -4,9 +4,10 @@ class Expression:
     Everyone deserves a voice.
     """
 
-    def __init__(self, logger, screen, speaker):
+    def __init__(self, logger, screen, led, speaker):
         self.logger = logger
         self.screen = screen
+        self.led = led
         self.speaker = speaker
 
     def beep(self):

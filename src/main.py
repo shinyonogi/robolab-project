@@ -44,9 +44,9 @@ def run():
 
     # Declare hardware components
     screen = ev3.Screen()
+    led = ev3.Led()
     speaker = ev3.Sound
     button = ev3.Button()
-    led = ev3.Led()
     button.on_up = up_callback
     button.on_down = down_callback
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
@@ -54,8 +54,11 @@ def run():
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
-    expression = Expression(logger, screen, speaker)
-    explorer = Explorer(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, expression)
+    communication = Communication(client, logger)
+    odometry = Odometry(logger, None, None, motor_right, motor_left)
+    planet = Planet()
+    expression = Expression(logger, screen, led, speaker)
+    explorer = Explorer(logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor)
 
     logger.info("Robot ready!")
 
