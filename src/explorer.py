@@ -22,7 +22,11 @@ class Explorer:
         self.stop_cmd = False
         self.is_running = False
 
+        self.logger.debug("Explorer initialized and ready")
+
     def start(self):
+        self.logger.debug("Explorer starting")
+
         self.is_running = True
 
         # Setup hardware
@@ -48,14 +52,14 @@ class Explorer:
 
         while not self.stop_cmd:
             if self.us_sensor.distance_centimeters < 15:
+                self.logger.debug("Path blocked")
                 self.motor_left.duty_cycle_sp = 0
                 self.motor_right.duty_cycle_sp = 0
                 self.expression.tone_warning()
                 self.motor_right.duty_cycle_sp = -target_power_right
                 self.motor_left.duty_cycle_sp = target_power_left
-                time.sleep(4)
+                time.sleep(4)  # Replace with odometry stuff
                 continue
-                # add Odometry!!!!!
 
             rgb = self.color_sensor.bin_data("hhh")  # Read RGB values from sensor
             r = rgb[0]
@@ -64,15 +68,21 @@ class Explorer:
             gs = self.rgb_to_grayscale(r, g, b)  # Convert RGB to grayscale
 
             if r > 100 > g and b < 100:
-                if red_counter > 5:
-                    self.warning()  # for testing
+                self.logger.debug("Detected RED")
+                if red_counter >= 3:
+                    self.expression.speak("Red")  # for testing
+                    # self.scan_for_paths()
                     red_counter = 0
+                    continue
                 else:
                     red_counter += 1
-            elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
-                if blue_counter > 5:
-                    # self.warning()  # for testing
+            elif 20 <= r <= 40 and 70 <= b <= 100:
+                self.logger.debug("Detected BLUE")
+                if blue_counter >= 3:
+                    self.expression.speak("Blue")  # for testing
+                    # self.scan_for_paths()
                     blue_counter = 0
+                    continue
                 else:
                     blue_counter += 1
 
@@ -101,14 +111,34 @@ class Explorer:
     def found_path(self):
         pass
 
+    def run_motors(self, tp_right, tp_left):
+        self.motor_right.duty_cycle_sp = tp_right + 2
+        self.motor_left.duty_cycle_sp = tp_left
+        self.motor_left.command = "run-direct"
+        self.motor_right.command = "run-direct"
+
+    def stop_motors(self):
+        self.logger.debug("Stopping motors")
+        self.motor_right.stop()
+        self.motor_left.stop()
+
     def scan_for_paths(self):
+        self.logger.debug("Scanning for paths")
+
+        self.color_sensor.mode = "COL-COLOR"
+
+        # Drive until we detect either white or black, which means our robot sits directly on the square
+        self.run_motors(self.target_power, self.target_power)
+
+        color_val = -1
+        while not (color_val == 0 or color_val == 6):
+            color_val = self.color_sensor.value()
+            time.sleep(0.2)
+
         started_at_degrees = 1  # Add odometry stuff here
 
         # Slowly rotate with half the target power
-        self.motor_right.duty_cycle_sp = self.target_power / 2
-        self.motor_left.duty_cycle_sp = -self.target_power / 2
-
-        self.color_sensor.mode = "COL-COLOR"
+        self.run_motors(self.target_power, - self.target_power)
 
         current_degrees = 1  # This is a placeholder for some odometry method call inside the while condition
 
@@ -126,10 +156,10 @@ class Explorer:
                 # blue or red -> square
                 pass
 
+            current_degrees += 2
             time.sleep(0.1)
 
-        self.motor_right.duty_cycle_sp = 0
-        self.motor_left.duty_cycle_sp = 0
+        self.stop_motors()
         self.color_sensor.mode = "RGB-RAW"
 
     def stop(self):
@@ -137,8 +167,8 @@ class Explorer:
         while self.is_running:
             time.sleep(0.1)
         self.stop_cmd = False
-        self.motor_right.stop()
-        self.motor_left.stop()
+        self.stop_motors()
+        self.logger.info("Explorer stopped")
 
     @staticmethod
     def rgb_to_grayscale(red, green, blue):

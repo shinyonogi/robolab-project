@@ -16,6 +16,7 @@ from explorer import Explorer
 
 client = None  # DO NOT EDIT
 explorer = None
+logger = None
 
 
 def run():
@@ -39,6 +40,8 @@ def run():
     # THE EXECUTION OF ALL CODE SHALL BE STARTED FROM WITHIN THIS FUNCTION.
     # ADD YOUR OWN IMPLEMENTATION HEREAFTER.
 
+    logger.addHandler(logging.StreamHandler(sys.stdout))
+
     # Declare hardware components
     screen = ev3.Screen()
     speaker = ev3.Sound
@@ -54,7 +57,7 @@ def run():
     expression = Expression(logger, screen, speaker)
     explorer = Explorer(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, expression)
 
-    print("Running...")
+    logger.info("Robot ready!")
 
     while True:
         button.process()
@@ -62,7 +65,7 @@ def run():
 
 
 def up_callback(state):
-    print("Up-Button pressed" if state else "Up-Button released")
+    logger.debug("Up-Button pressed" if state else "Up-Button released")
     # TODO: this doesn't work because the LineFollower start blocks the thread
     if explorer:
         if not explorer.is_running:
@@ -72,7 +75,7 @@ def up_callback(state):
 
 
 def down_callback(state):
-    print("Down-Button pressed" if state else "Down-Button released")
+    logger.debug("Down-Button pressed" if state else "Down-Button released")
     sys.exit(0)
 
 
