@@ -81,7 +81,7 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         print(self.planet.get_paths()) #prints all the paths (for us)
         
-
+        
     def test_shortest_path_opposite_path_1(self):
 
         shortest_path = self.planet.shortest_path((1, 6), (1, 1))
