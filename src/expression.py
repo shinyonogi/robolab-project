@@ -13,6 +13,9 @@ class Expression:
         # Built-int beep
         self.speaker.beep()
 
+    def speak(self, text):
+        self.speaker.speak(text)
+
     def tone_signal(self):
         # Short tone
         self.speaker.tone([(200, 100, 100)])
