@@ -6,7 +6,7 @@ class Explorer:
     Class that controls the robots movements.
     """
 
-    def __init__(self, logger, communication, odometry, planet, motor_right, motor_left, color_sensor, us_sensor, speaker):
+    def __init__(self, logger, communication, odometry, planet, motor_right, motor_left, color_sensor, us_sensor, expression):
         self.logger = logger
         self.communication = communication
         self.odometry = odometry
@@ -15,7 +15,7 @@ class Explorer:
         self.motor_left = motor_left
         self.color_sensor = color_sensor
         self.us_sensor = us_sensor
-        self.speaker = speaker
+        self.expression = expression
 
         self.target_power = 20
 
@@ -50,7 +50,7 @@ class Explorer:
             if self.us_sensor.distance_centimeters < 15:
                 self.motor_left.duty_cycle_sp = 0
                 self.motor_right.duty_cycle_sp = 0
-                self.warning()
+                self.expression.tone_warning()
                 self.motor_right.duty_cycle_sp = -target_power_right
                 self.motor_left.duty_cycle_sp = target_power_left
                 time.sleep(4)
@@ -94,10 +94,6 @@ class Explorer:
             time.sleep(0.05)
 
         self.is_running = False
-
-    def warning(self):
-        # TODO: maybe also do something with LEDs here?
-        self.speaker.tone([(200, 100, 100), (500, 200)])
 
     def found_square(self):
         pass

@@ -9,10 +9,20 @@ class Expression:
         self.screen = screen
         self.speaker = speaker
 
+    def beep(self):
+        # Built-int beep
+        self.speaker.beep()
+
+    def tone_signal(self):
+        # Short tone
+        self.speaker.tone([(200, 100, 100)])
+
     def tone_warning(self):
-        self.speaker.tone([(200, 100, 100), (500, 200)]).wait()
+        # Three second warning tone
+        self.speaker.tone([(200, 100, 100), (500, 200)])
 
     def song_star_wars_title(self):
+        # Star Wars title song
         self.speaker.play_song((
             ('D4', 'e3'),
             ('D4', 'e3'),
@@ -36,6 +46,7 @@ class Expression:
         ))
 
     def song_star_wars_imperial_march(self):
+        # Start Wars Imperial March song
         self.speaker.tone([
             (392, 350, 100), (392, 350, 100), (392, 350, 100), (311.1, 250, 100),
             (466.2, 25, 100), (392, 350, 100), (311.1, 250, 100), (466.2, 25, 100),

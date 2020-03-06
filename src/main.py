@@ -9,12 +9,13 @@ import paho.mqtt.client as mqtt
 import uuid
 
 from communication import Communication
+from expression import Expression
 from odometry import Odometry
 from planet import Direction, Planet
 from explorer import Explorer
 
 client = None  # DO NOT EDIT
-line_follower = None
+explorer = None
 
 
 def run():
@@ -22,7 +23,7 @@ def run():
     #
     # The deploy-script uses the variable "client" to stop the mqtt-client after your program stops or crashes.
     # Your script isn't able to close the client after crashing.
-    global client, line_follower
+    global client, explorer, logger
 
     client = mqtt.Client(client_id=str(uuid.uuid4()),  # Unique Client-ID to recognize our program
                          clean_session=False,  # We want to be remembered
@@ -50,7 +51,8 @@ def run():
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
-    line_follower = Explorer(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
+    expression = Expression(logger, screen, speaker)
+    explorer = Explorer(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, expression)
 
     print("Running...")
 
@@ -62,11 +64,11 @@ def run():
 def up_callback(state):
     print("Up-Button pressed" if state else "Up-Button released")
     # TODO: this doesn't work because the LineFollower start blocks the thread
-    if line_follower:
-        if not line_follower.is_running:
-            line_follower.start()
+    if explorer:
+        if not explorer.is_running:
+            explorer.start()
         else:
-            line_follower.stop()
+            explorer.stop()
 
 
 def down_callback(state):
