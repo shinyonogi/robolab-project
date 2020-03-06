@@ -70,7 +70,7 @@ class Explorer:
             if r > 100 > g and b < 100:
                 self.logger.debug("Detected RED")
                 if red_counter >= 3:
-                    self.expression.speak("Red")  # for testing
+                    self.expression.beep()  # for testing
                     # self.scan_for_paths()
                     red_counter = 0
                     continue
@@ -79,7 +79,7 @@ class Explorer:
             elif 20 <= r <= 40 and 70 <= b <= 100:
                 self.logger.debug("Detected BLUE")
                 if blue_counter >= 3:
-                    self.expression.speak("Blue")  # for testing
+                    self.expression.beep()  # for testing
                     # self.scan_for_paths()
                     blue_counter = 0
                     continue
