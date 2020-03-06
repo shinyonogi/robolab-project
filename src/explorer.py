@@ -40,8 +40,6 @@ class Explorer:
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
         k_p = 0.11  # Proportional constant
         offset = 170  # Light sensor offset
-        target_power_right = self.target_power  # Target power cycle level (20% for right, 22% for left)
-        target_power_left = self.target_power + 2
         k_i = 0  # Integral constant
         integral = 0  # Integral
         k_d = 0.04  # Derivative constant
@@ -53,11 +51,9 @@ class Explorer:
         while not self.stop_cmd:
             if self.us_sensor.distance_centimeters < 15:
                 self.logger.debug("Path blocked")
-                self.motor_left.duty_cycle_sp = 0
-                self.motor_right.duty_cycle_sp = 0
+                self.stop_motors()
                 self.expression.tone_warning()
-                self.motor_right.duty_cycle_sp = -target_power_right
-                self.motor_left.duty_cycle_sp = target_power_left
+                self.run_motors(self.target_power, -self.target_power)
                 time.sleep(4)  # Replace with odometry stuff
                 continue
 
@@ -69,18 +65,17 @@ class Explorer:
 
             if r > 100 > g and b < 100:
                 self.logger.debug("Detected RED")
-                if red_counter >= 3:
-                    self.expression.beep()  # for testing
-                    # self.scan_for_paths()
-                    red_counter = 0
-                    continue
-                else:
-                    red_counter += 1
+                # self.expression.beep()  # for testing
+                self.stop_motors()
+                time.sleep(0.3)
+                self.scan_for_paths()
             elif 20 <= r <= 40 and 70 <= b <= 100:
                 self.logger.debug("Detected BLUE")
-                if blue_counter >= 3:
-                    self.expression.beep()  # for testing
-                    # self.scan_for_paths()
+                if blue_counter >= 2:
+                    # self.expression.beep()  # for testing
+                    self.stop_motors()
+                    time.sleep(0.5)
+                    self.scan_for_paths()
                     blue_counter = 0
                     continue
                 else:
@@ -92,14 +87,10 @@ class Explorer:
             derivative = error - last_error
             last_error = error
             turn = k_p * error + k_i * integral + k_d * derivative
-            power_right = target_power_right + turn
-            power_left = target_power_left - turn
+            power_right = self.target_power + turn
+            power_left = self.target_power - turn
 
-            # Apply motor powers
-            self.motor_left.duty_cycle_sp = power_left
-            self.motor_right.duty_cycle_sp = power_right
-            self.motor_left.command = "run-direct"
-            self.motor_right.command = "run-direct"
+            self.run_motors(power_right, power_left)  # Apply motor powers
 
             time.sleep(0.05)
 
@@ -128,35 +119,41 @@ class Explorer:
         self.color_sensor.mode = "COL-COLOR"
 
         # Drive until we detect either white or black, which means our robot sits directly on the square
-        self.run_motors(self.target_power, self.target_power)
+        self.run_motors(self.target_power - 5, self.target_power - 5)
 
-        color_val = -1
-        while not (color_val == 0 or color_val == 6):
+        color_val = 2
+        while color_val == 2 or color_val == 5:
+            self.logger.debug(color_val)
             color_val = self.color_sensor.value()
-            time.sleep(0.2)
+            time.sleep(0.3)
+
+        self.logger.debug("Oriented")
 
         started_at_degrees = 1  # Add odometry stuff here
 
         # Slowly rotate with half the target power
-        self.run_motors(self.target_power, - self.target_power)
+        self.run_motors(self.target_power - 5, - self.target_power - 5)
 
         current_degrees = 1  # This is a placeholder for some odometry method call inside the while condition
 
+        counter = 0
         # We don't technically have to do a full 360, 270 degrees would be enough
         while current_degrees < started_at_degrees + 360:
             color = self.color_sensor.value()
-
             if color == 1:
-                # black -> path
+                # print("black")
+                counter += 1
+            elif color == 2:
+                # print("blue")
+                counter += 1
+            elif color == 5:
+                # print("red")
                 pass
-            elif color == 6:
-                # white -> nothing
-                pass
-            elif color == 2 or color == 5:
-                # blue or red -> square
-                pass
-
-            current_degrees += 5
+            else:
+                counter = 0
+            current_degrees += 4
+            if counter > 2:
+                self.logger.debug("Path found at %s" % (current_degrees - started_at_degrees))
             time.sleep(0.1)
 
         self.stop_motors()
