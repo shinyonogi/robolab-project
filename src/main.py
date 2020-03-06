@@ -11,7 +11,7 @@ import uuid
 from communication import Communication
 from odometry import Odometry
 from planet import Direction, Planet
-from line_follower import LineFollower
+from Explorer import Explorer
 
 client = None  # DO NOT EDIT
 line_follower = None
@@ -50,7 +50,7 @@ def run():
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
-    line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
+    line_follower = Explorer(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
 
     print("Running...")
 

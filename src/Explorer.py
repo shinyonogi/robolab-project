@@ -1,7 +1,7 @@
 import time
 
 
-class LineFollower:
+class Explorer:
     """
     Class that controls the robots movements.
     """
@@ -90,7 +90,7 @@ class LineFollower:
             self.motor_left.command = "run-direct"
             self.motor_right.command = "run-direct"
 
-        time.sleep(0.05)
+            time.sleep(0.05)
 
         self.is_running = False
 
