@@ -32,22 +32,23 @@ class Communication:
         self.topic = "explorer/004"
         self.planet_name = "Ferdinand"
 
-        self.client.username_pw_set("004", password="vexyOo1M27")
-
-        self.client.connect("mothership.inf.tu-dresden.de", port=1883)
-        print("Connecting to the server...")
-
-        self.client.loop_start()
-        print("Loop starting...")
-
-        self.testplanet_message()
-
-        self.ready_message()
-        print("Ready...")
-
         self.target_determined = False
 
-        self.planet = Planet()
+    def connect(self, username, password):
+        self.client.username_pw_set(username=username, password=password)
+
+        self.client.connect("mothership.inf.tu-dresden.de", port=1883)
+        self.logger.debug("Connecting to mothership")
+
+        self.client.loop_start()
+        self.logger.debug("Starting communication loop")
+
+        # Do this from main class
+        # self.testplanet_message()
+        # self.ready_message()
+
+    def disconnect(self):
+        self.client.disconnect()
 
     # DO NOT EDIT THE METHOD SIGNATURE
     def on_message(self, client, data, message):
