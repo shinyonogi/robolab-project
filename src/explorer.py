@@ -156,7 +156,7 @@ class Explorer:
                 # blue or red -> square
                 pass
 
-            current_degrees += 2
+            current_degrees += 5
             time.sleep(0.1)
 
         self.stop_motors()
