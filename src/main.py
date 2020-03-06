@@ -11,7 +11,7 @@ import uuid
 from communication import Communication
 from odometry import Odometry
 from planet import Direction, Planet
-from Explorer import Explorer
+from explorer import Explorer
 
 client = None  # DO NOT EDIT
 line_follower = None
