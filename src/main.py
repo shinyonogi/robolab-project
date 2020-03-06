@@ -54,10 +54,10 @@ def run():
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
-    communication = Communication(client, logger)
-    odometry = Odometry(logger, None, None, motor_right, motor_left)
     planet = Planet()
     communication = Communication(client, logger, planet)
+    communication.connect("004", "vexyOo1M27")
+    odometry = Odometry(logger, (0, 0), 0, motor_right, motor_left)
     expression = Expression(logger, screen, led, speaker)
     explorer = Explorer(logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor)
 
