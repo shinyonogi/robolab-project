@@ -218,7 +218,7 @@ class Planet:
                     shortest_path_dictionary[(i, j)][iterator_counter_2] = shortest_path_dictionary[((i, k))] + shortest_path_dictionary[(k, j)][m]
                     iterator_counter_2 += 1
             else:
-                shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[((i, k))][0] + shortest_path_dictionary[(k, j)][0]
+                shortest_path_dictionary[(i, j)][iterator_counter] = shortest_path_dictionary[((i, k))][0] + shortest_path_dictionary[(k, j)][0]
             
             
 

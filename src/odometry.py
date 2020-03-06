@@ -7,7 +7,7 @@ import math
 
 class Odometry:
 
-    def __init__(self, coordinate, direction):
+    def __init__(self, coordinate, direction, motor_right, motor_left):
         """
         Initializes odometry module
         """
@@ -18,6 +18,15 @@ class Odometry:
         self.direction = direction 
         self.coordinate_x = coordinate[0]
         self.coordinate_y = coordinate[1]
+
+        self.motor_right = motor_right 
+        self.motor_left = motor_left
+
+        self.motor_position_left = self.motor_left.position 
+        self.motor_position_right = self.motor_right.position 
+
+        self.motor_stack = []
+
 
     def calc_coord(self, motor_stack):
 
@@ -57,7 +66,6 @@ class Odometry:
 
         return ((self.coordinate_x, self.coordinate_y), self.direction)
 
-
     def distance_per_tick(motor_spin):
 
         radius = 2.8
@@ -72,3 +80,14 @@ class Odometry:
         self.coordinate_x = coordinate_x
         self.coordinate_y = coordinate_y
         
+
+    def motorg_stack(self):
+
+        delta_motor_left = self.motor_left.position - self.motor_position_left
+        delta_motor_right = self.motor_right.position - self.motor_position_right 
+
+        if(delta_motor_left > 360): 
+            self.motor_stack.append([delta_motor_left, delta_motor_right])
+            self.motor_position_left = self.motor_left.position 
+            self.motor_posision_right = self.motor_right.position 
+            
