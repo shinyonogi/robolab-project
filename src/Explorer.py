@@ -34,12 +34,13 @@ class Explorer:
         self.motor_left.stop_action = "coast"
 
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
-        k_p = 1/6  # Proportional constant
+        k_p = 0.11  # Proportional constant
         offset = 170  # Light sensor offset
-        target_power = self.target_power  # Target power cycle level (20%)
+        target_power_right = self.target_power + 1  # Target power cycle level (21% for right, 20% for left)
+        target_power_left = self.target_power
         k_i = 0  # Integral constant
         integral = 0  # Integral
-        k_d = 0.1  # Derivative constant
+        k_d = 0.04  # Derivative constant
         last_error = 0
 
         red_counter = 0
@@ -50,8 +51,8 @@ class Explorer:
                 self.motor_left.duty_cycle_sp = 0
                 self.motor_right.duty_cycle_sp = 0
                 self.warning()
-                self.motor_right.duty_cycle_sp = target_power
-                self.motor_left.duty_cycle_sp = -target_power
+                self.motor_right.duty_cycle_sp = target_power_right
+                self.motor_left.duty_cycle_sp = -target_power_left
                 time.sleep(5)
                 continue
                 # add Odometry!!!!!
@@ -70,7 +71,7 @@ class Explorer:
                     red_counter += 1
             elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
                 if blue_counter > 5:
-                    self.warning()  # for testing
+                    # self.warning()  # for testing
                     blue_counter = 0
                 else:
                     blue_counter += 1
@@ -81,8 +82,8 @@ class Explorer:
             derivative = error - last_error
             last_error = error
             turn = k_p * error + k_i * integral + k_d * derivative
-            power_right = target_power + turn
-            power_left = target_power - turn
+            power_right = target_power_right + turn
+            power_left = target_power_left - turn
 
             # Apply motor powers
             self.motor_left.duty_cycle_sp = power_left
