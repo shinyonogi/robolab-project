@@ -15,7 +15,7 @@ class Communication:
     thereby solve the task according to the specifications
     """
 
-    def __init__(self, mqtt_client, logger):
+    def __init__(self, mqtt_client, logger, planet):
         """
         Initializes communication module, connect to server, subscribe, etc.
         :param mqtt_client: paho.mqtt.client.Client
@@ -27,6 +27,7 @@ class Communication:
         self.client.on_message = self.safe_on_message_handler
 
         self.logger = logger
+        self.planet = planet
 
         self.topic = "explorer/004"
         self.planet_name = "Ferdinand"

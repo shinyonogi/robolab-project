@@ -57,6 +57,7 @@ def run():
     communication = Communication(client, logger)
     odometry = Odometry(logger, None, None, motor_right, motor_left)
     planet = Planet()
+    communication = Communication(client, logger, planet)
     expression = Expression(logger, screen, led, speaker)
     explorer = Explorer(logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor)
 
