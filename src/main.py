@@ -2,6 +2,7 @@
 
 import ev3dev.ev3 as ev3
 import logging
+import sys
 import os
 import time
 import paho.mqtt.client as mqtt
@@ -10,7 +11,7 @@ import uuid
 from communication import Communication
 from odometry import Odometry
 from planet import Direction, Planet
-from line_follower import LineFollower
+from Explorer import Explorer
 
 client = None  # DO NOT EDIT
 line_follower = None
@@ -41,14 +42,15 @@ def run():
     screen = ev3.Screen()
     speaker = ev3.Sound
     button = ev3.Button()
+    led = ev3.Led()
     button.on_up = up_callback
     button.on_down = down_callback
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
-    color_sensor = ev3.ColorSensor(ev3.INPUT_4)
-    us_sensor = ev3.UltrasonicSensor(ev3.INPUT_1)
+    color_sensor = ev3.ColorSensor(ev3.INPUT_1)
+    us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
-    line_follower = LineFollower(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
+    line_follower = Explorer(logger, None, None, None, motor_right, motor_left, color_sensor, us_sensor, speaker)
 
     print("Running...")
 
@@ -59,14 +61,17 @@ def run():
 
 def up_callback(state):
     print("Up-Button pressed" if state else "Up-Button released")
-    if line_follower and not line_follower.is_running:
-        line_follower.start()
+    # TODO: this doesn't work because the LineFollower start blocks the thread
+    if line_follower:
+        if not line_follower.is_running:
+            line_follower.start()
+        else:
+            line_follower.stop()
 
 
 def down_callback(state):
     print("Down-Button pressed" if state else "Down-Button released")
-    if line_follower and line_follower.is_running:
-        line_follower.stop()
+    sys.exit(0)
 
 
 # DO NOT EDIT
