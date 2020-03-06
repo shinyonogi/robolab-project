@@ -6,7 +6,7 @@ class Explorer:
     Class that controls the robots movements.
     """
 
-    def __init__(self, logger, communication, odometry, planet, motor_right, motor_left, color_sensor, us_sensor, expression):
+    def __init__(self, logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor):
         self.logger = logger
         self.communication = communication
         self.odometry = odometry
