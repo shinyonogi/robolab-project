@@ -51,8 +51,6 @@ def run():
     led = ev3.Led()
     speaker = ev3.Sound
     button = ev3.Button()
-    button.on_up = up_callback
-    button.on_down = down_callback
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
@@ -67,23 +65,28 @@ def run():
     communication.connect(group_id, group_pwd)
 
     while True:
-        button.process()
-        time.sleep(0.250)
+        logger.info("Available commands: s to start, c to calibrate, q to quit")
+        cmd = input("Please enter command: ")
+        if cmd == "s":
+            communication.ready_message()  # Ask mothership for planet data
+            logger.info("Waiting for planet data")
 
+            planet_data = None
+            while not planet_data:
+                planet_data = communication.planet_data
+                time.sleep(0.1)
 
-def up_callback(state):
-    logger.debug("Up-Button pressed" if state else "Up-Button released")
-    # TODO: this doesn't work because the LineFollower start blocks the thread
-    if explorer:
-        if not explorer.is_running:
-            explorer.start()
+            logger.info("Our planet is called %s" % planet_data["planetName"])
+
+            odometry.set_start_coord((planet_data["startX"], planet_data["startY"]), planet_data["startOrientation"])
+
+            explorer.start_exploration()
+        elif cmd == "c":
+            explorer.start_calibration()
+        elif cmd == "q":
+            break
         else:
-            explorer.stop()
-
-
-def down_callback(state):
-    logger.debug("Down-Button pressed" if state else "Down-Button released")
-    sys.exit(0)
+            continue
 
 
 # DO NOT EDIT
