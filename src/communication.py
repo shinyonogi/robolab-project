@@ -170,7 +170,7 @@ class Communication:
     def path_select_message(self, Xs, Ys, Ds):
         message = {
             "from": "client",
-            "type": "pathselect",
+            "type": "pathSelect",
             "payload": {
                 "startX": Xs,
                 "startY": Ys,
