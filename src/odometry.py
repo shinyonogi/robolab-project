@@ -38,10 +38,11 @@ class Odometry:
         delta_x = 0
         delta_y = 0
 
+        self.logger.debug(len(self.motor_stack))
         for i in range(len(self.motor_stack)):
-
-            d_r = Odometry.distance_per_tick(self.motor_stack[i][0])
-            d_l = Odometry.distance_per_tick(self.motor_stack[i][1])
+            self.logger.debug("Calc coord loop %s" % i)
+            d_r = self.distance_per_tick(self.motor_stack[i][0])
+            d_l = self.distance_per_tick(self.motor_stack[i][1])
 
             angle_alpha = (d_r - d_l) / distance_tire
             angle_beta = angle_alpha / 2
