@@ -32,17 +32,16 @@ class Odometry:
         self.direction = direction
         self.line_of_sight = direction / 57.2958  # angle -> arc
 
-    def calc_coord(self, motor_stack):
-
+    def calc_coord(self):
         distance_tire = 12
 
         delta_x = 0
         delta_y = 0
 
-        for i in range(len(motor_stack)):
+        for i in range(len(self.motor_stack)):
 
-            d_r = Odometry.distance_per_tick(motor_stack[i][0])
-            d_l = Odometry.distance_per_tick(motor_stack[i][1])
+            d_r = Odometry.distance_per_tick(self.motor_stack[i][0])
+            d_l = Odometry.distance_per_tick(self.motor_stack[i][1])
 
             angle_alpha = (d_r - d_l) / distance_tire
             angle_beta = angle_alpha / 2
