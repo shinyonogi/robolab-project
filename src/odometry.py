@@ -10,12 +10,13 @@ class Odometry:
     Odometry module
     """
 
-    def __init__(self, logger, coordinate, direction, motor_right, motor_left):
+    def __init__(self, logger, motor_right, motor_left):
         self.logger = logger
-        self.line_of_sight = direction / 57.2958  # angle -> arc
-        self.direction = direction
-        self.coordinate_x = coordinate[0]
-        self.coordinate_y = coordinate[1]
+
+        self.line_of_sight = None
+        self.direction = None
+        self.coordinate_x = None
+        self.coordinate_y = None
 
         self.motor_right = motor_right
         self.motor_left = motor_left
@@ -24,6 +25,12 @@ class Odometry:
         self.motor_position_right = self.motor_right.position
 
         self.motor_stack = []
+
+    def set_start_coord(self, coordinate, direction):
+        self.coordinate_x = coordinate[0]
+        self.coordinate_y = coordinate[1]
+        self.direction = direction
+        self.line_of_sight = direction / 57.2958  # angle -> arc
 
     def calc_coord(self, motor_stack):
 
