@@ -3,7 +3,6 @@
 # Attention: Do not import the ev3dev.ev3 module in this file
 import json
 # import ssl
-import time
 
 
 class Communication:
@@ -28,11 +27,12 @@ class Communication:
         self.planet = planet
         self.group_id = group_id
 
-        self.topic = f"explorer/{group_id}"
-        self.planet_name = None
-        self.planet_data = None
+        self.topic = f"explorer/{group_id}"  # Used for: testplanet, ready, complete
+        self.planet_topic = f"planet/none/{group_id}"  # Used for: path, pathSelect, pathUnveiled, target
 
-        self.target_determined = False
+        self.planet_data = None
+        self.path_select = None
+        self.target = None
 
     def connect(self, username, password):
         self.client.username_pw_set(username=username, password=password)
@@ -58,43 +58,41 @@ class Communication:
         payload = json.loads(message.payload.decode('utf-8'))
         self.logger.debug(json.dumps(payload, indent=2))
 
-        if payload["from"] == "debug":
-            self.logger.debug("Message from Debug: ", payload)
-        elif payload["from"] == "server":
-            if payload["type"] == "planet":
-                self.client.subscribe(f"planet/{payload['payload']['planetName']}/{self.group_id}")
-                self.planet_data = payload["payload"]
-            elif payload["type"] == "path":
-                Xs = payload["payload"]["startX"]
-                Ys = payload["payload"]["startY"]
-                Ds = payload["payload"]["startDirection"]
-                self.Xc = payload["payload"]["endX"]
-                self.Yc = payload["payload"]["endY"]
-                self.Dc = payload["payload"]["endDirection"]
-                self.path_status = payload["payload"]["pathstatus"]
-                path_weight = payload["payload"]["weight"]
+        m_from = payload.get("from")
+        m_type = payload.get("type")
+        m_payload = payload.get("payload")
 
-                self.planet.add_path(((Xs, Ys), Ds), ((self.Xc, self.Yc), self.Dc), path_weight)
-            elif payload["type"] == "pathselect":
-                self.Dc = payload["payload"]["startDirection"]
-            elif payload["type"] == "pathUnveiled":
-                Xs = payload["payload"]["startX"]
-                Ys = payload["payload"]["startY"]
-                Ds = payload["payload"]["startDirection"]
-                Xe = payload["payload"]["endX"]
-                Ye = payload["payload"]["endY"]
-                De = payload["payload"]["endDirection"]
-                path_status = payload["payload"]["pathstatus"]
-                path_weight = payload["payload"]["weight"]
+        if m_from == "debug":
+            pass
+        elif m_from == "server":
+            if m_type == "planet":
+                self.planet_topic = f"planet/{m_payload['planetName']}/{self.group_id}"
+                self.client.subscribe(self.planet_topic)
+                self.planet_data = m_payload
+            elif m_type == "path" or m_type == "pathUnveiled":
+                Xs = m_payload["startX"]
+                Ys = m_payload["startY"]
+                Ds = m_payload["startDirection"]
+                Xe = m_payload["endX"]
+                Ye = m_payload["endY"]
+                De = m_payload["endDirection"]
+                path_status = m_payload["pathStatus"]  # TODO: do we add this to Planet?
+                path_weight = m_payload["weight"]
 
                 self.planet.add_path(((Xs, Ys), Ds), ((Xe, Ye), De), path_weight)
-            elif payload["type"] == "target":
-                self.Xt = payload["payload"]["targetX"]
-                self.Yt = payload["payload"]["targetY"]
-                self.target_determined = True
-            elif payload["type"] == "done":
-                message = payload["payload"]["message"]
-                self.logger.debug("Message from Mothership", message)
+            elif m_type == "pathSelect":
+                self.path_select = payload
+            elif m_type == "target":
+                self.target = payload
+            elif m_type == "done":
+                message = m_payload["message"]
+                self.logger.info("Message from Mothership", message)
+
+    def reset_path_select(self):
+        self.path_select = None
+
+    def reset_target(self):
+        self.target = None
 
     # DO NOT EDIT THE METHOD SIGNATURE
     #
@@ -132,60 +130,76 @@ class Communication:
             raise
 
     def testplanet_message(self, planet_name):
-        message = {"from": "client",
-                   "type": "testplanet",
-                   "payload": {"planetname": planet_name}}
+        message = {
+            "from": "client",
+            "type": "testplanet",
+            "payload": {
+                "planetName": planet_name
+            }
+        }
+
         self.send_message(self.topic, message)
 
     def ready_message(self):
         self.client.subscribe(self.topic, qos=1)
-        message = {"from": "client",
-                   "type": "ready"}
+
+        message = {
+            "from": "client",
+            "type": "ready"
+        }
+
         self.send_message(self.topic, message)
-        self.client.subscribe(f"planet/{self.planet_name}/{self.group_id}", qos=1)
 
     def path_message(self, Xs, Ys, Ds, Xe, Ye, De, path_status):
-        message = {"from": "client",
-                   "type": "path",
-                   "payload": {
-                       "startX": Xs,
-                       "startY": Ys,
-                       "startDirection": Ds,
-                       "endX": Xe,
-                       "endY": Ye,
-                       "endDirection": De,
-                       "pathStatus": path_status
-                   }
-                   }
+        message = {
+            "from": "client",
+            "type": "path",
+            "payload": {
+                "startX": Xs,
+                "startY": Ys,
+                "startDirection": Ds,
+                "endX": Xe,
+                "endY": Ye,
+                "endDirection": De,
+                "pathStatus": path_status
+            }
+        }
+
         self.send_message(self.topic, message)
 
     def path_select_message(self, Xs, Ys, Ds):
-        message = {"from": "client",
-                   "type": "pathselect",
-                   "payload": {
-                       "startX": Xs,
-                       "startY": Ys,
-                       "startDirection": Ds
-                   }
-                   }
+        message = {
+            "from": "client",
+            "type": "pathselect",
+            "payload": {
+                "startX": Xs,
+                "startY": Ys,
+                "startDirection": Ds
+            }
+        }
+
         self.send_message(self.topic, message)
 
     def target_reached_message(self):
-        message = {"from": "client",
-                   "type": "targetReached",
-                   "payload": {
-                       "message": "Target Reached"
-                   }
-                   }
+        message = {
+            "from": "client",
+            "type": "targetReached",
+            "payload": {
+                "message": "Target Reached"
+            }
+        }
+
         self.send_message(self.topic, message)
 
     def exploration_completed_message(self):
-        message = {"from": "client",
-                   "type": "explorationCompleted",
-                   "payload": {
-                       "message": "Exploration Completed"
-                   }
-                   }
+        message = {
+            "from": "client",
+            "type": "explorationCompleted",
+            "payload": {
+                "message": "Exploration Completed"
+            }
+        }
+
         self.send_message(self.topic, message)
 
         self.client.loop_stop()
