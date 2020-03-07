@@ -96,8 +96,6 @@ class Communication:
                 message = payload["payload"]["message"]
                 self.logger.debug("Message from Mothership", message)
 
-        time.sleep(3)
-
     # DO NOT EDIT THE METHOD SIGNATURE
     #
     # In order to keep the logging working you must provide a topic string and
@@ -113,8 +111,6 @@ class Communication:
         self.logger.debug(json.dumps(message, indent=2))
 
         self.client.publish(topic, json.dumps(message))
-
-        time.sleep(3)
 
     # DO NOT EDIT THE METHOD SIGNATURE OR BODY
     #
