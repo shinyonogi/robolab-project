@@ -45,7 +45,6 @@ def run():
     # Config variables
     group_id = "004"
     group_pwd = "vexyOo1M27"
-    planet_name = "Hasselhoff"
 
     # Declare hardware components
     screen = ev3.Screen()
@@ -60,16 +59,12 @@ def run():
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
     planet = Planet()
-    communication = Communication(client, logger, planet, group_id, planet_name)
-    communication.connect(group_id, group_pwd)
-
-    communication.testplanet_message()
-
-    odometry = Odometry(logger, (0, 0), 0, motor_right, motor_left)
+    communication = Communication(client, logger, planet, group_id)
+    odometry = Odometry(logger, motor_right, motor_left)
     expression = Expression(logger, screen, led, speaker)
     explorer = Explorer(logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor)
 
-    logger.info("Robot ready!")
+    communication.connect(group_id, group_pwd)
 
     while True:
         button.process()

@@ -5,8 +5,6 @@ import json
 # import ssl
 import time
 
-from planet import Planet
-
 
 class Communication:
     """
@@ -15,7 +13,7 @@ class Communication:
     thereby solve the task according to the specifications
     """
 
-    def __init__(self, mqtt_client, logger, planet, group_id, planet_name):
+    def __init__(self, mqtt_client, logger, planet, group_id):
         """
         Initializes communication module, connect to server, subscribe, etc.
         :param mqtt_client: paho.mqtt.client.Client
@@ -31,7 +29,8 @@ class Communication:
         self.group_id = group_id
 
         self.topic = f"explorer/{group_id}"
-        self.planet_name = planet_name
+        self.planet_name = None
+        self.planet_data = None
 
         self.target_determined = False
 
@@ -59,15 +58,12 @@ class Communication:
         payload = json.loads(message.payload.decode('utf-8'))
         self.logger.debug(json.dumps(payload, indent=2))
 
-        # YOUR CODE FOLLOWS (remove pass, please!)
-
         if payload["from"] == "debug":
             self.logger.debug("Message from Debug: ", payload)
         elif payload["from"] == "server":
             if payload["type"] == "planet":
                 self.client.subscribe(f"planet/{payload['payload']['planetName']}/{self.group_id}")
-                self.X = payload["payload"]["startX"]
-                self.Y = payload["payload"]["startY"]
+                self.planet_data = payload["payload"]
             elif payload["type"] == "path":
                 Xs = payload["payload"]["startX"]
                 Ys = payload["payload"]["startY"]
@@ -116,7 +112,6 @@ class Communication:
         self.logger.debug('Send to: ' + topic)
         self.logger.debug(json.dumps(message, indent=2))
 
-        # YOUR CODE FOLLOWS (remove pass, please!)
         self.client.publish(topic, json.dumps(message))
 
         time.sleep(3)
@@ -140,10 +135,10 @@ class Communication:
             traceback.print_exc()
             raise
 
-    def testplanet_message(self):
+    def testplanet_message(self, planet_name):
         message = {"from": "client",
                    "type": "testplanet",
-                   "payload": {"planetname": self.planet_name}}
+                   "payload": {"planetname": planet_name}}
         self.send_message(self.topic, message)
 
     def ready_message(self):
