@@ -120,12 +120,12 @@ class Explorer:
 
             r_rb_range = self.red_rb_range
             b_rb_range = self.blue_rb_range
-            if r_rb_range[0][0] >= r >= r_rb_range[0][1] and r_rb_range[1][0] >= b >= r_rb_range[1][1]:
+            if r_rb_range[0][0] <= r <= r_rb_range[0][1] and r_rb_range[1][0] <= b <= r_rb_range[1][1]:
                 self.logger.debug("Detected RED")
                 square_color = "red"
                 self.stop_motors()
                 break
-            elif b_rb_range[0][0] >= r >= b_rb_range[0][1] and b_rb_range[1][0] >= b >= b_rb_range[1][1]:
+            elif b_rb_range[0][0] <= r <= b_rb_range[0][1] and b_rb_range[1][0] <= b <= b_rb_range[1][1]:
                 self.logger.debug("Detected BLUE")
                 if blue_counter >= 2:
                     square_color = "blue"
