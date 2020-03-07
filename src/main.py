@@ -79,6 +79,11 @@ def run():
             logger.info("Our planet is called %s" % planet_data["planetName"])
 
             odometry.set_start_coord((planet_data["startX"], planet_data["startY"]), planet_data["startOrientation"])
+            
+            #print(odometry.motor_position_left, odometry.motor_position_right)
+            #print(odometry.motor_left.position, odometry.motor_right.position)
+
+            #time.sleep(5)
 
             explorer.start_exploration()
         elif cmd == "c":

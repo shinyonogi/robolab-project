@@ -37,12 +37,6 @@ class Explorer:
 
         self.logger.info("Explorer initialized and ready")
 
-    def start_exploration(self):
-        self.logger.info("Explorer starting")
-        while True:
-            self.drive_to_next_square()
-        pass
-
     def start_calibration(self):
         self.logger.info("Starting calibration")
 
@@ -78,6 +72,13 @@ class Explorer:
             time.sleep(0.1)
         return (min(r), sum(r) / len(r), max(r)), (min(g), sum(g) / len(g), max(g)), (min(b), sum(b) / len(b), max(b))
 
+    def start_exploration(self):
+        self.logger.info("Explorer starting")
+        while True:
+            blocked, color = self.drive_to_next_square()
+            self.logger.debug(self.odometry.calc_coord())
+            self.scan_for_paths()
+
     def drive_to_next_square(self):
         blocked = False
         square_color = None
@@ -103,6 +104,8 @@ class Explorer:
         blue_counter = 0
 
         while True:
+            self.odometry.motorg_stack()
+
             if self.us_sensor.distance_centimeters < 15:
                 blocked = True
                 self.logger.debug("Path blocked")
@@ -176,11 +179,13 @@ class Explorer:
 
         color_val = 2
         while color_val == 2 or color_val == 5:
-            self.logger.debug(color_val)
+            # self.logger.debug(color_val)
             color_val = self.color_sensor.value()
-            time.sleep(0.3)
+            time.sleep(0.2)
 
         self.logger.debug("Oriented")
+        self.stop_motors()
+        time.sleep(0.75)
 
         started_at_degrees = 1  # Add odometry stuff here
 
@@ -204,7 +209,7 @@ class Explorer:
                 pass
             else:
                 counter = 0
-            current_degrees += 4
+            current_degrees += 5
             if counter > 2:
                 self.logger.debug("Path found at %s" % (current_degrees - started_at_degrees))
             time.sleep(0.1)

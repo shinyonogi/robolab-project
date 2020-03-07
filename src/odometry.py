@@ -38,10 +38,11 @@ class Odometry:
         delta_x = 0
         delta_y = 0
 
+        self.logger.debug(len(self.motor_stack))
         for i in range(len(self.motor_stack)):
-
-            d_r = Odometry.distance_per_tick(self.motor_stack[i][0])
-            d_l = Odometry.distance_per_tick(self.motor_stack[i][1])
+            self.logger.debug("Calc coord loop %s" % i)
+            d_r = self.distance_per_tick(self.motor_stack[i][0])
+            d_l = self.distance_per_tick(self.motor_stack[i][1])
 
             angle_alpha = (d_r - d_l) / distance_tire
             angle_beta = angle_alpha / 2
@@ -67,6 +68,15 @@ class Odometry:
         self.coordinate_y = self.coordinate_y + round(delta_y / 50)
         self.direction = round(self.line_of_sight * 57.2958) % 360
 
+        if(0 <= self.direction < 45 or 360 >= self.direction > 315):
+            self.direction = 0
+        elif(45 <= self.direction < 135):
+            self.direction = 90
+        elif(135 <= self.direction < 225):
+            self.direction = 180
+        elif(225 <= self.direction < 315):
+            self.direction = 270
+
         return ((self.coordinate_x, self.coordinate_y), self.direction)
 
     def distance_per_tick(self, motor_spin):
@@ -80,10 +90,14 @@ class Odometry:
         self.direction = direction
         self.coordinate_x = coordinate_x
         self.coordinate_y = coordinate_y
+        self.motor_stack = []
 
     def motorg_stack(self):
-        delta_motor_left = self.motor_left.position - self.motor_position_left
-        delta_motor_right = self.motor_right.position - self.motor_position_right
+        delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
+        delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
+
+        #print("delta motor left: ", delta_motor_left, self.motor_left.position, self.motor_position_left)
+        #print("delta motor right: ", delta_motor_right, self.motor_right.position, self.motor_position_right)
 
         if delta_motor_left > 360:
             self.motor_stack.append([delta_motor_left, delta_motor_right])
