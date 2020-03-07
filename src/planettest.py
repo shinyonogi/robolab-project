@@ -168,7 +168,7 @@ class RoboLabPlanetTests(unittest.TestCase):
             or (test_shortest_path[2] != ((3, 2), Direction.NORTH))):
 
             self.fail("FAIL")
-
+    
     def test_target_not_reachable(self):
         """
         This test should check that a target outside the map or at an unexplored node is not reachable
