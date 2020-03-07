@@ -40,6 +40,7 @@ def run():
     # THE EXECUTION OF ALL CODE SHALL BE STARTED FROM WITHIN THIS FUNCTION.
     # ADD YOUR OWN IMPLEMENTATION HEREAFTER.
 
+    # TODO: ask tutors if hooking into the logger is an issue, in that case we have to use our own
     logger.addHandler(logging.StreamHandler(sys.stdout))
 
     # Config variables
@@ -79,13 +80,11 @@ def run():
             logger.info("Our planet is called %s" % planet_data["planetName"])
 
             odometry.set_start_coord((planet_data["startX"], planet_data["startY"]), planet_data["startOrientation"])
-            
-            #print(odometry.motor_position_left, odometry.motor_position_right)
-            #print(odometry.motor_left.position, odometry.motor_right.position)
-
-            #time.sleep(5)
 
             explorer.start_exploration()
+        elif cmd == "t":
+            planet_name = input("Enter planet name: ")
+            communication.testplanet_message(planet_name)
         elif cmd == "c":
             explorer.start_calibration()
         elif cmd == "q":
