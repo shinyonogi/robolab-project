@@ -33,15 +33,7 @@ def stop():
     m_right.stop()
 
 
-def drive(sp_left=100, sp_right=100):
-    # Drive using speed_sp
-    m_left.speed_sp = sp_left
-    m_right.speed_sp = sp_right
-    m_left.command = "run-forever"
-    m_right.command = "run-forever"
-
-
-def drive_dc(sp_left=30, sp_right=30):
+def drive(sp_left=30, sp_right=30):
     # Drive using duty cycle
     m_left.duty_cycle_sp = sp_left
     m_right.duty_cycle_sp = sp_right
@@ -80,6 +72,32 @@ def test_color():
         else:
             print("grayscale %s" % rgb_to_grayscale(r, g, b))
         time.sleep(1)
+
+
+def test_path_rotation():
+    cs.mode = ev3.ColorSensor.MODE_COL_COLOR
+    drive(-17, 15)
+    started_at_degrees = 1
+    current_degrees = 1
+    counter = 0
+    while current_degrees < started_at_degrees + 360:
+        color = cs.value()
+        if color == 1:
+            # print("black")
+            counter += 1
+        elif color == 2:
+            # print("blue")
+            counter += 1
+        elif color == 5:
+            # print("red")
+            pass
+        else:
+            counter = 0
+        current_degrees += 3.5
+        if counter > 2:
+            print("MATCH")
+        time.sleep(0.1)
+    stop()
 
 
 def follow(delay=0.1, k_p=1 / 6, offset=170, target_power=20, k_i=0, k_d=0.1):

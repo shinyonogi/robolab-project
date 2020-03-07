@@ -78,51 +78,43 @@ class RoboLabPlanetTests(unittest.TestCase):
         self.planet.add_path(((1, 3), Direction.NORTH), ((1, 5), Direction.SOUTH), 2)
 
     def test_add_get_paths(self):
+        # print(self.planet.get_paths()) #prints all the paths (for us)
+        return
 
-        #print(self.planet.get_paths()) #prints all the paths (for us)
-        return 
-        
     def test_shortest_path_opposite_path_1(self):
-
         shortest_path = self.planet.shortest_path((1, 6), (1, 1))
         self.assertEqual(shortest_path[0], ((1, 6), Direction.EAST))
         self.assertEqual(shortest_path[1], ((3, 5), Direction.WEST))
         self.assertEqual(shortest_path[2], ((2, 3), Direction.SOUTH))
         self.assertEqual(shortest_path[3], ((1, 2), Direction.SOUTH))
-        
+
         shortest_path = self.planet.shortest_path((1, 1), (1, 6))
         self.assertEqual(shortest_path[0], ((1, 1), Direction.NORTH))
         self.assertEqual(shortest_path[1], ((1, 2), Direction.EAST))
         self.assertEqual(shortest_path[2], ((2, 3), Direction.NORTH))
         self.assertEqual(shortest_path[3], ((3, 5), Direction.NORTH))
 
-
-
     def test_start_with_loop(self):
-
         shortest_path = self.planet.shortest_path((1, 5), (2, 3))
         self.assertEqual(shortest_path[0], ((1, 5), Direction.SOUTH))
         self.assertEqual(shortest_path[1], ((1, 3), Direction.EAST))
-        
-        try:
-            if(shortest_path[2] is tuple): #checks if there's a third element 
-                self.fail("FAIL") 
-        except: 
-            return 
 
+        try:
+            if shortest_path[2] is tuple:  # checks if there's a third element
+                self.fail("FAIL")
+        except:
+            return
 
     def test_end_with_loop(self):
-
         shortest_path = self.planet.shortest_path((2, 3), (1, 5))
         self.assertEqual(shortest_path[0], ((2, 3), Direction.WEST))
         self.assertEqual(shortest_path[1], ((1, 3), Direction.NORTH))
 
         try:
-            if(shortest_path[2] is tuple): #checks if the loop stops
+            if shortest_path[2] is tuple:  # checks if the loop stops
                 self.fail("FAIL")
         except:
-            return 
-
+            return
 
     def test_integrity(self):
         """
@@ -133,12 +125,12 @@ class RoboLabPlanetTests(unittest.TestCase):
         direction_type = type(test_get_paths[(1, 1)][Direction.EAST][1])
 
         for i in test_get_paths:
-            if(type(i) is tuple):
+            if type(i) is tuple:
                 for j in test_get_paths[i]:
-                    if((type(j) is direction_type)
-                        and (type(test_get_paths[i][j][0]) is tuple)
-                        and (type(test_get_paths[i][j][1]) is direction_type)
-                        and (type(test_get_paths[i][j][2]) is int)):
+                    if ((type(j) is direction_type)
+                            and (type(test_get_paths[i][j][0]) is tuple)
+                            and (type(test_get_paths[i][j][1]) is direction_type)
+                            and (type(test_get_paths[i][j][2]) is int)):
                         continue
                     else:
                         integrity = False
@@ -163,10 +155,9 @@ class RoboLabPlanetTests(unittest.TestCase):
         """
         test_shortest_path = self.planet.shortest_path((1, 1), (3, 4))
 
-        if((test_shortest_path[0] != ((1, 1), Direction.EAST))
-            or (test_shortest_path[1] != ((2, 1), Direction.EAST))
-            or (test_shortest_path[2] != ((3, 2), Direction.NORTH))):
-
+        if ((test_shortest_path[0] != ((1, 1), Direction.EAST))
+                or (test_shortest_path[1] != ((2, 1), Direction.EAST))
+                or (test_shortest_path[2] != ((3, 2), Direction.NORTH))):
             self.fail("FAIL")
     
     def test_target_not_reachable(self):
@@ -184,7 +175,7 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         Requirement: Minimum of two paths with same cost exists, only one is returned by the logic implemented
         """
-        
+
         test_shortest_path = self.planet.shortest_path((1, 1), (3, 5))
 
         print("Same Length Test:", test_shortest_path)
@@ -198,9 +189,8 @@ class RoboLabPlanetTests(unittest.TestCase):
         """
         test_shortest_path = self.planet.shortest_path((2, 3), (1, 5))
 
-        if((test_shortest_path[0] != ((2, 3), Direction.WEST))
-            or (test_shortest_path[1] != ((1, 3), Direction.NORTH))):
-
+        if ((test_shortest_path[0] != ((2, 3), Direction.WEST))
+                or (test_shortest_path[1] != ((1, 3), Direction.NORTH))):
             self.fail("FAIL")
 
     def test_target_not_reachable_with_loop(self):
