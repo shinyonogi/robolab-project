@@ -151,9 +151,6 @@ class Planet:
                 except:
                     continue
 
-        shortest_path_dictionary[(i, j)][2] = "HEllo"
-        print(shortest_path_dictionary[(i, j)][2])
-
         i_1 = 0
         k_1 = 0
         j_1 = 0
@@ -163,74 +160,25 @@ class Planet:
                 for j in self.path_dictionary:
                     if matrix[i_1][k_1] + matrix[k_1][j_1] < matrix[i_1][j_1]:
                         matrix[i_1][j_1] = min(matrix[i_1][j_1], matrix[i_1][k_1] + matrix[k_1][j_1])
-                        Planet.calc_shortest_path(i, k, j, shortest_path_dictionary, 0)
-                    elif matrix[i_1][k_1] + matrix[k_1][j_1] == matrix[i_1][j_1] and matrix[i_1][j_1] != 9999:
-                        Planet.calc_shortest_path(i, k, j, shortest_path_dictionary, 1)
-                        #print(shortest_path_dictionary[(i, j)])
+                        shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][0]
+                    elif(matrix[i_1][k_1] + matrix[k_1][i_1] == matrix[i_1][j_1]):
+                        shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k ,j)][0]
                     j_1 += 1
                 j_1 = 0
                 i_1 += 1
             i_1 = 0
             k_1 += 1
 
-        print(shortest_path_dictionary[((1, 1), (3, 5))])
 
         for i in shortest_path_dictionary:
             if (start, target) == i and shortest_path_dictionary[i][0] != []:
                 shortest_path_dictionary[i][0] = Planet.sort_shortest_path(start, target, shortest_path_dictionary[i][0], self.path_dictionary)
-                return shortest_path_dictionary[i][0]
+                shortest_path_dictionary[i][1] = Planet.sort_shortest_path(start, target, shortest_path_dictionary[i][1], self.path_dictionary)
+                return shortest_path_dictionary[i]
         return []
 
-    def calc_shortest_path(i, k, j, shortest_path_dictionary, version):
-        
-        iterator_counter = 0
-
-        print(shortest_path_dictionary[(i, j)])
-
-        if(shortest_path_dictionary[(i, j)][0] == []):
-            iterator_counter_2 = 0
-        elif(shortest_path_dictionary[(i, j)][1] == []):
-            iterator_counter_2 = 1
-        else:
-            iterator_counter_2 = len(shortest_path_dictionary) + 1
-
-        if version == 0:
-            if shortest_path_dictionary[(i, k)][1] != [] and shortest_path_dictionary[(k, j)][1] != []:
-                for m in range(len(shortest_path_dictionary[(i, k)])):
-                    for n in range(len(shortest_path_dictionary[(k, j)])):
-                        shortest_path_dictionary[(i, j)][iterator_counter] = shortest_path_dictionary[(i, k)][m] + shortest_path_dictionary[(k, j)][n]
-                        iterator_counter += 1
-            elif shortest_path_dictionary[(i, k)][1] != [] and shortest_path_dictionary[(k, j)][1] == []:
-                for m in range(len(shortest_path_dictionary[(i, k)])):
-                    shortest_path_dictionary[(i, j)][iterator_counter] = shortest_path_dictionary[(i, k)][m] + shortest_path_dictionary[(k, j)][0]
-                    iterator_counter += 1
-            elif shortest_path_dictionary[(i, k)][1] == [] and shortest_path_dictionary[(k, j)][1] != []:
-                for m in range(len(shortest_path_dictionary[(i, k)])):
-                    shortest_path_dictionary[(i, j)][iterator_counter] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][m]
-                    iterator_counter += 1
-            else:
-                shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][0]
-
-        if(version == 1):
-            print(shortest_path_dictionary[(i, k)][1], shortest_path_dictionary[(k, j)][1], iterator_counter)
-            if(shortest_path_dictionary[(i, k)][1] != [] and shortest_path_dictionary[(k, j)][1] != []):
-                for m in range(len(shortest_path_dictionary[(i, k)])):
-                    for n in range(len(shortest_path_dictionary[(k, j)])):
-                        shortest_path_dictionary[(i, j)][iterator_counter_2] = shortest_path_dictionary[(i, k)][m] + shortest_path_dictionary[(k, j)][n]
-                        iterator_counter_2 += 1
-            elif shortest_path_dictionary[(i, k)][1] != [] and shortest_path_dictionary[(k, j)][1] == []:
-                for m in range(len(shortest_path_dictionary[(i, k)])):
-                    shortest_path_dictionary[(i, j)][iterator_counter_2] = shortest_path_dictionary[(i, k)][m] + shortest_path_dictionary[(k, j)][0]
-                    iterator_counter_2 += 1
-            elif shortest_path_dictionary[(i, k)][1] == [] and shortest_path_dictionary[(k, j)][1] != []:
-                for m in range(len(shortest_path_dictionary[(i, k)])):
-                    shortest_path_dictionary[(i, j)][iterator_counter_2] = shortest_path_dictionary[((i, k))][0] + shortest_path_dictionary[(k, j)][m]
-                    iterator_counter_2 += 1
-            else:
-                shortest_path_dictionary[(i, j)][iterator_counter_2] = shortest_path_dictionary[((i, k))][0] + shortest_path_dictionary[(k, j)][0]
-
     
-    def sort_shortest_path(self, start, target, shortest_path_list, path_dictionary):  # just in case ;)
+    def sort_shortest_path(start, target, shortest_path_list, path_dictionary):  # just in case ;)
         sorted_shortest_path = []
 
         for i in range(len(shortest_path_list)):
@@ -241,4 +189,4 @@ class Planet:
                         if d == shortest_path_list[j][1]:
                             start = path_dictionary[start][d][0]
 
-        return sorted_shortest_path
+        return sorted_shortest_path 
