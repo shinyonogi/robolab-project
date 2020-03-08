@@ -15,8 +15,6 @@ from planet import Direction, Planet
 from explorer import Explorer
 
 client = None  # DO NOT EDIT
-explorer = None
-logger = None
 
 
 def run():
@@ -24,7 +22,7 @@ def run():
     #
     # The deploy-script uses the variable "client" to stop the mqtt-client after your program stops or crashes.
     # Your script isn't able to close the client after crashing.
-    global client, explorer, logger
+    global client
 
     client = mqtt.Client(client_id=str(uuid.uuid4()),  # Unique Client-ID to recognize our program
                          clean_session=False,  # We want to be remembered
@@ -40,7 +38,6 @@ def run():
     # THE EXECUTION OF ALL CODE SHALL BE STARTED FROM WITHIN THIS FUNCTION.
     # ADD YOUR OWN IMPLEMENTATION HEREAFTER.
 
-    # TODO: ask tutors if hooking into the logger is an issue, in that case we have to use our own
     logger.addHandler(logging.StreamHandler(sys.stdout))
 
     # Config variables
@@ -56,6 +53,8 @@ def run():
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
     motor_right.reset()
     motor_left.reset()
+    motor_right.stop_action = "coast"
+    motor_left.stop_action = "coast"
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
 
