@@ -37,13 +37,13 @@ class Communication:
     def connect(self, username, password):
         self.client.username_pw_set(username=username, password=password)
 
-        self.client.connect("mothership.inf.tu-dresden.de", port=1883)
         self.logger.debug("Connecting to mothership")
-
+        self.client.connect("mothership.inf.tu-dresden.de", port=1883)
         self.client.loop_start()
-        self.logger.debug("Starting communication loop")
 
     def disconnect(self):
+        self.logger.debug("Disconnecting from mothership")
+        self.client.loop_stop()
         self.client.disconnect()
 
     # DO NOT EDIT THE METHOD SIGNATURE
@@ -202,8 +202,7 @@ class Communication:
 
         self.send_message(self.topic, message)
 
-        self.client.loop_stop()
-        self.client.disconnect()
+        # self.disconnect()
 
     def syntax_prove(self):
         self.client.subscribe(f"comtest/{self.group_id}", qos=1)
