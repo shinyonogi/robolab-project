@@ -86,8 +86,12 @@ class Explorer:
         self.logger.info("Explorer starting")
         while True:
             blocked, color = self.drive_to_next_square()
+            self.stop_motors()
             self.logger.debug(self.odometry.calc_coord())
-            self.scan_for_paths()
+            self.odometry.clear_stack()
+            self.run_motors(self.target_power, self.target_power)
+            time.sleep(1)
+            # self.scan_for_paths()
 
     def drive_to_next_square(self):
         """Drive the robot along the path using a PID controller, until it reaches a colored square.
