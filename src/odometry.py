@@ -45,7 +45,7 @@ class Odometry:
             angle_alpha = (d_r - d_l) / distance_tire
             angle_beta = angle_alpha / 2
 
-            if 6.28319 >= angle_alpha >= 6.10865 or 0 <= angle_alpha <= 0.174533:  # when the way is straight
+            if(0 <= angle_alpha <= 0.174533 or angle_alpha >= -0.174533):  # when the way is straight
                 distance_s = d_l
                 if 0 <= self.line_of_sight < 0.785398 or 6.28319 >= self.line_of_sight > 5.49778:  # maybe better to work with arc // precise values better
                     delta_y = delta_y + distance_s
