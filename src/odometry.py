@@ -47,7 +47,7 @@ class Odometry:
 
             if(0 <= angle_alpha <= 0.174533 or angle_alpha >= -0.174533):  # when the way is straight
                 distance_s = d_l
-                if 0 <= self.line_of_sight < 0.785398 or 6.28319 >= self.line_of_sight > 5.49778:  # maybe better to work with arc // precise values better
+                if 0 <= self.line_of_sight % 6.28319  < 0.785398 or 6.28319 > self.line_of_sight % 6.28319 > 5.49778:  # maybe better to work with arc // precise values better
                     delta_y = delta_y + distance_s
                 elif  0.785398 <= self.line_of_sight < 2.35619:
                     delta_y = delta_y - distance_s
