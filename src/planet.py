@@ -160,7 +160,12 @@ class Planet:
                 for j in self.path_dictionary:
                     if matrix[i_1][k_1] + matrix[k_1][j_1] < matrix[i_1][j_1]:
                         matrix[i_1][j_1] = min(matrix[i_1][j_1], matrix[i_1][k_1] + matrix[k_1][j_1])
+                        shortest_path_dictionary[(i, j)][1] = []
                         shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][0]
+                        if(shortest_path_dictionary[(i, k)][1] != []):
+                            shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][1] + shortest_path_dictionary[(k, j)][0]
+                        elif(shortest_path_dictionary[(k, j)][1] != []):
+                            shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][1] + shortest_path_dictionary[(k, j)][1]
                     elif(matrix[i_1][k_1] + matrix[k_1][i_1] == matrix[i_1][j_1]):
                         shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k ,j)][0]
                     j_1 += 1
