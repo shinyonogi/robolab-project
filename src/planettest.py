@@ -101,7 +101,7 @@ class RoboLabPlanetTests(unittest.TestCase):
         self.assertEqual(shortest_path[4], ((3, 5), Direction.NORTH))
 
     def test_start_with_loop(self):
-        #checks if the search for the shortest path doesn't stuck if it begins with a loop
+        #checks if the search for the shortest path doesn't stuck when it begins with a loop
         shortest_path = self.planet.shortest_path((1, 5), (2, 3))
         shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((1, 5), Direction.SOUTH))
@@ -114,6 +114,7 @@ class RoboLabPlanetTests(unittest.TestCase):
             return
 
     def test_end_with_loop(self):
+        #checks if the search for the shortest path doesn't stuck in a loop when it ends with a loop
         shortest_path = self.planet.shortest_path((2, 3), (1, 5))
         shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((2, 3), Direction.WEST))
