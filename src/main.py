@@ -66,7 +66,7 @@ def run():
     communication.connect(group_id, group_pwd)
 
     while True:
-        logger.info("Available commands: s to start, c to calibrate, q to quit")
+        logger.info("Available commands: s to start, t to set test planet, c to calibrate, q to quit")
         cmd = input("Please enter command: ")
         if cmd == "s":
             communication.ready_message()  # Ask mothership for planet data
