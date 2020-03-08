@@ -82,6 +82,7 @@ class RoboLabPlanetTests(unittest.TestCase):
         return
 
     def test_shortest_path_opposite_path_1(self):
+        #checks if two opposite ways return the same (opposite) shortest path 
         shortest_path = self.planet.shortest_path((1, 6), (1, 1))
         shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((1, 6), Direction.EAST))
@@ -100,6 +101,7 @@ class RoboLabPlanetTests(unittest.TestCase):
         self.assertEqual(shortest_path[4], ((3, 5), Direction.NORTH))
 
     def test_start_with_loop(self):
+        #checks if the search for the shortest path doesn't stuck if it begins with a loop
         shortest_path = self.planet.shortest_path((1, 5), (2, 3))
         shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((1, 5), Direction.SOUTH))
