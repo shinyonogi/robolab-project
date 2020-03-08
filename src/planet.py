@@ -177,13 +177,12 @@ class Planet:
 
         for i in shortest_path_dictionary:
             if (start, target) == i and shortest_path_dictionary[i][0] != []:
-                shortest_path_dictionary[i][0] = Planet.sort_shortest_path(start, target,
-                                                                           shortest_path_dictionary[i][0],
-                                                                           self.path_dictionary)
+                shortest_path_dictionary[i][0] = Planet.sort_shortest_path(start, target, shortest_path_dictionary[i][0], self.path_dictionary)
                 return shortest_path_dictionary[i][0]
         return []
 
     def calc_shortest_path(i, k, j, shortest_path_dictionary, version):
+        
         iterator_counter = 0
 
         print(shortest_path_dictionary[(i, j)])
@@ -199,8 +198,7 @@ class Planet:
             if shortest_path_dictionary[(i, k)][1] != [] and shortest_path_dictionary[(k, j)][1] != []:
                 for m in range(len(shortest_path_dictionary[(i, k)])):
                     for n in range(len(shortest_path_dictionary[(k, j)])):
-                        shortest_path_dictionary[(i, j)][iterator_counter] = shortest_path_dictionary[(i, k)][m] + \
-                                                                             shortest_path_dictionary[(k, j)][n]
+                        shortest_path_dictionary[(i, j)][iterator_counter] = shortest_path_dictionary[(i, k)][m] + shortest_path_dictionary[(k, j)][n]
                         iterator_counter += 1
             elif shortest_path_dictionary[(i, k)][1] != [] and shortest_path_dictionary[(k, j)][1] == []:
                 for m in range(len(shortest_path_dictionary[(i, k)])):
@@ -211,8 +209,7 @@ class Planet:
                     shortest_path_dictionary[(i, j)][iterator_counter] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][m]
                     iterator_counter += 1
             else:
-                shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[(i, k)][0] + \
-                                                      shortest_path_dictionary[(k, j)][0]
+                shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][0]
 
         if(version == 1):
             print(shortest_path_dictionary[(i, k)][1], shortest_path_dictionary[(k, j)][1], iterator_counter)

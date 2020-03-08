@@ -41,8 +41,8 @@ class Odometry:
         self.logger.debug(len(self.motor_stack))
         for i in range(len(self.motor_stack)):
             self.logger.debug("Calc coord loop %s" % i)
-            d_r = self.distance_per_tick(self.motor_stack[i][0])
-            d_l = self.distance_per_tick(self.motor_stack[i][1])
+            d_r = self.distance_per_tick(self.motor_stack[i][1])
+            d_l = self.distance_per_tick(self.motor_stack[i][0])
 
             angle_alpha = (d_r - d_l) / distance_tire
             angle_beta = angle_alpha / 2
@@ -61,7 +61,6 @@ class Odometry:
                 distance_s = (d_r + d_l) / angle_alpha * math.sin(angle_beta)
                 delta_x = delta_x + -math.sin(self.line_of_sight + angle_beta) * distance_s
                 delta_y = delta_y + math.cos(self.line_of_sight + angle_beta) * distance_s
-
             self.line_of_sight += angle_alpha
 
         self.coordinate_x = self.coordinate_x + round(delta_x / 50)
