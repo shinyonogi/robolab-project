@@ -68,7 +68,7 @@ def run():
     communication.connect(group_id, group_pwd)
 
     while True:
-        logger.info("Available commands: s to start, t to set test planet, c to calibrate, q to quit")
+        logger.info("Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit")
         cmd = input("Please enter command: ")
         if cmd == "s":
             communication.ready_message()  # Ask mothership for planet data
@@ -84,6 +84,11 @@ def run():
             odometry.set_start_coord((planet_data["startX"], planet_data["startY"]), planet_data["startOrientation"])
 
             explorer.start_exploration()
+        elif cmd == "r":
+            explorer.run_motors(50, 50)
+            logger.info("Press enter to stop")
+            input()
+            explorer.stop_motors()
         elif cmd == "t":
             planet_name = input("Enter planet name: ")
             communication.testplanet_message(planet_name)
