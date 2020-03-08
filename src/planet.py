@@ -175,11 +175,11 @@ class Planet:
 
 
         for i in shortest_path_dictionary:
-            if (start, target) == i and shortest_path_dictionary[i][0] != []:
-                shortest_path_dictionary[i][0] = Planet.sort_shortest_path(start, target, shortest_path_dictionary[i][0], self.path_dictionary)
+            if (start, target) == i and shortest_path_dictionary[i][0] != []: #return two shortest paths (only the first one needed, the second one could eventually be empty)
+                shortest_path_dictionary[i][0] = Planet.sort_shortest_path(start, target, shortest_path_dictionary[i][0], self.path_dictionary) 
                 shortest_path_dictionary[i][1] = Planet.sort_shortest_path(start, target, shortest_path_dictionary[i][1], self.path_dictionary)
                 return shortest_path_dictionary[i]
-        return []
+        return [] #returns an empty list if there aren't any paths
 
     
     def sort_shortest_path(start, target, shortest_path_list, path_dictionary):  # just in case ;)
