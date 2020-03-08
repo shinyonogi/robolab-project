@@ -38,9 +38,7 @@ class Odometry:
         delta_x = 0
         delta_y = 0
 
-        self.logger.debug(len(self.motor_stack))
         for i in range(len(self.motor_stack)):
-            self.logger.debug("Calc coord loop %s" % i)
             d_r = self.distance_per_tick(self.motor_stack[i][1])
             d_l = self.distance_per_tick(self.motor_stack[i][0])
 
@@ -62,6 +60,8 @@ class Odometry:
                 delta_x = delta_x + -math.sin(self.line_of_sight + angle_beta) * distance_s
                 delta_y = delta_y + math.cos(self.line_of_sight + angle_beta) * distance_s
             self.line_of_sight += angle_alpha
+
+            self.logger.debug("LOS: %s, Angle: %s" % (self.line_of_sight, angle_alpha))
 
         self.coordinate_x = self.coordinate_x + round(delta_x / 50)
         self.coordinate_y = self.coordinate_y + round(delta_y / 50)
@@ -95,11 +95,13 @@ class Odometry:
         delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
         delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
 
-        #print("delta motor left: ", delta_motor_left, self.motor_left.position, self.motor_position_left)
-        #print("delta motor right: ", delta_motor_right, self.motor_right.position, self.motor_position_right)
+        # print("delta motor left: ", delta_motor_left, self.motor_left.position, self.motor_position_left)
+        # print("delta motor right: ", delta_motor_right, self.motor_right.position, self.motor_position_right)
 
         if delta_motor_left > 360:
             self.motor_stack.append([delta_motor_left, delta_motor_right])
             self.motor_position_left = self.motor_left.position 
             self.motor_position_right = self.motor_right.position 
-        
+
+    def clear_stack(self):
+        self.motor_stack.clear()
