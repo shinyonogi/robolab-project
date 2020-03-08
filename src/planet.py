@@ -157,15 +157,15 @@ class Planet:
         for k in self.path_dictionary:
             for i in self.path_dictionary:
                 for j in self.path_dictionary:
-                    if matrix[i_1][k_1] + matrix[k_1][j_1] < matrix[i_1][j_1]:
-                        matrix[i_1][j_1] = min(matrix[i_1][j_1], matrix[i_1][k_1] + matrix[k_1][j_1])
+                    if matrix[i_1][k_1] + matrix[k_1][j_1] < matrix[i_1][j_1]: #if there's a shorter way
+                        matrix[i_1][j_1] = min(matrix[i_1][j_1], matrix[i_1][k_1] + matrix[k_1][j_1]) #makes the matrix shorter
                         shortest_path_dictionary[(i, j)][1] = []
-                        shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][0]
-                        if(shortest_path_dictionary[(i, k)][1] != []):
-                            shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][1] + shortest_path_dictionary[(k, j)][0]
+                        shortest_path_dictionary[(i, j)][0] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][0] #adds shortest path to key: 0
+                        if(shortest_path_dictionary[(i, k)][1] != []): #eventually adds shortest path to key:1 so that it has alternatives 
+                            shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][1] + shortest_path_dictionary[(k, j)][0] 
                         elif(shortest_path_dictionary[(k, j)][1] != []):
                             shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][1] + shortest_path_dictionary[(k, j)][1]
-                    elif(matrix[i_1][k_1] + matrix[k_1][i_1] == matrix[i_1][j_1]):
+                    elif(matrix[i_1][k_1] + matrix[k_1][i_1] == matrix[i_1][j_1]): #if there's a way with same distance
                         shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k ,j)][0]
                     j_1 += 1
                 j_1 = 0
