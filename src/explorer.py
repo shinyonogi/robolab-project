@@ -105,8 +105,6 @@ class Explorer:
         # Setup hardware
         self.color_sensor.mode = "RGB-RAW"  # Measure RGB values
         self.us_sensor.mode = "US-DIST-CM"  # Measure distance in cm
-        self.motor_right.reset()
-        self.motor_left.reset()
         self.motor_right.stop_action = "coast"
         self.motor_left.stop_action = "coast"
 
@@ -141,6 +139,7 @@ class Explorer:
             if r_rb_range[0][0] <= r <= r_rb_range[0][1] and r_rb_range[1][0] <= b <= r_rb_range[1][1]:
                 self.logger.debug("Detected RED")
                 # With a calibrated sensor we cas assume we're on a colored square after it was detected for two loops
+                # TODO: instead, maybe stop and do a short (30 Degree) turn in each direction and scan for colors?
                 if red_counter >= 2:
                     square_color = "red"
                     self.stop_motors()
