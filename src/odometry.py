@@ -47,13 +47,13 @@ class Odometry:
 
             if 6.28319 >= angle_alpha >= 6.10865 or 0 <= angle_alpha <= 0.174533:  # when the way is straight
                 distance_s = d_l
-                if self.direction == 0:  # maybe better to work with arc // precise values better
+                if 0 <= self.line_of_sight < 0.785398 or 6.28319 >= self.line_of_sight > 5.49778:  # maybe better to work with arc // precise values better
                     delta_y = delta_y + distance_s
-                elif self.direction == 180:
+                elif  0.785398 <= self.line_of_sight < 2.35619:
                     delta_y = delta_y - distance_s
-                elif self.direction == 90:
+                elif 2.35619 <= self.line_of_sight < 3.92699:
                     delta_x = delta_x + distance_s
-                elif self.direction == 270:
+                elif 3.92699 <= self.line_of_sight < 5.49779:
                     delta_x = delta_x - distance_s
             else:
                 distance_s = (d_r + d_l) / angle_alpha * math.sin(angle_beta)
@@ -65,7 +65,7 @@ class Odometry:
 
         self.coordinate_x = self.coordinate_x + round(delta_x / 50)
         self.coordinate_y = self.coordinate_y + round(delta_y / 50)
-        self.direction = round(self.line_of_sight * 57.2958) % 360
+        self.direction = round(-self.line_of_sight * 57.2958) % 360
 
         if(0 <= self.direction < 45 or 360 >= self.direction > 315):
             self.direction = 0
