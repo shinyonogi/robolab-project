@@ -133,7 +133,7 @@ class Planet:
 
         shortest_path_dictionary = {}
 
-        for i in self.path_dictionary:
+        for i in self.path_dictionary: #makes a dictionary of empty lists
             for j in self.path_dictionary:
                 shortest_path_dictionary[(i, j)] = dict([(0, [])])
 
