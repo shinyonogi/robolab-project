@@ -31,6 +31,7 @@ class Communication:
         self.planet_topic = f"planet/none/{group_id}"  # Used for: path, pathSelect, pathUnveiled, target
 
         self.planet_data = None
+        self.path = None
         self.path_select = None
         self.target = None
 
@@ -79,6 +80,9 @@ class Communication:
                 path_status = m_payload["pathStatus"]  # TODO: do we add this to Planet?
                 path_weight = m_payload["weight"]
 
+                if m_type == "path":
+                    self.path = m_payload
+
                 self.planet.add_path(((Xs, Ys), Ds), ((Xe, Ye), De), path_weight)
             elif m_type == "pathSelect":
                 self.path_select = payload
@@ -93,6 +97,9 @@ class Communication:
 
     def reset_target(self):
         self.target = None
+
+    def reset_path(self):
+        self.path = None
 
     # DO NOT EDIT THE METHOD SIGNATURE
     #
