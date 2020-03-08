@@ -84,14 +84,43 @@ class Explorer:
 
     def start_exploration(self):
         self.logger.info("Explorer starting")
+        prev_coords, prev_direction = self.odometry.calc_coord()
         while True:
             blocked, color = self.drive_to_next_square()
-            self.stop_motors()
-            self.logger.debug(self.odometry.calc_coord())
-            self.odometry.clear_stack()
-            self.run_motors(self.target_power, self.target_power)
-            time.sleep(1)
-            # self.scan_for_paths()
+            coords, direction = self.odometry.calc_coord()
+            self.logger.debug((coords, direction))
+
+            if True:  # TODO: check if square is not in planet
+                self.drive_off_square()
+                path_at_angles = self.scan_for_paths(direction)
+                # self.communication.path_message(prev_coords[0], prev_coords[1], prev_direction, coords[0], coords[1], direction, "blocked" if blocked else "free")
+                #
+                # path_answer = None
+                # while not path_answer:
+                #     path_answer = self.communication.path
+                #     time.sleep(0.25)
+                #
+                # if path_answer.get("endX") != coords[0]:
+                #     coords = (path_answer.get("endX"), coords[1])
+                #
+                # if path_answer.get("endY") != coords[1]:
+                #     coords = (coords[0], path_answer.get("endY"))
+
+            prev_coords, prev_direction = coords, direction
+
+    def drive_off_square(self):
+        """Drive off a colored square using the color sensor. The robot stops after when it only detects black or white.
+
+        This method is called after a square was discovered.
+        """
+        self.run_motors(self.target_power - 5, self.target_power - 5)
+
+        color_val = 2
+        while color_val == 2 or color_val == 5:
+            color_val = self.color_sensor.value()
+            time.sleep(1)  # TODO: find a better way?
+
+        self.stop_motors()
 
     def drive_to_next_square(self):
         """Drive the robot along the path using a PID controller, until it reaches a colored square.
@@ -105,8 +134,6 @@ class Explorer:
         # Setup hardware
         self.color_sensor.mode = "RGB-RAW"  # Measure RGB values
         self.us_sensor.mode = "US-DIST-CM"  # Measure distance in cm
-        self.motor_right.stop_action = "coast"
-        self.motor_left.stop_action = "coast"
 
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
         k_p = 0.11  # Proportional constant
@@ -187,7 +214,7 @@ class Explorer:
         self.motor_right.stop()
         self.motor_left.stop()
 
-    def scan_for_paths(self):
+    def scan_for_paths(self, start_direction):
         """Make the robot do a 360 degree rotation and detect outgoing paths.
 
         This method is called after we've detected a (yet undiscovered) square.
@@ -197,26 +224,12 @@ class Explorer:
 
         self.color_sensor.mode = "COL-COLOR"
 
-        # Drive until we detect either white or black, which means our robot sits directly on the square
-        self.run_motors(self.target_power - 5, self.target_power - 5)
-
-        color_val = 2
-        while color_val == 2 or color_val == 5:
-            color_val = self.color_sensor.value()
-            time.sleep(0.2)  # TODO: find a better way?
-
-        self.stop_motors()
-        time.sleep(0.75)
-
-        started_at_degrees = 1  # TODO: get current orientation from odometry here
-
         self.run_motors(self.target_power - 5, - self.target_power - 5)
-
-        current_degrees = 1  # TODO: this is a placeholder for some odometry method call inside the while condition
 
         path_at_angles = []
         counter = 0
-        while current_degrees < started_at_degrees + 360:
+        current_coords, current_direction = self.odometry.calc_coord()
+        while current_direction <= start_direction + 360:
             color = self.color_sensor.value()
             if color == 1:  # black
                 counter += 1
@@ -227,13 +240,14 @@ class Explorer:
                 pass
             else:
                 counter = 0
-            current_degrees += 5  # TODO: remove this when odometry is good
             if counter >= 2:
                 # TODO: make sure we don't add the same path twice with slightly different angles
-                self.logger.debug("Path found at %s" % (current_degrees - started_at_degrees))
-                path_at_angles.append(current_degrees - started_at_degrees)
+                # self.logger.debug("Path found at %s" % (current_direction - start_direction))
+                path_at_angles.append(current_direction - start_direction)
+            self.odometry.motorg_stack()
+            current_coords, current_direction = self.odometry.calc_coord()
             time.sleep(0.1)  # TODO: this might be too high
 
+        self.odometry.clear_stack()
         self.stop_motors()
-        self.color_sensor.mode = "RGB-RAW"
         return path_at_angles
