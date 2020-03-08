@@ -165,7 +165,7 @@ class Communication:
             }
         }
 
-        self.send_message(self.topic, message)
+        self.send_message(self.planet_topic, message)
 
     def path_select_message(self, Xs, Ys, Ds):
         message = {
@@ -178,7 +178,7 @@ class Communication:
             }
         }
 
-        self.send_message(self.topic, message)
+        self.send_message(self.planet_topic, message)
 
     def target_reached_message(self):
         message = {
@@ -189,7 +189,7 @@ class Communication:
             }
         }
 
-        self.send_message(self.topic, message)
+        self.send_message(self.planet_topic, message)
 
     def exploration_completed_message(self):
         message = {
