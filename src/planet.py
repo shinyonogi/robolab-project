@@ -141,7 +141,7 @@ class Planet:
             for j in self.path_dictionary:
                 shortest_path_dictionary[(i, j)][1] = []
 
-        for i in self.path_dictionary:
+        for i in self.path_dictionary: #adds the paths that are next to each other as shortest path 
             for d in Direction:
                 try:
                     j = self.path_dictionary[i][d][0]
