@@ -13,12 +13,12 @@ class Odometry:
     def __init__(self, logger, motor_right, motor_left):
         self.logger = logger
 
-        self.line_of_sight = None
-        self.direction = None
-        self.coordinate_x = None
-        self.coordinate_y = None
+        self.line_of_sight = 0
+        self.direction = 0
+        self.coordinate_x = 0
+        self.coordinate_y = 0
 
-        self.angle = None
+        self.angle = 0
         self.distance_cm_x = 0
         self.distance_cm_y = 0
 
@@ -33,6 +33,8 @@ class Odometry:
     def set_start_coord(self, coordinate, direction):
         self.coordinate_x = coordinate[0]
         self.coordinate_y = coordinate[1]
+        self.distance_cm_x = 0
+        self.distance_cm_y = 0
         self.angle = direction
         self.direction = direction
         self.line_of_sight = direction / 57.2958  # angle -> arc
@@ -104,7 +106,7 @@ class Odometry:
         delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
         delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
 
-        if delta_motor_left > 180:
+        if delta_motor_left >= 360 or delta_motor_right >= 360:
             self.motor_stack.append([delta_motor_left, delta_motor_right])
             self.motor_position_left = self.motor_left.position
             self.motor_position_right = self.motor_right.position
