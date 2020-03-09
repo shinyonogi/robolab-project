@@ -83,19 +83,28 @@ class Explorer:
             time.sleep(0.1)
         return (min(r), sum(r) / len(r), max(r)), (min(g), sum(g) / len(g), max(g)), (min(b), sum(b) / len(b), max(b))
 
-    def start_exploration(self):
+    def start_exploration(self, start_coord, start_direction):
         self.logger.info("Explorer starting")
         prev_coords, prev_direction = self.odometry.calc_coord()
+        is_first_square = True
         while True:
             blocked, color = self.drive_to_next_square()
+
+            if is_first_square:
+                self.odometry.set_start_coord(start_coord, start_direction)
+                self.odometry.clear_motor_stack()
+
             coords, direction = self.odometry.calc_coord()
+            self.odometry.clear_motor_stack()
+
             self.logger.debug((coords, direction))
             self.logger.debug("X: %s, Y: %s, Angle: %s" % (self.odometry.distance_cm_x, self.odometry.distance_cm_y, self.odometry.angle))
-            self.odometry.clear_motor_stack()
 
             if True:  # TODO: check if square is not in planet
                 self.drive_off_square()
                 self.odometry.update_motor_stack()
+                is_first_square = False
+
                 # path_at_angles = self.scan_for_paths(direction)
                 # self.communication.path_message(prev_coords[0], prev_coords[1], prev_direction, coords[0], coords[1], direction, "blocked" if blocked else "free")
                 #
@@ -147,11 +156,8 @@ class Explorer:
         k_d = 0.04  # Derivative constant
         last_error = 0  # Error value of last loop
 
-        red_counter = 0  # Counts the amount of consecutive red-detections
-        blue_counter = 0  # Does the same for blue
-
         while True:
-            self.odometry.update_motor_stack()  # TODO: only call this in the exploration loop?
+            self.odometry.update_motor_stack()
 
             if self.us_sensor.distance_centimeters < 15:
                 blocked = True

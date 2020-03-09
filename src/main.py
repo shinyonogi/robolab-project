@@ -38,7 +38,8 @@ def run():
     # THE EXECUTION OF ALL CODE SHALL BE STARTED FROM WITHIN THIS FUNCTION.
     # ADD YOUR OWN IMPLEMENTATION HEREAFTER.
 
-    logger.addHandler(logging.StreamHandler(sys.stdout))
+    custom_logger = logging.getLogger("Explorer")
+    custom_logger.addHandler(logging.StreamHandler(sys.stdout))
 
     # Config variables
     group_id = "004"
@@ -60,32 +61,31 @@ def run():
 
     planet = Planet()
     communication = Communication(client, logger, planet, group_id)
-    odometry = Odometry(logger, motor_right, motor_left)
-    expression = Expression(logger, screen, led, speaker)
-    explorer = Explorer(logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor)
+    odometry = Odometry(custom_logger, motor_right, motor_left)
+    expression = Expression(custom_logger, screen, led, speaker)
+    explorer = Explorer(custom_logger, communication, odometry, planet, expression, motor_right, motor_left, color_sensor, us_sensor)
 
     communication.connect(group_id, group_pwd)
 
     while True:
-        logger.info("Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit")
+        custom_logger.info("Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit")
         cmd = input("Please enter command: ")
         if cmd == "s":
             communication.ready_message()  # Ask mothership for planet data
-            logger.info("Waiting for planet data")
+            custom_logger.info("Waiting for planet data")
 
             planet_data = None
             while not planet_data:
                 planet_data = communication.planet_data
                 time.sleep(0.1)
 
-            logger.info("Our planet is called %s" % planet_data["planetName"])
+            custom_logger.info("Our planet is called %s" % planet_data["planetName"])
 
-            odometry.set_start_coord((planet_data["startX"], planet_data["startY"]), planet_data["startOrientation"])
+            explorer.start_exploration((planet_data["startX"], planet_data["startY"]), planet_data["startOrientation"])
 
-            explorer.start_exploration()
         elif cmd == "r":
             explorer.run_motors(50, 50)
-            logger.info("Press enter to stop")
+            custom_logger.info("Press enter to stop")
             input()
             explorer.stop_motors()
         elif cmd == "t":
