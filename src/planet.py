@@ -37,7 +37,8 @@ class Planet:
         self.target = None
         self.path_dictionary = {}  # All paths get saved in this dictionary
 
-        self.depth_first_stack = []
+        self.depth_first_stack = {}
+        self.depth_first_reached = {}
 
 
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction],
@@ -203,3 +204,24 @@ class Planet:
         else:
             return None
 
+
+    def depth_first_add_stack(self, start, direction):
+
+        if not (start in self.path_dictionary and direction in self.path_dictionary[start]) or start in self.depth_first_reached:
+            self.depth_first_stack[start] = []
+            self.depth_first_stack[start].append(direction)
+        
+        
+    def depth_first_search(self, start):
+
+        for i in self.depth_first_stack:
+            for d in Direction:
+                try:
+                    if(d in self.depth_first_reached[target]):
+                        continue
+                    else:
+                        return Planet.shortesdt_path((start, target))
+                except KeyError as e:
+                    continue
+
+        return None
