@@ -227,5 +227,10 @@ class RoboLabPlanetTests(unittest.TestCase):
         self.assertIsNone(test_shortest_path)
 
 
+    def test_coordinate_existant(self):
+
+        print(self.planet.coordinate_existent((1, 1)))
+
+
 if __name__ == "__main__":
     unittest.main()

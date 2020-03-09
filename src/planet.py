@@ -37,6 +37,9 @@ class Planet:
         self.target = None
         self.path_dictionary = {}  # All paths get saved in this dictionary
 
+        self.depth_first_stack = []
+
+
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction],
                  weight: int):
         """
@@ -193,4 +196,10 @@ class Planet:
         return sorted_shortest_path 
 
 
-    def depth_first_search(start, )
+    def coordinate_existent(self, start):
+
+        if(start in self.path_dictionary):
+            return self.path_dictionary[start]
+        else:
+            return None
+
