@@ -36,8 +36,8 @@ class Explorer:
         self.expression = expression
 
         self.target_power = 20  # Our optimal target power level is 20%
-        # self.red_rb_range = ((120, 140), (10, 30))  # Hard-Coded defaults recorded in daylight on Piech
-        # self.blue_rb_range = ((30, 50), (80, 110))
+        # self.red_rb_range = ((120, 150), (10, 30))  # Hard-Coded defaults recorded in daylight on Piech
+        # self.blue_rb_range = ((30, 50), (90, 110))
         self.red_rb_range = ((100, 140), (10, 30))  # Hard-Coded defaults recorded on Hasselhoff
         self.blue_rb_range = ((20, 50), (80, 100))
 
@@ -86,56 +86,67 @@ class Explorer:
     def start_exploration(self, start_coord, start_direction):
         self.logger.info("Explorer starting")
         prev_coords, prev_direction = self.odometry.calc_coord()
-        is_first_square = True
+        is_first_point = True
         while True:
-            blocked, color = self.drive_to_next_square()
+            blocked, color = self.drive_to_next_point()
 
-            if is_first_square:
+            if is_first_point:
                 self.odometry.set_start_coord(start_coord, start_direction)
                 self.odometry.clear_motor_stack()
 
             coords, direction = self.odometry.calc_coord()
             self.odometry.clear_motor_stack()
 
-            self.logger.debug((coords, direction))
-            self.logger.debug("X: %s, Y: %s, Angle: %s" % (self.odometry.distance_cm_x, self.odometry.distance_cm_y, self.odometry.angle))
+            self.logger.debug("Coords: %s, Direction: %s, DeltaX: %s, DeltaY: %s, Angle: %s" % (
+                coords,
+                direction,
+                self.odometry.distance_cm_x,
+                self.odometry.distance_cm_y,
+                self.odometry.angle))
 
-            if True:  # TODO: check if square is not in planet
-                self.drive_off_square()
-                self.odometry.update_motor_stack()
-                is_first_square = False
+            self.drive_off_point()
 
-                # path_at_angles = self.scan_for_paths(direction)
-                # self.communication.path_message(prev_coords[0], prev_coords[1], prev_direction, coords[0], coords[1], direction, "blocked" if blocked else "free")
-                #
-                # path_answer = None
-                # while not path_answer:
-                #     path_answer = self.communication.path
-                #     time.sleep(0.25)
-                #
-                # if path_answer.get("endX") != coords[0]:
-                #     coords = (path_answer.get("endX"), coords[1])
-                #
-                # if path_answer.get("endY") != coords[1]:
-                #     coords = (coords[0], path_answer.get("endY"))
+            point = self.planet.coordinate_existent(coords)
+            paths_from_point = []
+            if not point or point and len(point.keys()) < 4:
+                paths_from_point = self.scan_for_paths()
+                self.logger.debug(self.odometry.angle)
+                self.logger.debug(paths_from_point)
+
+            if not is_first_point:  # TODO: is this correct? idk
+                self.communication.path_message(
+                    prev_coords[0], prev_coords[1], prev_direction,
+                    coords[0], coords[1], direction - 180,
+                    "blocked" if blocked else "free")
+
+                path = None
+                while not path:
+                    path = self.communication.path
+                    time.sleep(0.1)
+
+                # TODO: do stuff with path answer
+                self.communication.reset_path()
+
+                # TODO: do path select here
+
+                # Wait for three seconds in case of further communication (pathUnveiled, target, ...?)
+                for i in range(13):
+                    time.sleep(0.25)
+            else:
+                is_first_point = False
 
             prev_coords, prev_direction = coords, direction
 
-    def drive_off_square(self):
+    def drive_off_point(self):
         """Drive off a colored square using the color sensor. The robot stops after when it only detects black or white.
 
-        This method is called after a square was discovered.
+        This method is called after a point was discovered.
         """
         self.run_motors(self.target_power - 5, self.target_power - 5)
-
-        color_val = 2
-        while color_val == 2 or color_val == 5:
-            color_val = self.color_sensor.value()
-            time.sleep(1)  # TODO: find a better way?
-
+        time.sleep(2.5)  # TODO: replace with odometry stuff
         self.stop_motors()
 
-    def drive_to_next_square(self):
+    def drive_to_next_point(self):
         """Drive the robot along the path using a PID controller, until it reaches a colored square.
 
         Returns a tuple of properties, e.g. if the path was blocked and what color the target square is.
@@ -220,38 +231,46 @@ class Explorer:
         pass
 
     def run_motors(self, tp_right, tp_left):
-        self.motor_right.duty_cycle_sp = tp_right + 2
-        self.motor_left.duty_cycle_sp = tp_left
+        # Make sure the provided powers are in the range 0 - 100
+        tp_right = -100 if tp_right < -100 else 100 if tp_right > 100 else tp_right
+        tp_left = -100 if tp_left < -100 else 100 if tp_left > 100 else tp_left
+        self.motor_right.duty_cycle_sp = tp_right
+        self.motor_left.duty_cycle_sp = tp_left + 2
         self.motor_left.command = "run-direct"
         self.motor_right.command = "run-direct"
 
     def stop_motors(self):
-        self.logger.debug("Stopping motors")
+        # self.logger.debug("Stopping motors")
         self.motor_right.stop()
         self.motor_left.stop()
 
-    def scan_for_paths(self, start_direction):
+    def reset_motors(self):
+        # self.logger.debug("Resetting motors")
+        self.motor_right.reset()
+        self.motor_left.reset()
+
+    def scan_for_paths(self):
         """Make the robot do a 360 degree rotation and detect outgoing paths.
 
-        This method is called after we've detected a (yet undiscovered) square.
+        This method is called after we've detected a (yet undiscovered) point.
         The result is returned as a list of directions.
         """
-        self.logger.info("Scanning for paths")
-
         self.color_sensor.mode = "COL-COLOR"
 
         self.run_motors(self.target_power - 5, - self.target_power - 5)
 
         path_at_angles = []
         counter = 0
-        current_coords, current_direction = self.odometry.calc_coord()
-        while current_direction <= start_direction + 360:
+        rotation = 0
+        start_angle = self.odometry.angle
+        while rotation <= 360:
             color = self.color_sensor.value()
             if color == 1:  # black
                 counter += 1
             elif color == 2:  # blue, likely this is actually black
                 # TODO: maybe only do this when we're on a red square, just to be safe?
-                counter += 1
+                # counter += 1
+                pass
             elif color == 5:  # red
                 pass
             else:
@@ -259,9 +278,8 @@ class Explorer:
             if counter >= 2:
                 # TODO: make sure we don't add the same path twice with slightly different angles
                 # self.logger.debug("Path found at %s" % (current_direction - start_direction))
-                path_at_angles.append(current_direction - start_direction)
-            self.odometry.update_motor_stack()
-            current_coords, current_direction = self.odometry.calc_coord()
+                path_at_angles.append(rotation)
+            rotation += 4
             time.sleep(0.1)  # TODO: this might be too high
 
         self.stop_motors()
