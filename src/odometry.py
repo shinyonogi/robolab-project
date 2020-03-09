@@ -116,3 +116,8 @@ class Odometry:
         self.motor_stack.clear()
 
 
+    def rotate_90(self):
+        delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
+
+        self.logger.debug("Motor_right: %s", delta_motor_right)
+
