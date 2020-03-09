@@ -75,13 +75,13 @@ class Odometry:
         self.distance_cm_x += round(delta_x)
         self.distance_cm_y += round(delta_y)
 
-        if 0 <= self.direction < 45 or 360 >= self.direction > 315:
+        if 0 <= self.angle < 45 or 360 >= self.angle > 315:
             self.direction = 0
-        elif 45 <= self.direction < 135:
+        elif 45 <= self.angle < 135:
             self.direction = 90
-        elif 135 <= self.direction < 225:
+        elif 135 <= self.angle < 225:
             self.direction = 180
-        elif 225 <= self.direction < 315:
+        elif 225 <= self.angle < 315:
             self.direction = 270
 
         return (self.coordinate_x, self.coordinate_y), self.direction
