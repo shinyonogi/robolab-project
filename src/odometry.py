@@ -18,6 +18,10 @@ class Odometry:
         self.coordinate_x = None
         self.coordinate_y = None
 
+        self.angle = None
+        self.distance_cm_x = 0
+        self.distance_cm_y = 0
+
         self.motor_right = motor_right
         self.motor_left = motor_left
 
@@ -29,6 +33,7 @@ class Odometry:
     def set_start_coord(self, coordinate, direction):
         self.coordinate_x = coordinate[0]
         self.coordinate_y = coordinate[1]
+        self.angle = direction
         self.direction = direction
         self.line_of_sight = direction / 57.2958  # angle -> arc
 
@@ -45,11 +50,11 @@ class Odometry:
             angle_alpha = (d_r - d_l) / distance_tire
             angle_beta = angle_alpha / 2
 
-            if(0 <= angle_alpha <= 0.174533 or angle_alpha >= -0.174533):  # when the way is straight
+            if 0 <= angle_alpha <= 0.174533 or angle_alpha >= -0.174533:  # when the way is straight
                 distance_s = d_l
-                if 0 <= self.line_of_sight % 6.28319  < 0.785398 or 6.28319 > self.line_of_sight % 6.28319 > 5.49778:  # maybe better to work with arc // precise values better
+                if 0 <= self.line_of_sight % 6.28319 < 0.785398 or 6.28319 > self.line_of_sight % 6.28319 > 5.49778:  # maybe better to work with arc // precise values better
                     delta_y = delta_y + distance_s
-                elif  0.785398 <= self.line_of_sight < 2.35619:
+                elif 0.785398 <= self.line_of_sight < 2.35619:
                     delta_y = delta_y - distance_s
                 elif 2.35619 <= self.line_of_sight < 3.92699:
                     delta_x = delta_x + distance_s
@@ -65,20 +70,24 @@ class Odometry:
 
         self.coordinate_x = self.coordinate_x + round(delta_x / 50)
         self.coordinate_y = self.coordinate_y + round(delta_y / 50)
-        self.direction = round(-self.line_of_sight * 57.2958) % 360
+        self.angle = round(-self.line_of_sight * 57.2958) % 360
 
-        if(0 <= self.direction < 45 or 360 >= self.direction > 315):
+        self.distance_cm_x += round(delta_x)
+        self.distance_cm_y += round(delta_y)
+
+        if 0 <= self.direction < 45 or 360 >= self.direction > 315:
             self.direction = 0
-        elif(45 <= self.direction < 135):
+        elif 45 <= self.direction < 135:
             self.direction = 90
-        elif(135 <= self.direction < 225):
+        elif 135 <= self.direction < 225:
             self.direction = 180
-        elif(225 <= self.direction < 315):
+        elif 225 <= self.direction < 315:
             self.direction = 270
 
-        return ((self.coordinate_x, self.coordinate_y), self.direction)
+        return (self.coordinate_x, self.coordinate_y), self.direction
 
-    def distance_per_tick(self, motor_spin):
+    @staticmethod
+    def distance_per_tick(motor_spin):
         radius = 2.8
         circumference = 2 * radius * math.pi
         motor_spin = motor_spin * (circumference / 360)
@@ -89,17 +98,17 @@ class Odometry:
         self.direction = direction
         self.coordinate_x = coordinate_x
         self.coordinate_y = coordinate_y
-        self.motor_stack = []
+        self.motor_stack.clear()
 
-    def motorg_stack(self):
+    def update_motor_stack(self):
         delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
         delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
 
         if delta_motor_left > 360:
             self.motor_stack.append([delta_motor_left, delta_motor_right])
-            self.motor_position_left = self.motor_left.position 
+            self.motor_position_left = self.motor_left.position
             self.motor_position_right = self.motor_right.position
             # self.logger.debug("pos_left: %s, pos_right: %s, delta_left: %s, delta_right: %s" % (self.motor_position_left, self.motor_position_right, delta_motor_left, delta_motor_right))
 
-    def clear_stack(self):
+    def clear_motor_stack(self):
         self.motor_stack.clear()

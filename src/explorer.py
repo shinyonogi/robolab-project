@@ -90,10 +90,13 @@ class Explorer:
             blocked, color = self.drive_to_next_square()
             coords, direction = self.odometry.calc_coord()
             self.logger.debug((coords, direction))
+            self.logger.debug("X: %s, Y: %s, Angle: %s" % (self.odometry.distance_cm_x, self.odometry.distance_cm_y, self.odometry.angle))
+            self.odometry.clear_motor_stack()
 
             if True:  # TODO: check if square is not in planet
                 self.drive_off_square()
-                path_at_angles = self.scan_for_paths(direction)
+                self.odometry.update_motor_stack()
+                # path_at_angles = self.scan_for_paths(direction)
                 # self.communication.path_message(prev_coords[0], prev_coords[1], prev_direction, coords[0], coords[1], direction, "blocked" if blocked else "free")
                 #
                 # path_answer = None
@@ -148,7 +151,7 @@ class Explorer:
         blue_counter = 0  # Does the same for blue
 
         while True:
-            self.odometry.motorg_stack()  # TODO: only call this in the exploration loop?
+            self.odometry.update_motor_stack()  # TODO: only call this in the exploration loop?
 
             if self.us_sensor.distance_centimeters < 15:
                 blocked = True
@@ -168,20 +171,26 @@ class Explorer:
                 self.logger.debug("Detected RED")
                 # With a calibrated sensor we cas assume we're on a colored square after it was detected for two loops
                 # TODO: instead, maybe stop and do a short (30 Degree) turn in each direction and scan for colors?
-                if red_counter >= 2:
-                    square_color = "red"
-                    self.stop_motors()
-                    break
-                else:
-                    red_counter += 1
+                # if red_counter >= 2:
+                #     square_color = "red"
+                #     self.stop_motors()
+                #     break
+                # else:
+                #     red_counter += 1
+                square_color = "red"
+                self.stop_motors()
+                break
             elif b_rb_range[0][0] <= r <= b_rb_range[0][1] and b_rb_range[1][0] <= b <= b_rb_range[1][1]:
                 self.logger.debug("Detected BLUE")
-                if blue_counter >= 2:
-                    square_color = "blue"
-                    self.stop_motors()
-                    break
-                else:
-                    blue_counter += 1
+                # if blue_counter >= 2:
+                #     square_color = "blue"
+                #     self.stop_motors()
+                #     break
+                # else:
+                #     blue_counter += 1
+                square_color = "blue"
+                self.stop_motors()
+                break
 
             # Calculate error, turn and motor powers
             error = gs - offset
@@ -245,10 +254,9 @@ class Explorer:
                 # TODO: make sure we don't add the same path twice with slightly different angles
                 # self.logger.debug("Path found at %s" % (current_direction - start_direction))
                 path_at_angles.append(current_direction - start_direction)
-            self.odometry.motorg_stack()
+            self.odometry.update_motor_stack()
             current_coords, current_direction = self.odometry.calc_coord()
             time.sleep(0.1)  # TODO: this might be too high
 
-        self.odometry.clear_stack()
         self.stop_motors()
         return path_at_angles
