@@ -120,13 +120,13 @@ class Odometry:
         delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
 
         if(delta_motor_right > 220 and delta_motor_right < 440):
-            self.logger.debug("90")
+            return 90
         elif(delta_motor_right > 440 and delta_motor_right < 660):
-            self.logger.debug("180")
+            return 180 
         elif(delta_motor_right > 660 and delta_motor_right < 880):
-            self.logger.debug("270")
+            return 270 
         elif(delta_motor_right > 880):
-            self.logger.debug("880")
+            return 360
 
         #self.logger.debug("Motor_right: %s" % delta_motor_right)
 
