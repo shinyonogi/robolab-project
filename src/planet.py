@@ -136,11 +136,8 @@ class Planet:
         for i in self.path_dictionary: #makes a dictionary of coordinates whic has 0 as a key and an empty list as a value
             for j in self.path_dictionary:
                 shortest_path_dictionary[(i, j)] = dict([(0, [])])
-
-        for i in self.path_dictionary: #adds an another key: 1 to the key: coordinate so that every coordinate has two values 
-            for j in self.path_dictionary:
-                shortest_path_dictionary[(i, j)][1] = []
-
+                shortest_path_dictionary[(i, j)][1] = [] #adds an another key: 1 to the key: coordinate so that every coordinate has two values
+ 
         for i in self.path_dictionary: #adds the paths that are next to each other as shortest path 
             for d in Direction:
                 try:
