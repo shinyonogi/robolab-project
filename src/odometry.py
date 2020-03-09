@@ -54,11 +54,11 @@ class Odometry:
                 distance_s = d_l
                 if 0 <= self.line_of_sight % 6.28319 < 0.785398 or 6.28319 > self.line_of_sight % 6.28319 > 5.49778:  # maybe better to work with arc // precise values better
                     delta_y = delta_y + distance_s
-                elif 0.785398 <= self.line_of_sight < 2.35619:
+                elif 0.785398 <= self.line_of_sight % 6.28319 < 2.35619:
                     delta_y = delta_y - distance_s
-                elif 2.35619 <= self.line_of_sight < 3.92699:
+                elif 2.35619 <= self.line_of_sight % 6.28319 < 3.92699:
                     delta_x = delta_x + distance_s
-                elif 3.92699 <= self.line_of_sight < 5.49779:
+                elif 3.92699 <= self.line_of_sight % 6.28319 < 5.49779:
                     delta_x = delta_x - distance_s
             else:
                 distance_s = (d_r + d_l) / angle_alpha * math.sin(angle_beta)
