@@ -53,14 +53,13 @@ class Explorer:
         self.logger.info("Starting calibration")
 
         for color in ["red", "blue"]:
-            input("Please place the robot's color sensor on a %s square,\
-                  then press enter and slightly move it around on the square for five seconds." % color)
+            input("Please place the robot's color sensor on a %s square, then press enter and slightly move it around on the square for five seconds." % color)
             cal = self.record_min_max_color()
             rb_range = (
                     (round_ten(cal[0][0], True), round_ten(cal[0][2])),
                     (round_ten(cal[2][0], True), round_ten(cal[2][2]))
                 )
-            self.logger.debug("Range is: ", rb_range)
+            self.logger.debug("Range is: %s " % str(rb_range))
             if color == "red":
                 self.red_rb_range = rb_range
             else:
