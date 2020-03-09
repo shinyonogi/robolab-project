@@ -191,3 +191,6 @@ class Planet:
                             start = path_dictionary[start][d][0]
 
         return sorted_shortest_path 
+
+
+    def depth_first_search(start, )
