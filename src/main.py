@@ -54,10 +54,6 @@ def run():
     button = ev3.Button()
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
-    motor_right.reset()
-    motor_left.reset()
-    motor_right.stop_action = "coast"
-    motor_left.stop_action = "coast"
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
     gyro_sensor = ev3.GyroSensor(ev3.INPUT_3)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
@@ -78,6 +74,8 @@ def run():
         gyro_sensor,
         us_sensor,
     )
+    explorer.reset_motors()
+    explorer.reset_gyro()
 
     communication.connect(group_id, group_pwd)
 

@@ -30,14 +30,17 @@ class Odometry:
 
         self.motor_stack = []
 
-    def set_start_coord(self, coordinate, direction):
-        self.coordinate_x = coordinate[0]
-        self.coordinate_y = coordinate[1]
-        self.distance_cm_x = 0
-        self.distance_cm_y = 0
-        self.angle = direction
-        self.direction = direction
-        self.line_of_sight = direction / 57.2958  # angle -> arc
+    def set_coord(self, coordinate, direction):
+        if coordinate:
+            self.coordinate_x = coordinate[0]
+            self.coordinate_y = coordinate[1]
+            self.distance_cm_x = 0
+            self.distance_cm_y = 0
+
+        if direction:
+            self.angle = direction
+            self.direction = direction
+            self.line_of_sight = direction / 57.2958  # angle -> arc
 
     def calc_coord(self):
         distance_tire = 12
