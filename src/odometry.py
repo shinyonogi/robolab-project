@@ -104,7 +104,7 @@ class Odometry:
         delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
         delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
 
-        if delta_motor_left > 180:
+        if delta_motor_left > 540:
             self.motor_stack.append([delta_motor_left, delta_motor_right])
             self.motor_position_left = self.motor_left.position
             self.motor_position_right = self.motor_right.position
@@ -112,3 +112,5 @@ class Odometry:
 
     def clear_motor_stack(self):
         self.motor_stack.clear()
+
+
