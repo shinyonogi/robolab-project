@@ -229,7 +229,17 @@ class RoboLabPlanetTests(unittest.TestCase):
 
     def test_coordinate_existant(self):
 
-        print(self.planet.coordinate_existent((1, 1)))
+        self.assertIsNotNone(self.planet.coordinate_existent((1, 1)))
+        
+
+    def test_depth_first_search(self):
+
+        self.planet.depth_first_add_stack((1, 1), Direction.NORTH)
+        self.planet.depth_first_add_stack((1, 1), Direction.EAST)
+
+        print(self.planet.depth_first_stack)
+
+        print(self.planet.depth_first_search((1, 1)))
 
 
 if __name__ == "__main__":

@@ -206,22 +206,36 @@ class Planet:
 
 
     def depth_first_add_stack(self, start, direction):
-
-        if not (start in self.path_dictionary and direction in self.path_dictionary[start]) or start in self.depth_first_reached:
+        
+        if start in self.depth_first_stack:
+            self.depth_first_stack[start].append(direction)
+        else:
             self.depth_first_stack[start] = []
+            self.depth_first_reached[start] = []
             self.depth_first_stack[start].append(direction)
         
         
     def depth_first_search(self, start):
 
+        target = ()
+
         for i in self.depth_first_stack:
             for d in Direction:
-                try:
-                    if(d in self.depth_first_reached[target]):
+                if(d in self.depth_first_stack[i]):
+                    if(d in self.depth_first_reached[i]):
                         continue
                     else:
-                        return Planet.shortesdt_path((start, target))
-                except KeyError as e:
+                        target = ((i), d)
+                        if not(i in self.depth_first_reached):
+                            self.depth_first_reached[i] = []
+                        self.depth_first_reached[i].append(i)
+                else:
                     continue
 
-        return None
+        if(target != ()):
+            if(start == target):
+                return [target]
+            else:
+                return Planet.shortest_path(start, target)
+        else:
+            return None
