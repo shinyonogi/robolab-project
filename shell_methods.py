@@ -8,20 +8,27 @@ import time
 
 m_right = ev3.LargeMotor(ev3.OUTPUT_A)
 m_left = ev3.LargeMotor(ev3.OUTPUT_D)
-m_right.stop_action = ev3.LargeMotor.STOP_ACTION_COAST
-m_left.stop_action = ev3.LargeMotor.STOP_ACTION_COAST
 
 cs = ev3.ColorSensor(ev3.INPUT_1)
 cs.mode = ev3.ColorSensor.MODE_RGB_RAW
 
 us = ev3.UltrasonicSensor(ev3.INPUT_4)
-cs.mode = ev3.UltrasonicSensor.MODE_US_DIST_CM
+us.mode = ev3.UltrasonicSensor.MODE_US_DIST_CM
+
+gs = ev3.GyroSensor(ev3.INPUT_2)
+gs.mode = ev3.GyroSensor.MODE_GYRO_RATE
+gs.mode = ev3.GyroSensor.MODE_GYRO_ANG
 
 
 def reset():
     # Reset motors
     m_right.reset()
     m_left.reset()
+    m_right.stop_action = ev3.LargeMotor.STOP_ACTION_COAST
+    m_left.stop_action = ev3.LargeMotor.STOP_ACTION_COAST
+    # Reset gyro sensor
+    gs.mode = ev3.GyroSensor.MODE_GYRO_RATE
+    gs.mode = ev3.GyroSensor.MODE_GYRO_ANG
 
 
 reset()
@@ -33,12 +40,21 @@ def stop():
     m_right.stop()
 
 
-def drive(sp_left=30, sp_right=30):
+def drive(sp_right=25, sp_left=25):
     # Drive using duty cycle
-    m_left.duty_cycle_sp = sp_left
     m_right.duty_cycle_sp = sp_right
-    m_left.command = "run-direct"
+    m_left.duty_cycle_sp = sp_left
     m_right.command = "run-direct"
+    m_left.command = "run-direct"
+
+
+def do_360(sp_right=-25, sp_left=25):
+    reset()
+    drive(sp_right, sp_left)
+    while gs.angle < 360:
+        time.sleep(0.1)
+    stop()
+    reset()
 
 
 def rgb_to_grayscale(red, green, blue):
