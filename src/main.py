@@ -99,18 +99,6 @@ def run():
                 (planet_data["startX"], planet_data["startY"]),
                 planet_data["startOrientation"],
             )
-        elif cmd == "spin":
-            explorer.run_motors(20, -20)
-            angle = 0
-            while angle < 330:
-                odometry.calc_coord()
-                angle = odometry.angle
-                custom_logger.debug(angle)
-                odometry.update_motor_stack()
-
-            odometry.clear_motor_stack()
-            explorer.stop_motors()
-            explorer.reset_motors()
         elif cmd == "r":
             explorer.run_motors(50, 50)
             custom_logger.info("Press enter to stop")
