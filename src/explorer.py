@@ -36,8 +36,10 @@ class Explorer:
         self.expression = expression
 
         self.target_power = 20  # Our optimal target power level is 20%
-        self.red_rb_range = ((120, 140), (10, 30))  # Hard-Coded defaults recorded in daylight on Piech
-        self.blue_rb_range = ((30, 50), (80, 110))
+        # self.red_rb_range = ((120, 140), (10, 30))  # Hard-Coded defaults recorded in daylight on Piech
+        # self.blue_rb_range = ((30, 50), (80, 110))
+        self.red_rb_range = ((100, 140), (10, 30))  # Hard-Coded defaults recorded on Hasselhoff
+        self.blue_rb_range = ((20, 50), (80, 100))
 
         self.logger.info("Explorer initialized and ready")
 
