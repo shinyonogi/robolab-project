@@ -128,5 +128,5 @@ class Odometry:
         elif(delta_motor_right > 880):
             self.logger.debug("880")
 
-        self.logger.debug("Motor_right: %s" % delta_motor_right)
+        #self.logger.debug("Motor_right: %s" % delta_motor_right)
 
