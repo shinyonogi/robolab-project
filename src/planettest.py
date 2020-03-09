@@ -153,7 +153,7 @@ class RoboLabPlanetTests(unittest.TestCase):
         """
         This test should check that an empty planet really is empty
         """
-        empty_planet = Planet()
+        empty_planet = Planet() #initializes an empty planet 
 
         self.assertEqual(empty_planet.get_paths(), {})
 
@@ -177,7 +177,7 @@ class RoboLabPlanetTests(unittest.TestCase):
         """
         test_shortest_path = self.planet.shortest_path((1, 1), (6, 5))
 
-        self.assertEqual(test_shortest_path, [])
+        self.assertIsNone(test_shortest_path)
 
     def test_same_length(self):
         """
@@ -224,7 +224,7 @@ class RoboLabPlanetTests(unittest.TestCase):
         """
         test_shortest_path = self.planet.shortest_path((1, 5), (6, 5))
 
-        self.assertEqual(test_shortest_path, [])
+        self.assertIsNone(test_shortest_path)
 
 
 if __name__ == "__main__":
