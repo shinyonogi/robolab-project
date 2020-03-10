@@ -111,7 +111,8 @@ class Explorer:
 
     def start_exploration(self, start_coord, start_direction):
         self.logger.info("Explorer starting")
-        prev_coords, prev_direction = self.odometry.calc_coord()
+        prev_coords, prev_arrive_direction = self.odometry.calc_coord()
+        prev_start_direction = prev_arrive_direction
         is_first_point = True
         while True:
             blocked, color = self.drive_to_next_point()
@@ -145,77 +146,69 @@ class Explorer:
                 self.reset_motors()
                 self.odometry.reset()
 
-            # if not is_first_point:  # TODO: is this correct? idk
-            if False:
+            if is_first_point:
+                remove_path = (direction - 180) % 360
+                if remove_path in paths:
+                    paths.remove(remove_path)  # Remove entry path
+                is_first_point = False
+            else:
                 self.communication.path_message(
                     prev_coords[0],
                     prev_coords[1],
-                    prev_direction,
+                    prev_start_direction,
                     coords[0],
                     coords[1],
-                    direction - 180,
+                    (direction - 180) % 360,
                     "blocked" if blocked else "free",
                 )
 
-                path = None
-                while not path:
-                    path = self.communication.path
+                path_answer = None
+                while not path_answer:
+                    path_answer = self.communication.path
                     time.sleep(0.1)
 
-                # TODO: do stuff with path answer
+                coords = (path_answer.get("endX"), path_answer.get("endY"))
+                self.logger.debug("Fixed coords %s" % str(coords))
+                self.odometry.set_coord(coords, None)
+
                 self.communication.reset_path()
-            else:
-                is_first_point = False
 
-            unexplored_paths = []
             for p in paths:
-                if point and Direction(p) in point:  # Check if point dict has direction key
-                    if point.get(Direction(p)) is None:  # If key exists but its value is None, the path is unexplored
-                        unexplored_paths.append(p)
-                else:
-                    unexplored_paths.append(p)  # Path is not in point dict and therefore not explored
+                self.planet.depth_first_add_stack(coords, p)
 
-            self.logger.debug("Unexplored paths: %s" % unexplored_paths)
+            dfs = self.planet.depth_first_search(coords)
 
-            # TODO: if all paths explored -> DFS? to closest point with unexplored paths
-
-            chosen_path = None
-            if direction in unexplored_paths:
-                chosen_path = direction
-            else:
-                chosen_path = unexplored_paths[random.randint(0, len(unexplored_paths)-1)]
+            chosen_path = int(dfs[0][1])
 
             self.logger.debug("Chosen path: %s" % chosen_path)
-
-            # TODO: path select message
 
             self.communication.path_select_message(coords[0], coords[1], chosen_path)
 
             path_select_answer = None
-            while not path_select_answer:
+            for i in range(13):  # TODO: process other messages
                 path_select_answer = self.communication.path_select
+                if path_select_answer:
+                    break
+                time.sleep(0.25)
             self.communication.reset_path_select()
 
-            chosen_path = path_select_answer.get("startDirection")
+            if path_select_answer:
+                chosen_path = path_select_answer.get("startDirection")
 
             if chosen_path != direction:
-                self.rotate(chosen_path - direction)
+                self.rotate((direction - chosen_path) % 360)
                 self.odometry.set_coord(None, direction)
                 self.reset_motors()
                 self.odometry.reset()
 
-            # Wait for three seconds in case of further communication (pathUnveiled, target, ...?)
-            # for i in range(13):
-            #     time.sleep(0.25)
-
-            prev_coords, prev_direction = coords, direction
+            prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, chosen_path
 
     def rotate(self, degrees):
         self.reset_gyro()
         time.sleep(1)
-        gyro_start_angle = abs(self.gyro_sensor.angle)
+        gyro_start_angle = self.gyro_sensor.angle
         self.run_motors(self.target_power, -self.target_power)
-        while abs(self.gyro_sensor.angle) < gyro_start_angle + degrees:
+        while self.gyro_sensor.angle > gyro_start_angle - degrees:
             time.sleep(0.1)
         self.stop_motors()
 
