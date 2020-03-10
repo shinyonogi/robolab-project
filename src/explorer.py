@@ -110,6 +110,7 @@ class Explorer:
         )
 
     def start_exploration(self, start_coord, start_direction):
+    def start_exploration(self):
         self.logger.info("Explorer starting")
         prev_coords, prev_arrive_direction = self.odometry.calc_coord()
         prev_start_direction = prev_arrive_direction
@@ -117,8 +118,20 @@ class Explorer:
         while True:
             blocked, color = self.drive_to_next_point()
 
-            if is_first_point:
-                self.odometry.set_coord(start_coord, start_direction)
+            if is_first_point:  # Run if this is our "entry" point
+                self.logger.info("Sending ready-signal to mothership")
+                self.communication.ready_message()
+
+                planet_data = None
+                while not planet_data:  # Wait for answer from mothership
+                    planet_data = self.communication.planet_data
+                    time.sleep(0.1)
+
+                self.logger.info("Our planet is called %s" % planet_data["planetName"])
+                self.odometry.set_coord(
+                    (planet_data.get("startX"), planet_data.get("startY")),
+                    planet_data.get("startOrientation")
+                )  # Set our odometry coordinates to the data we just received from the mothership
                 self.odometry.clear_motor_stack()
 
             coords, direction = self.odometry.calc_coord()

@@ -85,20 +85,7 @@ def run():
         )
         cmd = input("Please enter command: ")
         if cmd == "s":
-            communication.ready_message()  # Ask mothership for planet data
-            custom_logger.info("Waiting for planet data")
-
-            planet_data = None
-            while not planet_data:
-                planet_data = communication.planet_data
-                time.sleep(0.1)
-
-            custom_logger.info("Our planet is called %s" % planet_data["planetName"])
-
-            explorer.start_exploration(
-                (planet_data["startX"], planet_data["startY"]),
-                planet_data["startOrientation"],
-            )
+            explorer.start_exploration()
         elif cmd == "r":
             explorer.run_motors(50, 50)
             custom_logger.info("Press enter to stop")
