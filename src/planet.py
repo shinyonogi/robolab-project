@@ -66,6 +66,13 @@ class Planet:
         else:
             self.path_dictionary[target[0]][target[1]] = (start[0], start[1], weight)
 
+
+        self.depth_first_add_stack(start[0], start[1])
+        self.depth_first_add_reached(start[0], start[1])
+        self.depth_first_add_stack(target[0], target[1])
+        self.depth_first_add_reached(target[0], target[1])
+
+
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
         """
         Returns all paths
@@ -206,13 +213,22 @@ class Planet:
 
 
     def depth_first_add_stack(self, start, direction):
+
+        #print(start, direction)
         
         if start in self.depth_first_stack:
-            self.depth_first_stack[start].append(direction)
+            if not direction in self.depth_first_stack[start]:
+                self.depth_first_stack[start].append(direction)
         else:
             self.depth_first_stack[start] = []
             self.depth_first_reached[start] = []
             self.depth_first_stack[start].append(direction)
+
+
+    def depth_first_add_reached(self, start, direction):
+
+        if not direction in self.depth_first_reached[start]:
+            self.depth_first_reached[start].append(direction)
         
         
     def depth_first_search(self, start):
@@ -228,14 +244,17 @@ class Planet:
                         target = ((i), d)
                         if not(i in self.depth_first_reached):
                             self.depth_first_reached[i] = []
-                        self.depth_first_reached[i].append(i)
+                        self.depth_first_reached[i].append(d)
+
+                        break
                 else:
                     continue
 
+
         if(target != ()):
-            if(start == target):
+            if(start == target[0]):
                 return [target]
             else:
-                return Planet.shortest_path(start, target)
+                return self.shortest_path(start, target)
         else:
             return None

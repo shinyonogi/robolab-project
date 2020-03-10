@@ -234,12 +234,24 @@ class RoboLabPlanetTests(unittest.TestCase):
 
     def test_depth_first_search(self):
 
-        self.planet.depth_first_add_stack((1, 1), Direction.NORTH)
-        self.planet.depth_first_add_stack((1, 1), Direction.EAST)
+        test_planet = Planet()
 
-        print(self.planet.depth_first_stack)
+        test_planet.depth_first_add_stack((1, 1), Direction.NORTH)
+        test_planet.depth_first_add_stack((1, 1), Direction.EAST)
 
-        print(self.planet.depth_first_search((1, 1)))
+        print(test_planet.depth_first_stack)
+
+        print(test_planet.depth_first_search((1, 1)))
+
+        test_planet.add_path(((1, 1), Direction.NORTH), ((1, 2), Direction.SOUTH), 1)
+
+        print("Stack: ", test_planet.depth_first_stack)
+        print("Reached: ", test_planet.depth_first_reached)
+
+        test_planet.depth_first_add_stack((1, 2), Direction.NORTH)
+        test_planet.depth_first_add_stack((1, 2), Direction.SOUTH)
+
+        print(test_planet.depth_first_search((1, 2)))
 
 
 if __name__ == "__main__":
