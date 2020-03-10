@@ -116,17 +116,17 @@ class Odometry:
         self.motor_stack.clear()
 
 
-    def rotate_90(self):
-        delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
+    #def rotate_90(self):
+        #delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
 
-        if(delta_motor_right >= 0 and delta_motor_right < 330):
-            return 90
-        elif(delta_motor_right >= 330 and delta_motor_right < 550):
-            return 180 
-        elif(delta_motor_right >= 550 and delta_motor_right < 770):
-            return 270 
-        elif(delta_motor_right >= 770):
-            return 360
+        #if(delta_motor_right >= 0 and delta_motor_right < 330):
+            #return 90
+        #elif(delta_motor_right >= 330 and delta_motor_right < 550):
+            #return 180 
+        #elif(delta_motor_right >= 550 and delta_motor_right < 770):
+            #return 270 
+        #elif(delta_motor_right >= 770):
+            #return 360
 
         #self.logger.debug("Motor_right: %s" % delta_motor_right)
 
