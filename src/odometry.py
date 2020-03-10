@@ -85,16 +85,22 @@ class Odometry:
         self.distance_cm_x += round(delta_x)
         self.distance_cm_y += round(delta_y)
 
-        if 0 <= self.angle < 45 or 360 >= self.angle > 315:
-            self.direction = 0
-        elif 45 <= self.angle < 135:
-            self.direction = 90
-        elif 135 <= self.angle < 225:
-            self.direction = 180
-        elif 225 <= self.angle < 315:
-            self.direction = 270
+        self.direction = self.angle_to_direction(self.angle)
 
         return (self.coordinate_x, self.coordinate_y), self.direction
+
+    @staticmethod
+    def angle_to_direction(angle):
+        if 0 <= angle < 45 or 360 >= angle > 315:
+            return 0
+        elif 45 <= angle < 135:
+            return 90
+        elif 135 <= angle < 225:
+            return 180
+        elif 225 <= angle < 315:
+            return 270
+        else:
+            return 0
 
     @staticmethod
     def distance_per_tick(motor_spin):
