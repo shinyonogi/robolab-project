@@ -1,6 +1,4 @@
 import time
-import random
-from planet import Direction
 
 
 def round_ten(number, down=False):
@@ -109,14 +107,54 @@ class Explorer:
             (min(b), sum(b) / len(b), max(b)),
         )
 
-    def start_exploration(self, start_coord, start_direction):
+    def run_motors(self, tp_right, tp_left, check_dc=True):
+        # Make sure the provided powers are in the range 0 - 100
+        tp_right = -100 if tp_right < -100 else 100 if tp_right > 100 else tp_right
+        tp_left = -100 if tp_left < -100 else 100 if tp_left > 100 else tp_left
+        # TODO: sometimes only one of the motors is starting, figure out why and how to prevent that
+        # I guess this is might be a fix for it... just send the command three times so the motors really get it
+        for i in range(3 if check_dc else 1):
+            self.motor_right.duty_cycle_sp = tp_right
+            self.motor_left.duty_cycle_sp = tp_left
+            self.motor_right.command = "run-direct"
+            self.motor_left.command = "run-direct"
+
+    def stop_motors(self):
+        self.motor_right.stop()
+        self.motor_left.stop()
+
+    def reset_motors(self):
+        self.motor_right.reset()
+        self.motor_left.reset()
+        self.motor_right.stop_action = "coast"
+        self.motor_left.stop_action = "coast"
+
+    def rotate(self, degrees):
+        self.reset_gyro()
+        time.sleep(1)
+        gyro_start_angle = self.gyro_sensor.angle
+        self.run_motors(self.target_power, -self.target_power)
+        while self.gyro_sensor.angle > gyro_start_angle - degrees:
+            time.sleep(0.1)
+        self.stop_motors()
+
+    def reset_gyro(self):
+        """Reset and calibrate the gyro sensor.
+
+        Before calling this method, make sure the robot is standing still.
+        """
+        # self.logger.debug("Resetting gyro sensor")
+        self.gyro_sensor.mode = "GYRO-RATE"
+        self.gyro_sensor.mode = "GYRO-ANG"
+
     def start_exploration(self):
         self.logger.info("Explorer starting")
-        prev_coords, prev_arrive_direction = self.odometry.calc_coord()
+        prev_coords = None
+        prev_arrive_direction = None
         prev_start_direction = prev_arrive_direction
         is_first_point = True
         while True:
-            blocked, color = self.drive_to_next_point()
+            blocked, color = self.drive_to_next_point()  # Follow the path to the next point
 
             if is_first_point:  # Run if this is our "entry" point
                 self.logger.info("Sending ready-signal to mothership")
@@ -134,8 +172,7 @@ class Explorer:
                 )  # Set our odometry coordinates to the data we just received from the mothership
                 self.odometry.clear_motor_stack()
 
-            coords, direction = self.odometry.calc_coord()
-            angle = self.odometry.angle
+            coords, direction = self.odometry.calc_coord()  # Calculate current coordinates and direction
             self.odometry.clear_motor_stack()
 
             self.logger.debug(
@@ -149,20 +186,26 @@ class Explorer:
                 )
             )
 
-            self.drive_off_point()
+            self.drive_off_point()  # Drive off the square for rotation
 
-            point = self.planet.coordinate_existent(coords)
-            paths = []
-            if not point or point and len(point.keys()) < 4 or prev_coords != coords:
-                paths = self.scan_for_paths(angle)
+            point = self.planet.coordinate_existent(coords)  # Check if our planet already has the point
+            paths = []  # Here we'll save all directions in which there are paths starting from the square
+            if (not point or point and len(point.keys()) < 4) and prev_coords != coords:
+                # Do a 360* scan, if we haven't discovered this point before, or we've discovered it before but
+                # we have less than 4 paths from it saved (we might have had some paths revealed from the mothership),
+                # or the previous coordinates aren't the same as the current one (otherwise we just drove a loop)
+                # TODO: perhaps create a dict in planet with all the points we definitely have already scanned?
+                paths = self.scan_for_paths(self.odometry.angle)  # Do a 360* scan for outgoing paths
                 self.logger.debug(paths)
-                self.reset_motors()
-                self.odometry.reset()
+                # self.reset_motors()
+                # self.odometry.reset()
+                self.odometry.update_motor_stack()
+                self.odometry.clear_motor_stack()
 
             if is_first_point:
                 remove_path = (direction - 180) % 360
                 if remove_path in paths:
-                    paths.remove(remove_path)  # Remove entry path
+                    paths.remove(remove_path)  # Remove the "entry" path from the list of paths
                 is_first_point = False
             else:
                 self.communication.path_message(
@@ -173,58 +216,51 @@ class Explorer:
                     coords[1],
                     (direction - 180) % 360,
                     "blocked" if blocked else "free",
-                )
+                )  # Send the discovered path to the mothership
 
                 path_answer = None
-                while not path_answer:
+                while not path_answer:  # Wait for answer from mothership
                     path_answer = self.communication.path
                     time.sleep(0.1)
 
-                coords = (path_answer.get("endX"), path_answer.get("endY"))
-                direction = (path_answer.get("endDirection") - 180) % 360
+                coords = (path_answer.get("endX"), path_answer.get("endY"))  # Get corrected coordinates
+                direction = (path_answer.get("endDirection") - 180) % 360   # Get corrected direction
                 self.logger.debug("Fixed coords %s" % str((coords, direction)))
-                self.odometry.set_coord(coords, direction)
+                self.odometry.set_coord(coords, direction)  # Apply corrected coordinates and direction
 
                 self.communication.reset_path()
 
             for p in paths:
-                self.planet.depth_first_add_stack(coords, p)
+                self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
 
-            dfs = self.planet.depth_first_search(coords)
+            dfs = self.planet.depth_first_search(coords)  # Search which path to drive next with DFS
 
-            chosen_path = int(dfs[0][1])
+            chosen_path = int(dfs[0][1])  # Get search result TODO: check if None, in that case... what?
 
             self.logger.debug("Chosen path: %s" % chosen_path)
 
-            self.communication.path_select_message(coords[0], coords[1], chosen_path)
+            self.communication.path_select_message(coords[0], coords[1], chosen_path)  # Send chosen path to mothership
 
             path_select_answer = None
-            for i in range(13):  # TODO: process other messages
+            target = None
+            for i in range(13):  # Wait for answer and other messages from mothership
                 path_select_answer = self.communication.path_select
-                if path_select_answer:
-                    break
+                target = self.communication.target  # TODO: do something with this
                 time.sleep(0.25)
+
             self.communication.reset_path_select()
+            self.communication.reset_target()
 
             if path_select_answer:
-                chosen_path = path_select_answer.get("startDirection")
+                chosen_path = path_select_answer.get("startDirection")  # Apply path direction
 
-            if chosen_path != direction:
+            if chosen_path != direction:  # If the path isn't in front of us, rotate to it
                 self.rotate((direction - chosen_path) % 360)
                 self.odometry.set_coord(None, direction)
-                self.reset_motors()
-                self.odometry.reset()
+                self.odometry.update_motor_stack()
+                self.odometry.clear_motor_stack()
 
             prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, chosen_path
-
-    def rotate(self, degrees):
-        self.reset_gyro()
-        time.sleep(1)
-        gyro_start_angle = self.gyro_sensor.angle
-        self.run_motors(self.target_power, -self.target_power)
-        while self.gyro_sensor.angle > gyro_start_angle - degrees:
-            time.sleep(0.1)
-        self.stop_motors()
 
     def drive_off_point(self):
         """Drive off a colored square using the color sensor. The robot stops after when it only detects black or white.
@@ -265,7 +301,9 @@ class Explorer:
                 self.stop_motors()
                 self.expression.tone_warning().wait()
                 self.rotate(180)
-                new_angle = (self.odometry.angle - 180) % 360
+                self.odometry.update_motor_stack()
+                self.odometry.clear_motor_stack()
+                new_angle = (self.odometry.angle - 180) % 360  # TODO: try if odometry would calculate this correctly
                 self.odometry.angle = new_angle
                 self.odometry.set_coord(None, self.odometry.angle_to_direction(new_angle))
                 continue  # Drive back
@@ -275,19 +313,10 @@ class Explorer:
 
             r_rb_range = self.red_rb_range
             b_rb_range = self.blue_rb_range
-            if (
-                r_rb_range[0][0] <= r <= r_rb_range[0][1]
-                and r_rb_range[1][0] <= b <= r_rb_range[1][1]
-            ):
+            if r_rb_range[0][0] <= r <= r_rb_range[0][1] and r_rb_range[1][0] <= b <= r_rb_range[1][1]:
                 self.logger.debug("Detected RED")
                 # With a calibrated sensor we cas assume we're on a colored square after it was detected for two loops
                 # TODO: instead, maybe stop and do a short (30 Degree) turn in each direction and scan for colors?
-                # if red_counter >= 2:
-                #     square_color = "red"
-                #     self.stop_motors()
-                #     break
-                # else:
-                #     red_counter += 1
                 square_color = "red"
                 self.stop_motors()
                 break
@@ -296,12 +325,6 @@ class Explorer:
                 and b_rb_range[1][0] <= b <= b_rb_range[1][1]
             ):
                 self.logger.debug("Detected BLUE")
-                # if blue_counter >= 2:
-                #     square_color = "blue"
-                #     self.stop_motors()
-                #     break
-                # else:
-                #     blue_counter += 1
                 square_color = "blue"
                 self.stop_motors()
                 break
@@ -321,48 +344,15 @@ class Explorer:
 
         return blocked, square_color
 
-    def run_motors(self, tp_right, tp_left, check_dc=True):
-        # Make sure the provided powers are in the range 0 - 100
-        tp_right = -100 if tp_right < -100 else 100 if tp_right > 100 else tp_right
-        tp_left = -100 if tp_left < -100 else 100 if tp_left > 100 else tp_left
-        # TODO: sometimes only one of the motors is starting, figure out why and how to prevent that
-        # while not self.motor_right.duty_cycle == tp_right or not self.motor_left.duty_cycle == tp_left:
-        for i in range(3 if check_dc else 1):
-            self.motor_right.duty_cycle_sp = tp_right
-            self.motor_left.duty_cycle_sp = tp_left
-            self.motor_right.command = "run-direct"
-            self.motor_left.command = "run-direct"
-
-    def stop_motors(self):
-        # self.logger.debug("Stopping motors")
-        self.motor_right.stop()
-        self.motor_left.stop()
-
-    def reset_motors(self):
-        # self.logger.debug("Resetting motors")
-        self.motor_right.reset()
-        self.motor_left.reset()
-        self.motor_right.stop_action = "coast"
-        self.motor_left.stop_action = "coast"
-
-    def reset_gyro(self):
-        """Reset and calibrate the gyro sensor.
-
-        Before calling this method, make sure the robot is standing still.
-        """
-        # self.logger.debug("Resetting gyro sensor")
-        self.gyro_sensor.mode = "GYRO-RATE"
-        self.gyro_sensor.mode = "GYRO-ANG"
-
     def scan_for_paths(self, start_direction):
         """Make the robot do a 360 degree rotation and detect outgoing paths.
 
         This method is called after we've detected a point.
-        The result is returned as a list of angles.
+        The result is returned as a list of directions.
         """
         self.color_sensor.mode = "COL-COLOR"
 
-        self.reset_gyro()
+        self.reset_gyro()  # Calibrate gyro sensor
         time.sleep(1)
 
         path_at_angles = []
