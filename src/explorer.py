@@ -168,8 +168,9 @@ class Explorer:
                     time.sleep(0.1)
 
                 coords = (path_answer.get("endX"), path_answer.get("endY"))
-                self.logger.debug("Fixed coords %s" % str(coords))
-                self.odometry.set_coord(coords, None)
+                direction = (path_answer.get("endDirection") - 180) % 360
+                self.logger.debug("Fixed coords %s" % str((coords, direction)))
+                self.odometry.set_coord(coords, direction)
 
                 self.communication.reset_path()
 
@@ -217,7 +218,7 @@ class Explorer:
 
         This method is called after a point was discovered.
         """
-        self.run_motors(self.target_power - 5, self.target_power - 5)
+        self.run_motors(self.target_power - 6, self.target_power - 3)
         time.sleep(2)  # TODO: replace with odometry stuff
         self.stop_motors()
 
@@ -301,21 +302,23 @@ class Explorer:
             power_right = self.target_power + turn
             power_left = self.target_power - turn
 
-            self.run_motors(power_right, power_left)  # Apply motor powers
+            self.run_motors(power_right, power_left, False)  # Apply motor powers
 
             time.sleep(0.05)  # 50 ms between loops seems to be optimal
 
         return blocked, square_color
 
-    def run_motors(self, tp_right, tp_left):
+    def run_motors(self, tp_right, tp_left, check_dc=True):
         # Make sure the provided powers are in the range 0 - 100
         tp_right = -100 if tp_right < -100 else 100 if tp_right > 100 else tp_right
         tp_left = -100 if tp_left < -100 else 100 if tp_left > 100 else tp_left
         # TODO: sometimes only one of the motors is starting, figure out why and how to prevent that
-        self.motor_right.duty_cycle_sp = tp_right
-        self.motor_left.duty_cycle_sp = tp_left + 3
-        self.motor_left.command = "run-direct"
-        self.motor_right.command = "run-direct"
+        # while not self.motor_right.duty_cycle == tp_right or not self.motor_left.duty_cycle == tp_left:
+        for i in range(3 if check_dc else 1):
+            self.motor_right.duty_cycle_sp = tp_right
+            self.motor_left.duty_cycle_sp = tp_left
+            self.motor_right.command = "run-direct"
+            self.motor_left.command = "run-direct"
 
     def stop_motors(self):
         # self.logger.debug("Stopping motors")
@@ -354,7 +357,7 @@ class Explorer:
 
         self.run_motors(self.target_power - 5, -self.target_power - 5)
 
-        while abs(self.gyro_sensor.angle) < gyro_start_angle + 355:
+        while abs(self.gyro_sensor.angle) < gyro_start_angle + 350:
             angle = abs(self.gyro_sensor.angle) - gyro_start_angle
             color = self.color_sensor.value()
             if color == 1:  # black
