@@ -42,6 +42,11 @@ class Odometry:
             self.direction = direction
             self.line_of_sight = direction / 57.2958  # angle -> arc
 
+    def reset(self):
+        self.motor_position_right = self.motor_right.position
+        self.motor_position_left = self.motor_left.position
+        self.clear_motor_stack()
+
     def calc_coord(self):
         distance_tire = 12
 
@@ -98,12 +103,6 @@ class Odometry:
         motor_spin = motor_spin * (circumference / 360)
 
         return motor_spin
-
-    def reset(self, direction, coordinate_x, coordinate_y):
-        self.direction = direction
-        self.coordinate_x = coordinate_x
-        self.coordinate_y = coordinate_y
-        self.motor_stack.clear()
 
     def update_motor_stack(self):
         delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
