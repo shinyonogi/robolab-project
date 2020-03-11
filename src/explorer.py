@@ -147,12 +147,11 @@ class Explorer:
         self.gyro_sensor.mode = "GYRO-RATE"
         self.gyro_sensor.mode = "GYRO-ANG"
 
-    def start_exploration(self):
+    def start_exploration(self, is_first_point=True):
         self.logger.info("Explorer starting")
         prev_coords = None
         prev_arrive_direction = None
         prev_start_direction = prev_arrive_direction
-        is_first_point = True
         while True:
             blocked, color = self.drive_to_next_point()  # Follow the path to the next point
 
@@ -195,12 +194,13 @@ class Explorer:
                 # we have less than 4 paths from it saved (we might have had some paths revealed from the mothership),
                 # or the previous coordinates aren't the same as the current one (otherwise we just drove a loop)
                 # TODO: perhaps create a dict in planet with all the points we definitely have already scanned?
-                paths = self.scan_for_paths(self.odometry.angle)  # Do a 360* scan for outgoing paths
+                paths = self.scan_for_paths()  # Do a 360* scan for outgoing paths
                 self.logger.debug(paths)
-                # self.reset_motors()
-                # self.odometry.reset()
-                self.odometry.update_motor_stack()
-                self.odometry.clear_motor_stack()
+                self.reset_motors()
+                self.odometry.reset()
+                # self.odometry.update_motor_stack()
+                # self.logger.debug("Odometry coords after rotation: %s", str(self.odometry.calc_coord()))
+                # self.odometry.clear_motor_stack()
 
             if is_first_point:
                 remove_path = (direction - 180) % 360
@@ -249,16 +249,18 @@ class Explorer:
                 time.sleep(0.25)
 
             self.communication.reset_path_select()
-            self.communication.reset_target()
+            # self.communication.reset_target()
 
             if path_select_answer:
                 chosen_path = path_select_answer.get("startDirection")  # Apply path direction
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
                 self.rotate((direction - chosen_path) % 360)
-                self.odometry.set_coord(None, direction)
-                self.odometry.update_motor_stack()
-                self.odometry.clear_motor_stack()
+                self.odometry.set_coord(None, chosen_path)
+                # self.odometry.update_motor_stack()
+                # self.odometry.clear_motor_stack()
+                self.reset_motors()
+                self.odometry.reset()
 
             prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, chosen_path
 
@@ -344,7 +346,7 @@ class Explorer:
 
         return blocked, square_color
 
-    def scan_for_paths(self, start_direction):
+    def scan_for_paths(self):
         """Make the robot do a 360 degree rotation and detect outgoing paths.
 
         This method is called after we've detected a point.
@@ -360,7 +362,7 @@ class Explorer:
 
         self.run_motors(self.target_power - 5, -self.target_power - 5)
 
-        while abs(self.gyro_sensor.angle) < gyro_start_angle + 350:
+        while abs(self.gyro_sensor.angle) < gyro_start_angle + 355:
             angle = abs(self.gyro_sensor.angle) - gyro_start_angle
             color = self.color_sensor.value()
             if color == 1:  # black
