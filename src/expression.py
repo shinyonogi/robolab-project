@@ -20,3 +20,12 @@ class Expression:
     def tone_warning(self):
         # Three second warning tone
         return self.speaker.tone([(200, 100, 100), (500, 200)])
+
+    def song_star_wars_short(self):
+        return self.speaker.play_song((
+            ('D4', 'e3'),
+            ('D4', 'e3'),
+            ('D4', 'e3'),
+            ('G4', 'h'),
+            ('D5', 'h')
+        ))
