@@ -59,11 +59,13 @@ class Communication:
         :return: void
         """
         payload = json.loads(message.payload.decode('utf-8'))
-        self.logger.debug(json.dumps(payload, indent=2))
 
         m_from = payload.get("from")
         m_type = payload.get("type")
         m_payload = payload.get("payload")
+
+        if m_from == "debug" or m_from == "server":  # Don't log own messages
+            self.logger.debug(json.dumps(payload, indent=2))
 
         self.last_message_at = time.time()
 
