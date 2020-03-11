@@ -84,6 +84,8 @@ class Odometry:
 
             self.logger.debug("LOS: %s, Angle: %s, X: %s, Y: %s, Distance: %s, d_r: %s, d_l: %s" % (self.line_of_sight, angle_alpha, delta_x, delta_y, distance_s, d_r, d_l))
 
+        self.line_of_sight = -self.line_of_sight % 360
+
         self.coordinate_x = self.coordinate_x + round(delta_x / 50)
         self.coordinate_y = self.coordinate_y + round(delta_y / 50)
         self.angle = round(self.line_of_sight * 57.2958) % 360
