@@ -171,7 +171,10 @@ class Explorer:
                 )  # Set our odometry coordinates to the data we just received from the mothership
                 self.odometry.clear_motor_stack()
 
-            coords, direction = self.odometry.calc_coord()  # Calculate current coordinates and direction
+            if blocked:  # If the path was blocked we're back on the same point we're coming from
+                coords, direction = prev_coords, (prev_start_direction - 180) % 360
+            else:
+                coords, direction = self.odometry.calc_coord()  # Calculate current coordinates and direction
             self.odometry.clear_motor_stack()
 
             self.logger.debug(
@@ -192,7 +195,7 @@ class Explorer:
                     prev_start_direction,
                     coords[0],
                     coords[1],
-                    (direction - 180) % 360,
+                    (direction - 180) % 360 if not blocked else direction,
                     "blocked" if blocked else "free",
                 )  # Send the discovered path to the mothership
 
@@ -252,7 +255,7 @@ class Explorer:
 
             self.logger.debug("End of communication for this point")
 
-            # self.expression.song_star_wars_short().wait()
+            self.expression.tone_end_communication().wait()
 
             if path_select_answer:
                 chosen_path = path_select_answer.get("startDirection")  # Apply path direction
@@ -305,7 +308,7 @@ class Explorer:
         while True:
             self.odometry.update_motor_stack()
 
-            if self.us_sensor.distance_centimeters < 15:
+            if self.us_sensor.distance_centimeters < 20:
                 blocked = True
                 self.logger.debug("Path blocked")
                 self.stop_motors()

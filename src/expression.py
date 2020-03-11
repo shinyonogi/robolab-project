@@ -17,9 +17,12 @@ class Expression:
     def speak(self, text):
         return self.speaker.speak(text)
 
-    def tone_warning(self):
+    def tone_end_communication(self):
         # Three second warning tone
         return self.speaker.tone([(200, 100, 100), (500, 200)])
+
+    def tone_warning(self):
+        return self.speaker.tone([(200, 300, 500), (200, 300, 500), (200, 300)])
 
     def song_star_wars_short(self):
         return self.speaker.play_song((

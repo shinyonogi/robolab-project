@@ -31,6 +31,7 @@ class Communication:
         self.topic = f"explorer/{group_id}"  # Used for: testplanet, ready, complete
         self.planet_topic = f"planet/none/{group_id}"  # Used for: path, pathSelect, pathUnveiled, target
 
+        self.is_connected = False
         self.last_message_at = 0
         self.planet_data = None
         self.path = None
@@ -40,14 +41,22 @@ class Communication:
     def connect(self, username, password):
         self.client.username_pw_set(username=username, password=password)
 
-        self.logger.debug("Connecting to mothership")
-        self.client.connect("mothership.inf.tu-dresden.de", port=1883)
+        while not self.is_connected:
+            try:
+                self.logger.debug("Connecting to mothership")
+                self.client.connect("mothership.inf.tu-dresden.de", port=1883)
+                self.is_connected = True
+            except ConnectionRefusedError:
+                self.logger.warning("Connection to mothership failed. Retrying...")
+                time.sleep(3)
+
         self.client.loop_start()
 
     def disconnect(self):
         self.logger.debug("Disconnecting from mothership")
         self.client.loop_stop()
         self.client.disconnect()
+        self.is_connected = False
 
     # DO NOT EDIT THE METHOD SIGNATURE
     def on_message(self, client, data, message):

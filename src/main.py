@@ -78,6 +78,11 @@ def run():
 
     communication.connect(group_id, group_pwd)
 
+    # TODO: this is the code for the exam deploy, so comment it out on time!
+    # explorer.start_calibration()
+    # explorer.start_exploration()
+    # sys.exit(0)
+
     while True:
         custom_logger.info(
             "Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit"
