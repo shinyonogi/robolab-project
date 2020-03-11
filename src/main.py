@@ -4,14 +4,13 @@ import ev3dev.ev3 as ev3
 import logging
 import sys
 import os
-import time
 import paho.mqtt.client as mqtt
 import uuid
 
 from communication import Communication
 from expression import Expression
 from odometry import Odometry
-from planet import Direction, Planet
+from planet import Planet
 from explorer import Explorer
 
 client = None  # DO NOT EDIT
