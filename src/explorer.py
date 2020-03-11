@@ -48,7 +48,7 @@ class Explorer:
         self.gyro_sensor = gyro_sensor
         self.expression = expression
 
-        self.target_power = 22  # Our optimal target power level is 20%
+        self.target_power = 20  # Our optimal target power level is 20%
 
         # Hard-Coded defaults recorded in daylight on Piech
         self.red_rb_range = ((120, 150), (10, 30))
@@ -185,29 +185,7 @@ class Explorer:
                 )
             )
 
-            self.drive_off_point()  # Drive off the square for rotation
-
-            point = self.planet.coordinate_existent(coords)  # Check if our planet already has the point
-            paths = []  # Here we'll save all directions in which there are paths starting from the square
-            if (not point or point and len(point.keys()) < 4) and prev_coords != coords:
-                # Do a 360* scan, if we haven't discovered this point before, or we've discovered it before but
-                # we have less than 4 paths from it saved (we might have had some paths revealed from the mothership),
-                # or the previous coordinates aren't the same as the current one (otherwise we just drove a loop)
-                # TODO: perhaps create a dict in planet with all the points we definitely have already scanned?
-                paths = self.scan_for_paths()  # Do a 360* scan for outgoing paths
-                self.logger.debug(paths)
-                self.reset_motors()
-                self.odometry.reset()
-                # self.odometry.update_motor_stack()
-                # self.logger.debug("Odometry coords after rotation: %s", str(self.odometry.calc_coord()))
-                # self.odometry.clear_motor_stack()
-
-            if is_first_point:
-                remove_path = (direction - 180) % 360
-                if remove_path in paths:
-                    paths.remove(remove_path)  # Remove the "entry" path from the list of paths
-                is_first_point = False
-            else:
+            if not is_first_point:
                 self.communication.path_message(
                     prev_coords[0],
                     prev_coords[1],
@@ -230,6 +208,29 @@ class Explorer:
 
                 self.communication.reset_path()
 
+            self.drive_off_point()  # Drive off the square for rotation
+
+            point = self.planet.coordinate_existent(coords)  # Check if our planet already has the point
+            paths = []  # Here we'll save all directions in which there are paths starting from the square
+            if (not point or point and len(point.keys()) < 4) and prev_coords != coords:
+                # Do a 360* scan, if we haven't discovered this point before, or we've discovered it before but
+                # we have less than 4 paths from it saved (we might have had some paths revealed from the mothership),
+                # or the previous coordinates aren't the same as the current one (otherwise we just drove a loop)
+                # TODO: perhaps create a dict in planet with all the points we definitely have already scanned?
+                paths = self.scan_for_paths(direction)  # Do a 360* scan for outgoing paths
+                self.logger.debug("Paths in directions: %s" % paths)
+                self.reset_motors()
+                self.odometry.reset()
+                # self.odometry.update_motor_stack()
+                # self.logger.debug("Odometry coords after rotation: %s", str(self.odometry.calc_coord()))
+                # self.odometry.clear_motor_stack()
+
+                if is_first_point:
+                    remove_path = (direction - 180) % 360
+                    if remove_path in paths:
+                        paths.remove(remove_path)  # Remove the "entry" path from the list of paths
+                    is_first_point = False
+
             for p in paths:
                 self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
 
@@ -237,21 +238,25 @@ class Explorer:
 
             chosen_path = int(dfs[0][1])  # Get search result TODO: check if None, in that case... what?
 
-            self.logger.debug("Chosen path: %s" % chosen_path)
+            self.logger.debug("DFS chosen path: %s" % chosen_path)
 
             self.communication.path_select_message(coords[0], coords[1], chosen_path)  # Send chosen path to mothership
 
             path_select_answer = None
             target = None
+            self.logger.debug("Last message at: %s, Current time: %s" % (self.communication.last_message_at, time.time()))
             while self.communication.last_message_at + 3 > time.time():  # 3 second timeout after last message
                 path_select_answer = self.communication.path_select
                 target = self.communication.target
                 time.sleep(0.25)
 
-            self.expression.song_star_wars_short().wait()
+            self.logger.debug("End of communication for this point")
+
+            # self.expression.song_star_wars_short().wait()
 
             if path_select_answer:
                 chosen_path = path_select_answer.get("startDirection")  # Apply path direction
+                self.logger.debug("Chosen path from server: %s" % chosen_path)
                 self.communication.reset_path_select()
 
             if target:
@@ -349,7 +354,7 @@ class Explorer:
 
         return blocked, square_color
 
-    def scan_for_paths(self):
+    def scan_for_paths(self, start_direction):
         """Make the robot do a 360 degree rotation and detect outgoing paths.
 
         This method is called after we've detected a point.
@@ -377,7 +382,7 @@ class Explorer:
 
         paths = []
         for a in path_at_angles:
-            direction = self.odometry.angle_to_direction(a)
+            direction = self.odometry.angle_to_direction((start_direction - a) % 360)
             if direction not in paths:
                 paths.append(direction)
 
