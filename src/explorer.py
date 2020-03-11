@@ -243,22 +243,25 @@ class Explorer:
 
             path_select_answer = None
             target = None
-            for i in range(13):  # Wait for answer and other messages from mothership
+            while self.communication.last_message_at + 3 > time.time():  # 3 second timeout after last message
                 path_select_answer = self.communication.path_select
-                target = self.communication.target  # TODO: do something with this
+                target = self.communication.target
                 time.sleep(0.25)
 
-            self.communication.reset_path_select()
-            # self.communication.reset_target()
+            self.expression.song_star_wars_short().wait()
 
             if path_select_answer:
                 chosen_path = path_select_answer.get("startDirection")  # Apply path direction
+                self.communication.reset_path_select()
+
+            if target:
+                pass  # TODO: do something
+
+            self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen path
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
                 self.rotate((direction - chosen_path) % 360)
                 self.odometry.set_coord(None, chosen_path)
-                # self.odometry.update_motor_stack()
-                # self.odometry.clear_motor_stack()
                 self.reset_motors()
                 self.odometry.reset()
 

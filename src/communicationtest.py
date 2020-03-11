@@ -8,9 +8,6 @@ import os
 import paho.mqtt.client as mqtt
 import uuid
 
-import json
-import ssl
-
 
 class CommunicationTest(unittest.TestCase):
 
