@@ -240,7 +240,11 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         #print(test_planet.depth_first_stack)
 
-        print(test_planet.depth_first_search((300, 300)))
+        test = (test_planet.depth_first_search((300, 300)))
+
+        print(test)
+        
+        test_planet.depth_first_add_reached((300, 300), Direction.NORTH)
 
         test_planet.add_path(((300, 300), Direction.NORTH), ((300, 301), Direction.SOUTH), 1)
 
@@ -251,7 +255,10 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         test_planet.add_path(((300, 301), Direction.NORTH),  ((300, 301), Direction.EAST), 1)
 
-        print(test_planet.depth_first_search((300, 301)))
+        test = test_planet.depth_first_search((300, 301))
+        test_planet.depth_first_add_reached((300, 301), Direction.WEST)
+
+        print(test)
 
         test_planet.add_path(((300, 301), Direction.WEST), ((301, 300), Direction.EAST), 1)
 
@@ -260,7 +267,10 @@ class RoboLabPlanetTests(unittest.TestCase):
         test_planet.depth_first_add_stack((301, 300), Direction.NORTH)
         test_planet.depth_first_add_stack((301, 300), Direction.EAST)
 
-        print(test_planet.depth_first_search((301, 300)))
+        test = test_planet.depth_first_search((301, 300))
+        test_planet.depth_first_add_reached((301, 300), Direction.SOUTH)
+        
+        print(test)
 
         
 
