@@ -2,6 +2,7 @@
 
 # Attention: Do not import the ev3dev.ev3 module in this file
 import json
+
 # import ssl
 import time
 
@@ -67,11 +68,11 @@ class Communication:
         :param message: Object
         :return: void
         """
-        payload = json.loads(message.payload.decode('utf-8'))
+        payload = json.loads(message.payload.decode("utf-8"))
 
         m_from = payload.get("from")
         m_type = payload.get("type")
-        m_payload = payload.get("payload")
+        m_payload = payload.get("payload", {})
 
         if m_from == "debug" or m_from == "server":  # Don't log own messages
             self.logger.debug(json.dumps(payload, indent=2))
@@ -82,23 +83,25 @@ class Communication:
             pass
         elif m_from == "server":
             if m_type == "planet":
-                self.planet_topic = f"planet/{m_payload['planetName']}/{self.group_id}"
+                self.planet_topic = "planet/%s/%s" % (
+                    m_payload.get("planetName"),
+                    self.group_id,
+                )
                 self.client.subscribe(self.planet_topic)
                 self.planet_data = m_payload
             elif m_type == "path" or m_type == "pathUnveiled":
-                Xs = m_payload["startX"]
-                Ys = m_payload["startY"]
-                Ds = m_payload["startDirection"]
-                Xe = m_payload["endX"]
-                Ye = m_payload["endY"]
-                De = m_payload["endDirection"]
-                path_status = m_payload["pathStatus"]  # TODO: do we add this to Planet?
-                path_weight = m_payload["pathWeight"]
+                x_s = m_payload.get("startX")
+                y_s = m_payload.get("startY")
+                d_s = m_payload.get("startDirection")
+                x_e = m_payload.get("endX")
+                y_e = m_payload.get("endY")
+                d_e = m_payload.get("endDirection")
+                path_weight = m_payload.get("pathWeight")
 
                 if m_type == "path":
                     self.path = m_payload
 
-                self.planet.add_path(((Xs, Ys), Ds), ((Xe, Ye), De), path_weight)
+                self.planet.add_path(((x_s, y_s), d_s), ((x_e, y_e), d_e), path_weight)
             elif m_type == "pathSelect":
                 self.path_select = m_payload
             elif m_type == "target":
@@ -127,7 +130,7 @@ class Communication:
         :param message: Object
         :return: void
         """
-        self.logger.debug('Send to: ' + topic)
+        self.logger.debug("Send to: " + topic)
         self.logger.debug(json.dumps(message, indent=2))
 
         self.client.publish(topic, json.dumps(message))
@@ -148,6 +151,7 @@ class Communication:
             self.on_message(client, data, message)
         except:
             import traceback
+
             traceback.print_exc()
             raise
 
@@ -155,9 +159,7 @@ class Communication:
         message = {
             "from": "client",
             "type": "testplanet",
-            "payload": {
-                "planetName": planet_name
-            }
+            "payload": {"planetName": planet_name},
         }
 
         self.send_message(self.topic, message)
@@ -165,39 +167,32 @@ class Communication:
     def ready_message(self):
         self.client.subscribe(self.topic, qos=1)
 
-        message = {
-            "from": "client",
-            "type": "ready"
-        }
+        message = {"from": "client", "type": "ready"}
 
         self.send_message(self.topic, message)
 
-    def path_message(self, Xs, Ys, Ds, Xe, Ye, De, path_status):
+    def path_message(self, x_s, y_s, d_s, x_e, y_e, d_e, path_status):
         message = {
             "from": "client",
             "type": "path",
             "payload": {
-                "startX": Xs,
-                "startY": Ys,
-                "startDirection": Ds,
-                "endX": Xe,
-                "endY": Ye,
-                "endDirection": De,
-                "pathStatus": path_status
-            }
+                "startX": x_s,
+                "startY": y_s,
+                "startDirection": d_s,
+                "endX": x_e,
+                "endY": y_e,
+                "endDirection": d_e,
+                "pathStatus": path_status,
+            },
         }
 
         self.send_message(self.planet_topic, message)
 
-    def path_select_message(self, Xs, Ys, Ds):
+    def path_select_message(self, x_s, y_s, d_s):
         message = {
             "from": "client",
             "type": "pathSelect",
-            "payload": {
-                "startX": Xs,
-                "startY": Ys,
-                "startDirection": Ds
-            }
+            "payload": {"startX": x_s, "startY": y_s, "startDirection": d_s},
         }
 
         self.send_message(self.planet_topic, message)
@@ -206,9 +201,7 @@ class Communication:
         message = {
             "from": "client",
             "type": "targetReached",
-            "payload": {
-                "message": "Target Reached"
-            }
+            "payload": {"message": "Target Reached"},
         }
 
         self.send_message(self.planet_topic, message)
@@ -217,14 +210,10 @@ class Communication:
         message = {
             "from": "client",
             "type": "explorationCompleted",
-            "payload": {
-                "message": "Exploration Completed"
-            }
+            "payload": {"message": "Exploration Completed"},
         }
 
         self.send_message(self.topic, message)
 
-        # self.disconnect()
-
     def syntax_prove(self):
-        self.client.subscribe(f"comtest/{self.group_id}", qos=1)
+        self.client.subscribe("comtest/%s" % self.group_id, qos=1)
