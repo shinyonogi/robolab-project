@@ -255,7 +255,7 @@ class Explorer:
 
             self.logger.debug("End of communication for this point")
 
-            # self.expression.song_star_wars_short().wait()
+            self.expression.tone_end_communication().wait()
 
             if path_select_answer:
                 chosen_path = path_select_answer.get("startDirection")  # Apply path direction
