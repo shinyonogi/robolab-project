@@ -40,6 +40,8 @@ class Planet:
         self.depth_first_stack = {}
         self.depth_first_reached = {}
 
+        self.andre = []
+
 
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction],
                  weight: int):
@@ -71,6 +73,9 @@ class Planet:
         self.depth_first_add_reached(start[0], start[1])
         self.depth_first_add_stack(target[0], target[1])
         self.depth_first_add_reached(target[0], target[1])
+
+        self.andre.append(start[0])
+        self.andre.append(target[1])
 
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
@@ -256,5 +261,14 @@ class Planet:
                 return [target]
             else:
                 return self.shortest_path(start, target)
-        else:
-            return None
+        elif(target == ()):
+            if(self.andre != []):
+                return self.andre[0]
+            else:
+                return None
+
+
+
+    def delete_andre(self, coordinate):
+
+        self.andre.pop(coordinate)

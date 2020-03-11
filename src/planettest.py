@@ -242,7 +242,7 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         test = (test_planet.depth_first_search((300, 300)))
 
-        print(test)
+        #print(test)
         
         test_planet.depth_first_add_reached((300, 300), Direction.NORTH)
 
@@ -258,7 +258,7 @@ class RoboLabPlanetTests(unittest.TestCase):
         test = test_planet.depth_first_search((300, 301))
         test_planet.depth_first_add_reached((300, 301), Direction.WEST)
 
-        print(test)
+        #print(test)
 
         test_planet.add_path(((300, 301), Direction.WEST), ((301, 300), Direction.EAST), 1)
 
@@ -270,10 +270,58 @@ class RoboLabPlanetTests(unittest.TestCase):
         test = test_planet.depth_first_search((301, 300))
         test_planet.depth_first_add_reached((301, 300), Direction.SOUTH)
         
+        #print(test)
+
+
+    def test_andre(self):
+
+        test_planet = Planet()
+
+        test_planet.depth_first_add_stack((0, 0), Direction.NORTH)
+
+        test = test_planet.depth_first_search((0, 0))
+        test_planet.depth_first_add_reached((0, 0), Direction.NORTH)
+
+        print(test)
+        
+        test_planet.add_path(((0, 0), Direction.NORTH), ((0, 1), Direction.SOUTH), 1)
+
+        test_planet.depth_first_add_stack((0, 1), Direction.NORTH)
+        test_planet.depth_first_add_stack((0, 1), Direction.SOUTH)
+        test_planet.depth_first_add_stack((0, 1), Direction.WEST)
+
+        test = test_planet.depth_first_search((0, 1))
+        test_planet.depth_first_add_reached((0, 1), Direction.NORTH)
+
         print(test)
 
-        
+        test_planet.add_path(((0, 1), Direction.NORTH), ((1, 2), Direction.SOUTH), 1)
 
+        test_planet.depth_first_add_stack((1, 2), Direction.EAST)
+        test_planet.depth_first_add_stack((1, 2), Direction.WEST)
+
+        test = test_planet.depth_first_search((1, 2))
+        test_planet.depth_first_add_reached((1, 2), Direction.EAST)
+
+        print(test)
+
+        test_planet.add_path(((1, 2), Direction.NORTH), ((2, 2), Direction.WEST), 1)
+
+        test_planet.depth_first_add_stack((2, 2), Direction.NORTH)
+        test_planet.depth_first_add_stack((2, 2), Direction.SOUTH)
+
+        test = test_planet.depth_first_search((2, 2))
+        test_planet.depth_first_add_reached((2, 2), Direction.NORTH)
+
+        print(test)
+
+
+        test_planet.depth_first_add_stack((0, 4), Direction.SOUTH)
+        test_planet.depth_first_add_stack((0, 4), Direction.WEST)
+
+        
+        test_planet.add_path(((0, 4), Direction.SOUTH), ((0, 4), Direction.WEST))
+        test_planet.add_path(((0, 1), Direction.EAST), ((1, 1), Direction.WEST)
 
 if __name__ == "__main__":
     unittest.main()
