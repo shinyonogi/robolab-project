@@ -3,6 +3,7 @@
 # Attention: Do not import the ev3dev.ev3 module in this file
 import json
 # import ssl
+import time
 
 
 class Communication:
@@ -30,6 +31,7 @@ class Communication:
         self.topic = f"explorer/{group_id}"  # Used for: testplanet, ready, complete
         self.planet_topic = f"planet/none/{group_id}"  # Used for: path, pathSelect, pathUnveiled, target
 
+        self.last_message_at = 0
         self.planet_data = None
         self.path = None
         self.path_select = None
@@ -62,6 +64,8 @@ class Communication:
         m_from = payload.get("from")
         m_type = payload.get("type")
         m_payload = payload.get("payload")
+
+        self.last_message_at = time.time()
 
         if m_from == "debug":
             pass
