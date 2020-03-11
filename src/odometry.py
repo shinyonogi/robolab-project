@@ -55,6 +55,8 @@ class Odometry:
         delta_x = 0
         delta_y = 0
 
+        self.line_of_sight = -self.line_of_sight % 360
+
         for i in range(len(self.motor_stack)):
             d_r = self.distance_per_tick(self.motor_stack[i][1])
             d_l = self.distance_per_tick(self.motor_stack[i][0])
@@ -72,13 +74,13 @@ class Odometry:
                     #delta_x = delta_x + distance_s
                 #elif 3.92699 <= self.line_of_sight % 6.28319 < 5.49779:
                     #delta_x = delta_x - distance_s
-                delta_x = delta_x + math.sin(self.line_of_sight) * distance_s
+                delta_x = delta_x + -math.sin(self.line_of_sight) * distance_s
                 delta_y = delta_y + math.cos(self.line_of_sight) * distance_s
             else:
                 distance_s = (d_r + d_l) / angle_alpha * math.sin(angle_beta)
                 delta_x = delta_x + -math.sin(self.line_of_sight + angle_beta) * distance_s
                 delta_y = delta_y + math.cos(self.line_of_sight + angle_beta) * distance_s
-            self.line_of_sight -= angle_alpha
+            self.line_of_sight += angle_alpha
 
             self.logger.debug("LOS: %s, Angle: %s, X: %s, Y: %s, Distance: %s, d_r: %s, d_l: %s" % (self.line_of_sight, angle_alpha, delta_x, delta_y, distance_s, d_r, d_l))
 
