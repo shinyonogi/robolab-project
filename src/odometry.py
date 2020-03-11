@@ -59,7 +59,7 @@ class Odometry:
             d_r = self.distance_per_tick(self.motor_stack[i][1])
             d_l = self.distance_per_tick(self.motor_stack[i][0])
 
-            angle_alpha = (d_l - d_r) / distance_tire
+            angle_alpha = (d_r - d_l) / distance_tire
             angle_beta = angle_alpha / 2
 
             if 0 <= angle_alpha <= 0.174533 or angle_alpha >= -0.174533:  # when the way is straight
