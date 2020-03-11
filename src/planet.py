@@ -242,9 +242,9 @@ class Planet:
                         continue
                     else:
                         target = ((i), d)
-                        if not(i in self.depth_first_reached):
-                            self.depth_first_reached[i] = []
-                        self.depth_first_reached[i].append(d)
+                        #if not(i in self.depth_first_reached):
+                            #self.depth_first_reached[i] = []
+                        #self.depth_first_reached[i].append(d)
 
                         break
                 else:
