@@ -78,16 +78,16 @@ class Communication:
                 Ye = m_payload["endY"]
                 De = m_payload["endDirection"]
                 path_status = m_payload["pathStatus"]  # TODO: do we add this to Planet?
-                path_weight = m_payload["weight"]
+                path_weight = m_payload["pathWeight"]
 
                 if m_type == "path":
                     self.path = m_payload
 
                 self.planet.add_path(((Xs, Ys), Ds), ((Xe, Ye), De), path_weight)
             elif m_type == "pathSelect":
-                self.path_select = payload
+                self.path_select = m_payload
             elif m_type == "target":
-                self.target = payload
+                self.target = m_payload
             elif m_type == "done":
                 message = m_payload["message"]
                 self.logger.info("Message from Mothership", message)
