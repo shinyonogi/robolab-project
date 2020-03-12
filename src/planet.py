@@ -274,6 +274,6 @@ class Planet:
 
 
 
-    def delete_andre(self, coordinate):
+    #def delete_andre(self, coordinate):
 
-        self.andre = [d for d in self.andre if d != coordinate]
+        #self.andre = [d for d in self.andre if d != coordinate]
