@@ -268,19 +268,25 @@ class Planet:
                 return self.shortest_path(start, target)
         elif(target == ()):
             if(self.andre != []):
-                return self.andre[0]
+                return self.check_andre(start)
             else:
                 return None
 
 
-    def check_andre(self):
+    def add_andre(self, coordinate):
+
+        self.andre.append(coordinate)
+
+
+    def check_andre(self, coordinate):
 
         for i in self.path_dictionary:
             if i in self.andre:
                 continue
             else:
                 self.andre.append(i)
-                return i
+                return self.shortest_path(coordinate, i)
+                
 
     #def delete_andre(self, coordinate):
 
