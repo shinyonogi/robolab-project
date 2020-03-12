@@ -284,7 +284,7 @@ class Planet:
             if i in self.andre:
                 continue
             else:
-                self.andre.append(i)
+                #self.andre.append(i)
                 return self.shortest_path(coordinate, i)
 
 

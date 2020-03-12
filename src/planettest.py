@@ -362,8 +362,8 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         #print(test_planet.andre)
 
-        print(test_planet.shortest_path((0, 0), (2, 2)))
-        print(test_planet.shortest_path((0, 3), (0, 0)))
+        #print(test_planet.shortest_path((0, 0), (2, 2)))
+        #print(test_planet.shortest_path((0, 3), (0, 0)))
 
 
 
