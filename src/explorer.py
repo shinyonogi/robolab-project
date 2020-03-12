@@ -1,4 +1,5 @@
 import time
+import pickle
 
 
 def round_ten(number, down=False):
@@ -166,6 +167,9 @@ class Explorer:
         prev_arrive_direction = None
         prev_start_direction = prev_arrive_direction
         while True:
+            with open("/home/robot/planet.pickle", "wb+") as file:
+                pickle.dump(self.planet, file)
+
             blocked, color = self.drive_to_next_point()  # Follow the path to the next point
 
             if is_first_point:  # Run if this is our "entry" point
