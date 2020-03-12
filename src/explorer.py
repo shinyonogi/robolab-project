@@ -208,7 +208,7 @@ class Explorer:
                     prev_start_direction,
                     coords[0],
                     coords[1],
-                    (direction - 180) % 360 if not blocked else direction,
+                    (direction - 180) % 360,
                     "blocked" if blocked else "free",
                 )  # Send the discovered path to the mothership
 
