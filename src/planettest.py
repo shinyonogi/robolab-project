@@ -321,7 +321,7 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         
         test_planet.add_path(((0, 4), Direction.SOUTH), ((0, 4), Direction.WEST))
-        test_planet.add_path(((0, 1), Direction.EAST), ((1, 1), Direction.WEST)
+        test_planet.add_path(((0, 1), Direction.EAST), ((1, 1), Direction.WEST))
 
 if __name__ == "__main__":
     unittest.main()

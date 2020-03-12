@@ -55,7 +55,7 @@ class Odometry:
         delta_x = 0
         delta_y = 0
 
-        self.line_of_sight = -self.line_of_sight % 360
+        self.line_of_sight = -self.line_of_sight % 6.28319
 
         for i in range(len(self.motor_stack)):
             d_r = self.distance_per_tick(self.motor_stack[i][1])
