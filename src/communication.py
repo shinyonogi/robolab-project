@@ -33,7 +33,7 @@ class Communication:
         self.planet_topic = f"planet/none/{group_id}"  # Used for: path, pathSelect, pathUnveiled, target
 
         self.is_connected = False
-        self.last_message_at = 0
+        self.last_message_at = time.time()
         self.planet_data = None
         self.path = None
         self.path_select = None
@@ -134,6 +134,7 @@ class Communication:
         """
         self.logger.debug("Send to: " + topic)
         self.logger.debug(json.dumps(message, indent=2))
+        self.last_message_at = time.time()
 
         self.client.publish(topic, json.dumps(message))
 
