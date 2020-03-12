@@ -102,9 +102,11 @@ def run():
             explorer.start_calibration()
         elif cmd == "import":
             import pickle
-            with open("/home/robot/planet.pickle", "rb") as file:
+            path = input("Enter path to file: ")
+            with open(path, "rb") as file:
                 planet = pickle.load(file)
         elif cmd == "shell":
+            import readline
             import code
             variables = variables = {**globals(), **locals()}
             shell = code.InteractiveConsole(variables)

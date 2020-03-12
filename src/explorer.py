@@ -167,9 +167,6 @@ class Explorer:
         prev_arrive_direction = None
         prev_start_direction = prev_arrive_direction
         while True:
-            with open("/home/robot/planet.pickle", "wb+") as file:
-                pickle.dump(self.planet, file)
-
             blocked, color = self.drive_to_next_point()  # Follow the path to the next point
 
             if is_first_point:  # Run if this is our "entry" point
@@ -181,7 +178,8 @@ class Explorer:
                     planet_data = self.communication.planet_data
                     time.sleep(0.1)
 
-                self.logger.info("Our planet is called %s" % planet_data["planetName"])
+                self.logger.info("Our planet is called %s" % planet_data.get("planetName"))
+                self.planet.set_name(planet_data.get("planetName"))
                 self.odometry.set_coord(
                     (planet_data.get("startX"), planet_data.get("startY")),
                     planet_data.get("startOrientation")
@@ -318,6 +316,9 @@ class Explorer:
                 self.odometry.reset()
 
             prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, chosen_path
+
+            with open("/home/robot/planet_%s.pickle" % self.planet.name, "wb+") as file:
+                pickle.dump(self.planet, file)
 
     def drive_off_point(self):
         """Drive off a colored square using the color sensor. The robot stops after when it only detects black or white.

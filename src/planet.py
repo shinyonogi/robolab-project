@@ -34,6 +34,7 @@ class Planet:
     def __init__(self):
         """ Initializes the data structure """
 
+        self.name = None
         self.target = None
         self.path_dictionary = {}  # All paths get saved in this dictionary
 
@@ -42,6 +43,8 @@ class Planet:
 
         self.andre = []
 
+    def set_name(self, name):
+        self.name = name
 
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction],
                  weight: int):
