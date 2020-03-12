@@ -74,8 +74,11 @@ class Planet:
         self.depth_first_add_stack(target[0], target[1])
         self.depth_first_add_reached(target[0], target[1])
 
-        self.andre.append(start[0])
-        self.andre.append(target[1])
+        if not (start[0] in self.andre):
+            self.andre.append(start[0])
+        
+        if not (start[0] in self.andre):
+            self.andre.append(target[0])
 
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
@@ -255,6 +258,8 @@ class Planet:
                 else:
                     continue
 
+                    
+        #print(target)
 
         if(target != ()):
             if(start == target[0]):
@@ -271,4 +276,4 @@ class Planet:
 
     def delete_andre(self, coordinate):
 
-        self.andre.pop(coordinate)
+        self.andre = [d for d in self.andre if d != coordinate]
