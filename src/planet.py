@@ -180,7 +180,7 @@ class Planet:
                         if(shortest_path_dictionary[(i, k)][1] != []): #eventually adds shortest path to key:1 so that it has alternatives 
                             shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][1] + shortest_path_dictionary[(k, j)][0] 
                         elif(shortest_path_dictionary[(k, j)][1] != []):
-                            shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][1] + shortest_path_dictionary[(k, j)][1]
+                            shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k, j)][1]
                     elif(matrix[i_1][k_1] + matrix[k_1][j_1] == matrix[i_1][j_1]): #if there's a way with same distance
                             shortest_path_dictionary[(i, j)][1] = shortest_path_dictionary[(i, k)][0] + shortest_path_dictionary[(k ,j)][0]
                     j_1 += 1
@@ -290,13 +290,10 @@ class Planet:
 
     def check_if_scanned(self, coordinate):
 
-        for i in self.andre:
-            if coordinate in self.andre:
-                return True
-            else:
-                continue
-
-        return False
+        if coordinate in self.andre:
+            return True
+        else: 
+            return False
                 
 
     #def delete_andre(self, coordinate):
