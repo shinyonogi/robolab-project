@@ -208,7 +208,7 @@ class Explorer:
                     prev_start_direction,
                     coords[0],
                     coords[1],
-                    (direction - 180) % 360 if not blocked else direction,
+                    (direction - 180) % 360,
                     "blocked" if blocked else "free",
                 )  # Send the discovered path to the mothership
 
@@ -226,20 +226,16 @@ class Explorer:
 
             self.drive_off_point()  # Drive off the square for rotation
 
-            point = self.planet.coordinate_existent(coords)  # Check if our planet already has the point
-            paths = []  # Here we'll save all directions in which there are paths starting from the square
-            if (not point or point and len(point.keys()) < 4) and prev_coords != coords:
+            if not self.planet.check_if_scanned(coords):
                 # Do a 360* scan, if we haven't discovered this point before, or we've discovered it before but
                 # we have less than 4 paths from it saved (we might have had some paths revealed from the mothership),
                 # or the previous coordinates aren't the same as the current one (otherwise we just drove a loop)
                 # TODO: perhaps create a dict in planet with all the points we definitely have already scanned?
                 paths = self.scan_for_paths(direction)  # Do a 360* scan for outgoing paths
+                self.planet.add_andre(coords)
                 self.logger.debug("Paths in directions: %s" % paths)
                 self.reset_motors()
                 self.odometry.reset()
-                # self.odometry.update_motor_stack()
-                # self.logger.debug("Odometry coords after rotation: %s", str(self.odometry.calc_coord()))
-                # self.odometry.clear_motor_stack()
 
                 if is_first_point:
                     remove_path = (direction - 180) % 360
@@ -247,17 +243,25 @@ class Explorer:
                         paths.remove(remove_path)  # Remove the "entry" path from the list of paths
                     is_first_point = False
 
-            for p in paths:
-                self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
+                for p in paths:
+                    self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
 
             dfs = self.planet.depth_first_search(coords)  # Search which path to drive next with DFS
 
             try:
-                chosen_path = int(dfs[0][1])
+                self.logger.debug("DFS: %s" % str(dfs))
+                if type(dfs) is list:
+                    result = dfs[0][1]
+                elif type(dfs) is dict:
+                    result = dfs[0][0][1]
+                else:
+                    result = direction
+                self.logger.debug("DFS result: %s" % str(result))
+                chosen_path = int(result)
             except Exception as error:
                 self.logger.warning("DFS error")
                 self.logger.exception(error)
-                chosen_path = None
+                chosen_path = direction
 
             self.logger.debug("DFS chosen path: %s" % chosen_path)
 
