@@ -219,20 +219,19 @@ class Explorer:
 
                 coords = path[1][0]  # Get corrected (end) coordinates
                 direction = (path[1][1] - 180) % 360   # Get corrected direction
-                self.logger.debug("Fixed coords %s" % str((coords, direction)))
+                self.logger.debug("Coords: %s" % str((coords, direction)))
                 self.odometry.set_coord(coords, direction)  # Apply corrected coordinates and direction
 
                 self.communication.reset_path()
 
             self.drive_off_point()  # Drive off the square for rotation
 
+            self.logger.debug("Scanned points: %s" % str(self.planet.andre))
+
             if not self.planet.check_if_scanned(coords):
-                # Do a 360* scan, if we haven't discovered this point before, or we've discovered it before but
-                # we have less than 4 paths from it saved (we might have had some paths revealed from the mothership),
-                # or the previous coordinates aren't the same as the current one (otherwise we just drove a loop)
-                # TODO: perhaps create a dict in planet with all the points we definitely have already scanned?
+                # Do a 360* scan, if we haven't discovered scanned this path before.
                 paths = self.scan_for_paths(direction)  # Do a 360* scan for outgoing paths
-                self.planet.add_andre(coords)
+                self.planet.add_andre(coords)  # Add this point to scanned points
                 self.logger.debug("Paths in directions: %s" % paths)
                 self.reset_motors()
                 self.odometry.reset()
@@ -254,7 +253,11 @@ class Explorer:
                     result = dfs[0][1]
                 elif type(dfs) is dict:
                     result = dfs[0][0][1]
-                else:
+                elif dfs is None:
+                    self.communication.exploration_completed_message()
+                    # TODO: wait for answer / further instructions
+                    break
+                else:  # This shouldn't happen
                     result = direction
                 self.logger.debug("DFS result: %s" % str(result))
                 chosen_path = int(result)
@@ -263,7 +266,7 @@ class Explorer:
                 self.logger.exception(error)
                 chosen_path = direction
 
-            self.logger.debug("DFS chosen path: %s" % chosen_path)
+            self.logger.debug("DFS chosen direction: %s" % chosen_path)
 
             if self.communication.target:
                 self.target = self.communication.target  # Target coordinates
@@ -277,7 +280,7 @@ class Explorer:
 
                 if not self.path_to_target:  # TODO: maybe calculate new shortest path on every reached point?
                     self.path_to_target = self.planet.shortest_path(coords, self.target)  # Shortest path to target
-                    self.logger.debug("Path to target is %s" % str(self.path_to_target))
+                    self.logger.debug("Shortest path to target is %s" % str(self.path_to_target))
 
                 if self.path_to_target:  # If shortest path is possible
                     select = [d for d in self.path_to_target if d[0] == coords]  # Find current coords in shortest path
@@ -291,16 +294,16 @@ class Explorer:
                 path_select_answer = self.communication.path_select
                 time.sleep(0.25)
 
-            self.logger.debug("End of communication for this point")
+            self.logger.debug("End of transmission for this point")
 
             # self.expression.tone_end_communication().wait()
 
             if path_select_answer:
                 chosen_path = path_select_answer  # Apply path direction
-                self.logger.debug("Chosen path from server: %s" % chosen_path)
+                self.logger.debug("Server chose direction: %s" % chosen_path)
                 self.communication.reset_path_select()
 
-            self.logger.debug("Chosen path %s" % chosen_path)
+            self.logger.debug("Chosen direction is %s" % chosen_path)
 
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen path
 
