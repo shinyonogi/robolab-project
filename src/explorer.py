@@ -58,6 +58,9 @@ class Explorer:
         # self.red_rb_range = ((100, 140), (10, 30))
         # self.blue_rb_range = ((20, 50), (80, 100))
 
+        self.target = None
+        self.path_to_target = None
+
         self.logger.info("Explorer initialized and ready")
 
     def start_calibration(self):
@@ -111,7 +114,6 @@ class Explorer:
         # Make sure the provided powers are in the range 0 - 100
         tp_right = -100 if tp_right < -100 else 100 if tp_right > 100 else tp_right
         tp_left = -100 if tp_left < -100 else 100 if tp_left > 100 else tp_left
-        # TODO: sometimes only one of the motors is starting, figure out why and how to prevent that
         # I guess this is might be a fix for it... just send the command three times so the motors really get it
         for i in range(3 if check_dc else 1):
             self.motor_right.duty_cycle_sp = tp_right
@@ -130,11 +132,22 @@ class Explorer:
         self.motor_left.stop_action = "coast"
 
     def rotate(self, degrees):
+        """Rotate the robot counter-clockwise by the specified degrees."""
         self.reset_gyro()
         time.sleep(1)
         gyro_start_angle = self.gyro_sensor.angle
         self.run_motors(self.target_power, -self.target_power)
         while self.gyro_sensor.angle > gyro_start_angle - degrees:
+            time.sleep(0.1)
+        self.stop_motors()
+
+    def rotate_clockwise(self, degrees):
+        """Rotate the robot clockwise by the specified degrees."""
+        self.reset_gyro()
+        time.sleep(1)
+        gyro_start_angle = self.gyro_sensor.angle
+        self.run_motors(-self.target_power, self.target_power)
+        while self.gyro_sensor.angle < gyro_start_angle + degrees:
             time.sleep(0.1)
         self.stop_motors()
 
@@ -199,13 +212,13 @@ class Explorer:
                     "blocked" if blocked else "free",
                 )  # Send the discovered path to the mothership
 
-                path_answer = None
-                while not path_answer:  # Wait for answer from mothership
-                    path_answer = self.communication.path
+                path = None
+                while not path:  # Wait for answer from mothership
+                    path = self.communication.path
                     time.sleep(0.1)
 
-                coords = (path_answer.get("endX"), path_answer.get("endY"))  # Get corrected coordinates
-                direction = (path_answer.get("endDirection") - 180) % 360   # Get corrected direction
+                coords = path[1][0]  # Get corrected (end) coordinates
+                direction = (path[1][1] - 180) % 360   # Get corrected direction
                 self.logger.debug("Fixed coords %s" % str((coords, direction)))
                 self.odometry.set_coord(coords, direction)  # Apply corrected coordinates and direction
 
@@ -239,31 +252,51 @@ class Explorer:
 
             dfs = self.planet.depth_first_search(coords)  # Search which path to drive next with DFS
 
-            chosen_path = int(dfs[0][1])  # Get search result TODO: check if None, in that case... what?
+            try:
+                chosen_path = int(dfs[0][1])
+            except Exception as error:
+                self.logger.warning("DFS error")
+                self.logger.exception(error)
+                chosen_path = None
 
             self.logger.debug("DFS chosen path: %s" % chosen_path)
+
+            if self.communication.target:
+                self.target = self.communication.target  # Target coordinates
+                self.communication.reset_target()
+
+            if self.target:
+                if coords == self.target:
+                    self.logger.info("Target reached")
+                    self.target = None
+                    self.path_to_target = None  # TODO: end here?
+
+                if not self.path_to_target:  # TODO: maybe calculate new shortest path on every reached point?
+                    self.path_to_target = self.planet.shortest_path(coords, self.target)  # Shortest path to target
+                    self.logger.debug("Path to target is %s" % str(self.path_to_target))
+
+                if self.path_to_target:  # If shortest path is possible
+                    select = [d for d in self.path_to_target if d[0] == coords]  # Find current coords in shortest path
+                    if len(select) > 0:
+                        chosen_path = int(select[0][1])
 
             self.communication.path_select_message(coords[0], coords[1], chosen_path)  # Send chosen path to mothership
 
             path_select_answer = None
-            target = None
-            self.logger.debug("Last message at: %s, Current time: %s" % (self.communication.last_message_at, time.time()))
             while self.communication.last_message_at + 3 > time.time():  # 3 second timeout after last message
                 path_select_answer = self.communication.path_select
-                target = self.communication.target
                 time.sleep(0.25)
 
             self.logger.debug("End of communication for this point")
 
-            self.expression.tone_end_communication().wait()
+            # self.expression.tone_end_communication().wait()
 
             if path_select_answer:
-                chosen_path = path_select_answer.get("startDirection")  # Apply path direction
+                chosen_path = path_select_answer  # Apply path direction
                 self.logger.debug("Chosen path from server: %s" % chosen_path)
                 self.communication.reset_path_select()
 
-            if target:
-                pass  # TODO: do something
+            self.logger.debug("Chosen path %s" % chosen_path)
 
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen path
 
