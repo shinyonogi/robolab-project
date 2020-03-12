@@ -286,6 +286,17 @@ class Planet:
             else:
                 self.andre.append(i)
                 return self.shortest_path(coordinate, i)
+
+
+    def check_if_scanned(self, coordinate):
+
+        for i in self.andre:
+            if coordinate in self.andre:
+                return True
+            else:
+                continue
+
+        return False
                 
 
     #def delete_andre(self, coordinate):
