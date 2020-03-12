@@ -93,22 +93,24 @@ class Communication:
                 x_s = m_payload.get("startX")
                 y_s = m_payload.get("startY")
                 d_s = m_payload.get("startDirection")
+                start = ((x_s, y_s), d_s)
                 x_e = m_payload.get("endX")
                 y_e = m_payload.get("endY")
                 d_e = m_payload.get("endDirection")
+                end = ((x_e, y_e), d_e)
                 path_weight = m_payload.get("pathWeight")
 
                 if m_type == "path":
-                    self.path = m_payload
+                    self.path = (start, end)
 
-                self.planet.add_path(((x_s, y_s), d_s), ((x_e, y_e), d_e), path_weight)
+                self.planet.add_path(start, end, path_weight)
             elif m_type == "pathSelect":
-                self.path_select = m_payload
+                self.path_select = m_payload.get("startDirection")
             elif m_type == "target":
-                self.target = m_payload
+                self.target = (m_payload.get("targetX"), m_payload.get("targetY"))
             elif m_type == "done":
-                message = m_payload["message"]
-                self.logger.info("Message from Mothership", message)
+                message = m_payload.get("message")
+                self.logger.info("Message from Mothership %s" % message)
 
     def reset_path_select(self):
         self.path_select = None
