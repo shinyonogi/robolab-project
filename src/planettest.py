@@ -275,91 +275,94 @@ class RoboLabPlanetTests(unittest.TestCase):
 
     def test_andre(self):
 
+
+        """
+        (loop1) (0, 3)   -   +   -   +
+                                     |
+                    +    - (1, 2) -  (2, 2)
+                    |                |
+                (0, 1)   - (1, 1)    +
+                    |        |       |
+                (0, 0)       +   -  (2, 0)
+                                     |
+                                    (BLOCKED)
+                    
+        """
+
         test_planet = Planet()
 
+        #First point (0, 0)
         test_planet.depth_first_add_stack((0, 0), Direction.NORTH)
-
-        test = test_planet.depth_first_search((0, 0))
-        test_planet.depth_first_add_reached((0, 0), Direction.NORTH)
-
         test_planet.add_andre((0, 0))
 
-        #print(test)
-        
+        select_path = test_planet.depth_first_search((0, 0))
+        print(select_path)
+        test_planet.depth_first_add_reached((0, 0), Direction.NORTH)
+
         test_planet.add_path(((0, 0), Direction.NORTH), ((0, 1), Direction.SOUTH), 1)
 
-        #ätest_planet.delete_andre((0, 0))
 
-
+        #Second point (0, 1)
         test_planet.depth_first_add_stack((0, 1), Direction.NORTH)
         test_planet.depth_first_add_stack((0, 1), Direction.SOUTH)
         test_planet.depth_first_add_stack((0, 1), Direction.EAST)
-
         test_planet.add_andre((0, 1))
 
-        test = test_planet.depth_first_search((0, 1))
+        select_path = test_planet.depth_first_search((0, 1))
+        print(select_path)
         test_planet.depth_first_add_reached((0, 1), Direction.NORTH)
-
-        #print(test)
 
         test_planet.add_path(((0, 1), Direction.NORTH), ((1, 2), Direction.WEST), 1)
 
-        #test_planet.delete_andre((0, 1))
 
-
+        #Third point (1, 2)
         test_planet.depth_first_add_stack((1, 2), Direction.EAST)
         test_planet.depth_first_add_stack((1, 2), Direction.WEST)
-
-        test = test_planet.depth_first_search((1, 2))
-        test_planet.depth_first_add_reached((1, 2), Direction.EAST)
-
         test_planet.add_andre((1, 2))
 
-        #print(test)
+        select_path = test_planet.depth_first_search((1, 2))
+        print(select_path)
+        test_planet.depth_first_add_reached((1, 2), Direction.EAST)
 
         test_planet.add_path(((1, 2), Direction.EAST), ((2, 2), Direction.WEST), 1)
 
-        #test_planet.delete_andre((1, 2))
 
-
+        #Fourth point (2, 2)
         test_planet.depth_first_add_stack((2, 2), Direction.NORTH)
         test_planet.depth_first_add_stack((2, 2), Direction.SOUTH)
-
-        test = test_planet.depth_first_search((2, 2))
-        test_planet.depth_first_add_reached((2, 2), Direction.NORTH)
+        test_planet.add_andre((2, 2))
 
         test_planet.add_path(((2, 2), Direction.NORTH), ((0, 3), Direction.EAST), 3)
 
-        #test_planet.delete_andre((2, 2))
-
-        test_planet.add_andre((2, 2))
-
-        #print(test)
+        select_path = test_planet.depth_first_search((2, 2))
+        print(select_path)
+        test_planet.depth_first_add_reached((2, 2), Direction.NORTH)
 
 
+
+        #Fifth point (3, 0)
         test_planet.depth_first_add_stack((0, 3), Direction.SOUTH)
         test_planet.depth_first_add_stack((0, 3), Direction.WEST)
-        
+        test_planet.add_andre((0, 3))
+
         test_planet.add_path(((0, 1), Direction.EAST), ((1, 1), Direction.WEST), 1)
         test_planet.add_path(((1, 1), Direction.SOUTH), ((2, 0), Direction.WEST), 1)
         test_planet.add_path(((2, 0), Direction.NORTH), ((2, 2), Direction.SOUTH), 2)
 
-        test = test_planet.depth_first_search((0, 3))
+        select_path = test_planet.depth_first_search((0, 3))
+        print(select_path)
         test_planet.depth_first_add_reached((0, 3), Direction.SOUTH)
+
+
+        #Sixth point (3, 0)
         test_planet.add_path(((0, 3), Direction.SOUTH), ((0, 3), Direction.WEST), 1)
+        
+        select_path = test_planet.depth_first_search((0, 3))
+        print(select_path)
 
-        #test_planet.delete_andre((0, 3))
+        #print(test_planet.andre)
 
-        test_planet.add_andre((0, 3))
-
-        #print(test)
-
-        test = test_planet.depth_first_search((0, 3))
-        print(test)
-
-        print(test_planet.andre)
-
-        #print(test_planet.shortest_path((0, 0), (0, 3)))
+        print(test_planet.shortest_path((0, 0), (2, 2)))
         #print(test_planet.shortest_path((0, 3), (1, 1)))
 
 
