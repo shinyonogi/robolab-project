@@ -84,7 +84,6 @@ class RoboLabPlanetTests(unittest.TestCase):
     def test_shortest_path_opposite_path_1(self):
         #checks if two opposite ways return the same (opposite) shortest path 
         shortest_path = self.planet.shortest_path((1, 6), (1, 1))
-        shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((1, 6), Direction.EAST))
         self.assertEqual(shortest_path[1], ((3, 5), Direction.SOUTH))
         self.assertEqual(shortest_path[2], ((3, 4), Direction.SOUTH))
@@ -93,7 +92,6 @@ class RoboLabPlanetTests(unittest.TestCase):
 
 
         shortest_path = self.planet.shortest_path((1, 1), (1, 6))
-        shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((1, 1), Direction.EAST))
         self.assertEqual(shortest_path[1], ((2, 1), Direction.EAST))
         self.assertEqual(shortest_path[2], ((3, 2), Direction.NORTH))
@@ -103,7 +101,6 @@ class RoboLabPlanetTests(unittest.TestCase):
     def test_start_with_loop(self):
         #checks if the search for the shortest path doesn't stuck when it begins with a loop
         shortest_path = self.planet.shortest_path((1, 5), (2, 3))
-        shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((1, 5), Direction.SOUTH))
         self.assertEqual(shortest_path[1], ((1, 3), Direction.EAST))
 
@@ -116,7 +113,6 @@ class RoboLabPlanetTests(unittest.TestCase):
     def test_end_with_loop(self):
         #checks if the search for the shortest path doesn't stuck in a loop when it ends with a loop
         shortest_path = self.planet.shortest_path((2, 3), (1, 5))
-        shortest_path = shortest_path[0]
         self.assertEqual(shortest_path[0], ((2, 3), Direction.WEST))
         self.assertEqual(shortest_path[1], ((1, 3), Direction.NORTH))
 
@@ -164,7 +160,6 @@ class RoboLabPlanetTests(unittest.TestCase):
         Requirement: Minimum distance is three nodes (two paths in list returned)
         """
         test_shortest_path = self.planet.shortest_path((1, 1), (3, 4))
-        test_shortest_path = test_shortest_path[0]
 
         if ((test_shortest_path[0] != ((1, 1), Direction.EAST))
                 or (test_shortest_path[1] != ((2, 1), Direction.EAST))
@@ -187,18 +182,12 @@ class RoboLabPlanetTests(unittest.TestCase):
         Requirement: Minimum of two paths with same cost exists, only one is returned by the logic implemented
         """
 
-        test_shortest_path = self.planet.shortest_path((1, 1), (3, 5))
+        test_shortest_path_1 = self.planet.shortest_path((1, 1), (3, 5))
 
-        test_shortest_path_1 = test_shortest_path[0]
         self.assertEqual(test_shortest_path_1[0], ((1, 1), Direction.EAST))     
         self.assertEqual(test_shortest_path_1[1], ((2, 1), Direction.EAST))
         self.assertEqual(test_shortest_path_1[2], ((3, 2), Direction.NORTH))
         self.assertEqual(test_shortest_path_1[3], ((3, 4), Direction.NORTH))
-
-        test_shortest_path_2 = test_shortest_path[1]
-        self.assertEqual(test_shortest_path_2[0], ((1, 1), Direction.NORTH))
-        self.assertEqual(test_shortest_path_2[1], ((1, 2), Direction.EAST))
-        self.assertEqual(test_shortest_path_2[2], ((2, 3), Direction.NORTH))
 
 
     def test_target_with_loop(self):
@@ -209,7 +198,6 @@ class RoboLabPlanetTests(unittest.TestCase):
         Result: Target is reachable
         """
         test_shortest_path = self.planet.shortest_path((2, 3), (1, 5))
-        test_shortest_path = test_shortest_path[0]
 
         if ((test_shortest_path[0] != ((2, 3), Direction.WEST))
                 or (test_shortest_path[1] != ((1, 3), Direction.NORTH))):
@@ -359,9 +347,9 @@ class RoboLabPlanetTests(unittest.TestCase):
         test_planet.add_path(((0, 3), Direction.SOUTH), ((0, 3), Direction.WEST), 4)
         
         select_path = test_planet.depth_first_search((0, 3))
-        self.assertEqual(select_path[0][0], ((0, 3), Direction.EAST))
-        self.assertEqual(select_path[0][1], ((2, 2), Direction.SOUTH))
-        self.assertEqual(select_path[0][2], ((2, 0), Direction.WEST))
+        self.assertEqual(select_path[0], ((0, 3), Direction.EAST))
+        self.assertEqual(select_path[1], ((2, 2), Direction.SOUTH))
+        self.assertEqual(select_path[2], ((2, 0), Direction.WEST))
         test_planet.depth_first_add_reached((0, 3), Direction.EAST)
 
         #Seventh point (2, 0)
