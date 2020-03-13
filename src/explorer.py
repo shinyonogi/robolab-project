@@ -292,10 +292,10 @@ class Explorer:
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
                 rotate = (direction - chosen_path) % 360
-                if rotate == 270:
-                    self.rotate_clockwise(90 + 10)
-                else:
-                    self.rotate((direction - chosen_path) % 360 - 10)
+                # if rotate == 270:
+                #     self.rotate_clockwise(90 + 10)
+                # else:
+                self.rotate((direction - chosen_path) % 360 - 10)
                 self.odometry.set_coord(None, chosen_path)
                 self.reset_motors()
                 self.odometry.reset()
