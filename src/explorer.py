@@ -249,6 +249,37 @@ class Explorer:
                     self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
 
             chosen_path = None
+            last_message_at = time.time()
+            while last_message_at + 3 > time.time():
+                last_message_at = self.communication.last_message_at
+                communication_target = self.communication.target
+                path_select = self.communication.path_select
+
+                if chosen_path is None or self.target != communication_target:
+                    self.target = communication_target
+                    self.planet.set_target(communication_target)
+
+                    dfs_direction = self.dfs_get_direction(coords)
+
+                    if not dfs_direction:
+                        self.exploration_completed()
+                    else:
+                        chosen_path = int(dfs_direction)
+
+                    self.communication.path_select_message(coords[0], coords[1], chosen_path)
+
+                if path_select:
+                    chosen_path = path_select
+                    self.logger.debug("Server chose direction: %s" % chosen_path)
+                    self.communication.reset_path_select()
+
+                time.sleep(0.25)
+
+            self.logger.debug("End of transmission for this point")
+            self.expression.tone_end_communication().wait()
+
+            self.logger.debug("Chosen direction is %s" % chosen_path)
+            self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
                 self.rotate((direction - chosen_path) % 360)
@@ -260,6 +291,39 @@ class Explorer:
 
             with open("/home/robot/planet_%s.pickle" % self.planet.name, "wb+") as file:
                 pickle.dump(self.planet, file)
+
+    def dfs_get_direction(self, coords):
+        dfs = self.planet.depth_first_search(coords)  # Search which path to drive next with DFS
+
+        self.logger.debug("DFS: %s" % str(dfs))
+
+        if type(dfs) is list:
+            result = dfs[0][1]
+        elif type(dfs) is dict:
+            result = dfs[0][0][1]
+        elif dfs is None:
+            result = None
+        else:
+            result = None
+
+        self.logger.debug("DFS result: %s" % str(result))
+
+        return result
+
+    def exploration_completed(self, coords):
+        if self.target and coords == self.target:
+            self.communication.target_reached_message()
+        else:
+            self.communication.exploration_completed_message()
+
+        done = False
+        while self.communication.last_message_at + 5 > time.time():  # Wait for confirmation
+            done = self.communication.is_done
+            if done:
+                # TODO: play sound effect and stuff
+                break
+
+        return done  # This only happens when done is False, so we've missed something
 
     def drive_off_point(self):
         """Drive off a colored square using the color sensor. The robot stops after when it only detects black or white.
