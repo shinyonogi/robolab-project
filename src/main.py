@@ -6,6 +6,7 @@ import sys
 import os
 import paho.mqtt.client as mqtt
 import uuid
+import datetime
 
 from communication import Communication
 from expression import Expression
@@ -89,7 +90,10 @@ def run():
         )
         cmd = input("Please enter command: ")
         if cmd == "s":
+            start_time = datetime.datetime.now().replace(microsecond=0)
             explorer.start_exploration()
+            exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
+            custom_logger.info("Exploration completed after %s" % exploration_time)
         elif cmd == "r":
             explorer.run_motors(50, 50)
             custom_logger.info("Press enter to stop")
