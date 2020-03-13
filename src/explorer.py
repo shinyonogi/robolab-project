@@ -318,10 +318,6 @@ class Explorer:
 
         if type(dfs) is list:
             result = dfs[0][1]
-        elif type(dfs) is dict:
-            result = dfs[0][0][1]
-        elif dfs is None:
-            result = None
         else:
             result = None
 
