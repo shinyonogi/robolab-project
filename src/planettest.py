@@ -387,53 +387,179 @@ class RoboLabPlanetTests(unittest.TestCase):
     
     def test_grommit(self):
 
-            paths = {
-        (-1, -2): {0: ((-1, -1), 180, 1)},
-        (-1, -1): {180: ((-1, -2), 0, 1), 0: ((-1, 1), 180, 1)},
-        (-1, 1): {180: ((-1, -1), 0, 1), 0: ((-2, 2), 90, 1)},
-        (-2, 2): {90: ((-1, 1), 0, 1), 180: ((-2, 1), 0, 1)},
-        (-2, 1): {0: ((-2, 2), 180, 1), 180: ((-2, 0), 0, 1)},
-        (-2, 0): {0: ((-2, 1), 180, 1), 180: ((-2, -1), 0, 1)},
-        (-3, -1): {0: ((-3, -1), 270, 1), 270: ((-3, -1), 0, 1)},
-        (-2, -1): {0: ((-2, 0), 180, 1), 180: ((-2, -2), 0, 1)},
-        (-2, -2): {0: ((-2, -1), 180, 1), 180: ((-2, -2), 180, -1)}
-    }
+        grommit = Planet()
 
-    andre = [
-        (-1, -2),
-        (-1, -1),
-        (-1, 1),
-        (-2, 2),
-        (-2, 1),
-        (-2, 0),
-        (-2, -1),
-        (-2, -2)
-    ]
+        #First point (-1, -2):
 
-    dfs_stack = {
-        (-1, -2): [0],
-        (-1, -1): [180, 0],
-        (-1, 1): [180, 0],
-        (-2, 2): [90, 270, 180],
-        (-2, 1): [0, 180, 270],
-        (-2, 0): [0, 180, 270],
-        (-3, -1): [0, 270],
-        (-2, -1): [0, 180, 270],
-        (-2, -2): [0, 180, 270]
-    }
+        grommit.depth_first_add_stack((-1, -2), Direction.NORTH)
+        grommit.add_andre((-1, -2))
 
-    dfs_searched = {
-        (-1, -2): [0],
-        (-1, -1): [180, 0],
-        (-1, 1): [180, 0],
-        (-2, 2): [90, 180],
-        (-2, 1): [0, 180],
-        (-2, 0): [0, 180],
-        (-3, -1): [0, 270],
-        (-2, -1): [0, 180],
-        (-2, -2): [0, 180, 270]
-    }
+        select_path = grommit.depth_first_search((-1, -2))
+        self.assertEqual(select_path, [((-1, -2), Direction.NORTH)])
 
+        grommit.depth_first_add_reached((-1, -2), Direction.NORTH)
+
+
+
+        #Second point (-1, -1):
+
+        grommit.add_path(((-1, -2), Direction.NORTH), ((-1, -1), Direction.SOUTH), 1)
+
+        grommit.depth_first_add_stack((-1, -1), Direction.NORTH)
+        grommit.depth_first_add_stack((-1, -1), Direction.SOUTH)
+        grommit.add_andre((-1, -1))
+
+        select_path = grommit.depth_first_search((-1, -1))
+        self.assertEqual(select_path, [((-1, -1), Direction.NORTH)])
+
+        grommit.depth_first_add_reached((-1, -1), Direction.NORTH)
+
+        #Third point (-1, 1):
+
+        grommit.add_path(((-1, -1), Direction.NORTH), ((-1, 1), Direction.SOUTH), 1)
+
+        grommit.depth_first_add_stack((-1, 1), Direction.NORTH)
+        grommit.depth_first_add_stack((-1, 1), Direction.SOUTH)
+        grommit.add_andre((-1, 1))
+
+        select_path = grommit.depth_first_search((-1, 1))
+        self.assertEqual(select_path, [((-1, 1), Direction.NORTH)])
+
+        grommit.depth_first_add_reached((-1, 1), Direction.NORTH)
+
+        #Fourth point (-2, 2):
+
+        grommit.add_path(((-1, 1), Direction.NORTH), ((-2, 2), Direction.EAST), 1)
+
+        grommit.depth_first_add_stack((-2, 2), Direction.WEST)
+        grommit.depth_first_add_stack((-2, 2), Direction.SOUTH)
+        grommit.depth_first_add_stack((-2, 2), Direction.EAST)
+        grommit.add_andre((-2, 2))
+
+        select_path = grommit.depth_first_search((-2, 2))
+        self.assertEqual(select_path, [((-2, 2), Direction.SOUTH)])
+
+        grommit.add_path(((-3, -1), Direction.NORTH), ((-3, -1), Direction.WEST), 1)
+
+        grommit.depth_first_add_reached((-2, 2), Direction.SOUTH)
+
+        #Fifth point (-2, 1):
+
+        grommit.add_path(((-2, 2), Direction.SOUTH), ((-2, 1), Direction.NORTH), 1)
+
+        grommit.depth_first_add_stack((-2, 1), Direction.SOUTH)
+        grommit.depth_first_add_stack((-2, 1), Direction.NORTH)
+        grommit.depth_first_add_stack((-2, 1), Direction.WEST)
+        grommit.add_andre((-2, 1))
+
+        select_path = grommit.depth_first_search((-2, 1))
+        self.assertEqual(select_path, [((-2, 1), Direction.SOUTH)])
+
+        grommit.depth_first_add_reached((-2, 1), Direction.SOUTH)
+
+        #Sixth point (-2, 0):
+
+        grommit.add_path(((-2, 1), Direction.SOUTH), ((-2, 0), Direction.NORTH), 1)
+
+        grommit.depth_first_add_stack((-2, 0), Direction.SOUTH)
+        grommit.depth_first_add_stack((-2, 0), Direction.NORTH)
+        grommit.depth_first_add_stack((-2, 0), Direction.WEST)
+        grommit.add_andre((-2, 0))
+
+        select_path = grommit.depth_first_search((-2, 0))
+        self.assertEqual(select_path, [((-2, 0), Direction.SOUTH)])
+
+        grommit.depth_first_add_reached((-2, 0), Direction.SOUTH)
+
+
+        #Seventh point (-2, -1):
+
+        grommit.add_path(((-2, 0), Direction.SOUTH), ((-2, -1), Direction.NORTH), 1)
+
+        grommit.depth_first_add_stack((-2, -1), Direction.SOUTH)
+        grommit.depth_first_add_stack((-2, -1), Direction.NORTH)
+        grommit.depth_first_add_stack((-2, -1), Direction.WEST)
+        grommit.add_andre((-2, -1))
+
+        select_path = grommit.depth_first_search((-2, -1))
+        self.assertEqual(select_path, [((-2, -1), Direction.SOUTH)])
+
+        grommit.depth_first_add_reached((-2, -1), Direction.WEST)
+
+        #Eighth (-3, -1):
+
+        grommit.add_path(((-2, -1), Direction.WEST), ((-3, -1), Direction.EAST), 1)
+        
+        grommit.depth_first_add_stack((-3, -1), Direction.NORTH)
+        grommit.depth_first_add_stack((-3, -1), Direction.EAST)
+        grommit.depth_first_add_stack((-3, -1), Direction.WEST)
+        grommit.depth_first_add_stack((-3, -1), Direction.SOUTH)
+        grommit.add_andre((-3, -1))
+
+        #print(grommit.depth_first_stack)
+        #print(grommit.depth_first_reached)
+
+        #for i in grommit.depth_first_stack:
+            #print(i)
+
+        select_path = grommit.depth_first_search((-3, -1))
+        #elf.assertEqual(select_path, [((-3, -1), Direction.NORTH)])
+        self.assertEqual(select_path, [((-3, -1), Direction.EAST)])
+
+        #print(grommit.shortest_path((-3, -1), (-2, -1)))
+
+
+
+
+        """
+        paths = {
+            (-1, -2): {0: ((-1, -1), 180, 1)},
+            (-1, -1): {180: ((-1, -2), 0, 1), 0: ((-1, 1), 180, 1)},
+            (-1, 1): {180: ((-1, -1), 0, 1), 0: ((-2, 2), 90, 1)},
+            (-2, 2): {90: ((-1, 1), 0, 1), 180: ((-2, 1), 0, 1)},
+            (-2, 1): {0: ((-2, 2), 180, 1), 180: ((-2, 0), 0, 1)},
+            (-2, 0): {0: ((-2, 1), 180, 1), 180: ((-2, -1), 0, 1)},
+            (-3, -1): {0: ((-3, -1), 270, 1), 270: ((-3, -1), 0, 1)},
+            (-2, -1): {0: ((-2, 0), 180, 1), 180: ((-2, -2), 0, 1)},
+            (-2, -2): {0: ((-2, -1), 180, 1), 180: ((-2, -2), 180, -1)}
+        }
+
+        andre = [
+            (-1, -2),
+            (-1, -1),
+            (-1, 1),
+            (-2, 2),
+            (-2, 1),
+            (-2, 0),
+            (-2, -1),
+            (-2, -2)
+        ]
+
+        dfs_stack = {
+            (-1, -2): [0],
+            (-1, -1): [180, 0],
+            (-1, 1): [180, 0],
+            (-2, 2): [90, 270, 180],
+            (-2, 1): [0, 180, 270],
+            (-2, 0): [0, 180, 270],
+            (-3, -1): [0, 270],
+            (-2, -1): [0, 180, 270],
+            (-2, -2): [0, 180, 270]
+        }
+
+        dfs_searched = {
+            (-1, -2): [0],
+            (-1, -1): [180, 0],
+            (-1, 1): [180, 0],
+            (-2, 2): [90, 180],
+            (-2, 1): [0, 180],
+            (-2, 0): [0, 180],
+            (-3, -1): [0, 270],
+            (-2, -1): [0, 180],
+            (-2, -2): [0, 180, 270]
+        }
+
+        """
 
 if __name__ == "__main__":
     unittest.main()

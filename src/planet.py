@@ -277,7 +277,7 @@ class Planet:
             if(start == target[0]):
                 return [target]
             else:
-                return self.shortest_path(start, target)
+                return self.shortest_path(start, target[0])
         elif(target == ()):
             if(self.andre != []):
                 return self.check_andre(start)
