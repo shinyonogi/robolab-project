@@ -38,6 +38,7 @@ class Communication:
         self.path = None
         self.path_select = None
         self.target = None
+        self.is_done = False
 
     def connect(self, username, password):
         self.client.username_pw_set(username=username, password=password)
@@ -109,8 +110,9 @@ class Communication:
             elif m_type == "target":
                 self.target = (m_payload.get("targetX"), m_payload.get("targetY"))
             elif m_type == "done":
+                self.is_done = True
                 message = m_payload.get("message")
-                self.logger.info("Message from Mothership %s" % message)
+                self.logger.info("Message from Mothership: %s" % message)
 
     def reset_path_select(self):
         self.path_select = None

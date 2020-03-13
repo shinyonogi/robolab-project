@@ -43,8 +43,11 @@ class Planet:
 
         self.andre = []
 
-    def set_name(self, name):
+    def set_name(self, name: str):
         self.name = name
+
+    def set_target(self, target: Tuple[int, int]):
+        self.target = target
 
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction],
                  weight: int):
@@ -243,6 +246,12 @@ class Planet:
         
         
     def depth_first_search(self, start):
+
+        if self.target:
+            shortest_to_target = self.shortest_path(start, self.target)
+
+            if shortest_to_target:
+                return shortest_to_target
 
         target = ()
 
