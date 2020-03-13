@@ -172,12 +172,18 @@ class Explorer:
 
             if is_first_point:  # Run if this is our "entry" point
                 self.logger.info("Sending ready-signal to mothership")
-                self.communication.ready_message()
 
                 planet_data = None
-                while not planet_data:  # Wait for answer from mothership
-                    planet_data = self.communication.planet_data
-                    time.sleep(0.1)
+                while not planet_data:
+                    self.communication.ready_message()
+
+                    for j in range(10):  # Wait for answer from mothership
+                        planet_data = self.communication.planet_data
+                        if planet_data:
+                            break
+                        time.sleep(0.2)
+
+                    time.sleep(1)
 
                 self.logger.info("Our planet is called %s" % planet_data.get("planetName"))
                 self.planet.set_name(planet_data.get("planetName"))
