@@ -81,8 +81,11 @@ def run():
 
     # TODO: this is the code for the exam deploy, so comment it out on time!
     # explorer.start_calibration()
+    # start_time = datetime.datetime.now().replace(microsecond=0)
     # explorer.start_exploration()
-    # sys.exit(0)
+    # exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
+    # custom_logger.info("Exploration completed in %s" % exploration_time)
+    # return
 
     while True:
         custom_logger.info(
