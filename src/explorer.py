@@ -219,7 +219,9 @@ class Explorer:
 
                     for j in range(10):  # Wait for answer from mothership
                         path = self.communication.path
-                        time.sleep(0.1)
+                        if path:
+                            break
+                        time.sleep(0.2)
 
                     time.sleep(1)
 
@@ -291,9 +293,9 @@ class Explorer:
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
                 rotate = (direction - chosen_path) % 360
                 if rotate == 270:
-                    self.rotate_clockwise(90 + 15)
+                    self.rotate_clockwise(90 + 10)
                 else:
-                    self.rotate((direction - chosen_path) % 360 - 15)
+                    self.rotate((direction - chosen_path) % 360 - 10)
                 self.odometry.set_coord(None, chosen_path)
                 self.reset_motors()
                 self.odometry.reset()
@@ -331,7 +333,7 @@ class Explorer:
         while self.communication.last_message_at + 5 > time.time():  # Wait for confirmation
             done = self.communication.is_done
             if done:
-                self.expression.song_star_wars_short().wait()
+                self.expression.song_star_wars_short()
                 break
 
         return done  # This only happens when done is False, so we've missed something
@@ -374,7 +376,7 @@ class Explorer:
                 self.logger.debug("Path blocked")
                 self.stop_motors()
                 self.expression.tone_warning().wait()
-                self.rotate(180)
+                self.rotate(180 - 10)
                 self.odometry.update_motor_stack()
                 self.odometry.clear_motor_stack()
                 new_angle = (self.odometry.angle - 180) % 360  # TODO: try if odometry would calculate this correctly
