@@ -261,7 +261,10 @@ class Explorer:
                     dfs_direction = self.dfs_get_direction(coords)
 
                     if dfs_direction is None:
-                        self.exploration_completed(coords)
+                        done = self.exploration_completed(coords)
+                        # TODO: what to do when not done?
+                        if done:
+                            break
                     else:
                         chosen_path = int(dfs_direction)
 
@@ -274,6 +277,9 @@ class Explorer:
 
                 time.sleep(0.25)
                 last_message_at = self.communication.last_message_at
+
+            if done:
+                break
 
             self.logger.debug("End of transmission for this point")
             # self.expression.tone_end_communication().wait()
@@ -320,7 +326,7 @@ class Explorer:
         while self.communication.last_message_at + 5 > time.time():  # Wait for confirmation
             done = self.communication.is_done
             if done:
-                # TODO: play sound effect and stuff
+                self.expression.song_star_wars_short().wait()
                 break
 
         return done  # This only happens when done is False, so we've missed something
