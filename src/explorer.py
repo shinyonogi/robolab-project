@@ -49,7 +49,7 @@ class Explorer:
         self.gyro_sensor = gyro_sensor
         self.expression = expression
 
-        self.target_power = 20  # Our optimal target power level is 20%
+        self.target_power = 30  # Our optimal target power level is 20%
 
         # Hard-Coded defaults recorded in daylight on Piech
         self.red_rb_range = ((120, 150), (10, 30))
@@ -129,15 +129,15 @@ class Explorer:
     def reset_motors(self):
         self.motor_right.reset()
         self.motor_left.reset()
-        self.motor_right.stop_action = "coast"
-        self.motor_left.stop_action = "coast"
+        self.motor_right.stop_action = "brake"
+        self.motor_left.stop_action = "brake"
 
     def rotate(self, degrees):
         """Rotate the robot counter-clockwise by the specified degrees."""
         self.reset_gyro()
         time.sleep(1)
         gyro_start_angle = self.gyro_sensor.angle
-        self.run_motors(self.target_power, -self.target_power)
+        self.run_motors(self.target_power - 5, -self.target_power - 5)
         while self.gyro_sensor.angle > gyro_start_angle - degrees:
             time.sleep(0.1)
         self.stop_motors()
@@ -147,7 +147,7 @@ class Explorer:
         self.reset_gyro()
         time.sleep(1)
         gyro_start_angle = self.gyro_sensor.angle
-        self.run_motors(-self.target_power, self.target_power)
+        self.run_motors(-self.target_power - 5, self.target_power - 5)
         while self.gyro_sensor.angle < gyro_start_angle + degrees:
             time.sleep(0.1)
         self.stop_motors()
@@ -172,12 +172,18 @@ class Explorer:
 
             if is_first_point:  # Run if this is our "entry" point
                 self.logger.info("Sending ready-signal to mothership")
-                self.communication.ready_message()
 
                 planet_data = None
-                while not planet_data:  # Wait for answer from mothership
-                    planet_data = self.communication.planet_data
-                    time.sleep(0.1)
+                while not planet_data:
+                    self.communication.ready_message()
+
+                    for j in range(10):  # Wait for answer from mothership
+                        planet_data = self.communication.planet_data
+                        if planet_data:
+                            break
+                        time.sleep(0.2)
+
+                    time.sleep(1)
 
                 self.logger.info("Our planet is called %s" % planet_data.get("planetName"))
                 self.planet.set_name(planet_data.get("planetName"))
@@ -205,20 +211,25 @@ class Explorer:
             )
 
             if not is_first_point:
-                self.communication.path_message(
-                    prev_coords[0],
-                    prev_coords[1],
-                    prev_start_direction,
-                    coords[0],
-                    coords[1],
-                    (direction - 180) % 360,
-                    "blocked" if blocked else "free",
-                )  # Send the discovered path to the mothership
-
                 path = None
-                while not path:  # Wait for answer from mothership
-                    path = self.communication.path
-                    time.sleep(0.1)
+                while not path:
+                    self.communication.path_message(
+                        prev_coords[0],
+                        prev_coords[1],
+                        prev_start_direction,
+                        coords[0],
+                        coords[1],
+                        (direction - 180) % 360,
+                        "blocked" if blocked else "free",
+                    )  # Send the discovered path to the mothership
+
+                    for j in range(10):  # Wait for answer from mothership
+                        path = self.communication.path
+                        if path:
+                            break
+                        time.sleep(0.2)
+
+                    time.sleep(1)
 
                 coords = path[1][0]  # Get corrected (end) coordinates
                 direction = (path[1][1] - 180) % 360   # Get corrected direction
@@ -228,8 +239,6 @@ class Explorer:
                 self.communication.reset_path()
 
             self.drive_off_point()  # Drive off the square for rotation
-
-            self.logger.debug("Scanned points: %s" % str(self.planet.andre))
 
             if not self.planet.check_if_scanned(coords):
                 # Do a 360* scan, if we haven't discovered scanned this path before.
@@ -261,7 +270,10 @@ class Explorer:
                     dfs_direction = self.dfs_get_direction(coords)
 
                     if dfs_direction is None:
-                        self.exploration_completed(coords)
+                        done = self.exploration_completed(coords)
+                        # TODO: what to do when not done?
+                        if done:
+                            break
                     else:
                         chosen_path = int(dfs_direction)
 
@@ -275,14 +287,21 @@ class Explorer:
                 time.sleep(0.25)
                 last_message_at = self.communication.last_message_at
 
+            if done:
+                break
+
             self.logger.debug("End of transmission for this point")
             # self.expression.tone_end_communication().wait()
 
-            self.logger.debug("Chosen direction is %s" % chosen_path)
+            self.logger.debug("Chosen direction: %s" % chosen_path)
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
-                self.rotate((direction - chosen_path) % 360)
+                rotate = (direction - chosen_path) % 360
+                # if rotate == 270:
+                #     self.rotate_clockwise(90 + 10)
+                # else:
+                self.rotate((direction - chosen_path) % 360 - 10)
                 self.odometry.set_coord(None, chosen_path)
                 self.reset_motors()
                 self.odometry.reset()
@@ -320,7 +339,7 @@ class Explorer:
         while self.communication.last_message_at + 5 > time.time():  # Wait for confirmation
             done = self.communication.is_done
             if done:
-                # TODO: play sound effect and stuff
+                self.expression.song_star_wars_short()
                 break
 
         return done  # This only happens when done is False, so we've missed something
@@ -330,8 +349,8 @@ class Explorer:
 
         This method is called after a point was discovered.
         """
-        self.run_motors(self.target_power - 6, self.target_power - 3)
-        time.sleep(2)  # TODO: replace with odometry stuff
+        self.run_motors(self.target_power - 3, self.target_power)
+        time.sleep(1)  # TODO: replace with odometry stuff
         self.stop_motors()
 
     def drive_to_next_point(self):
@@ -348,11 +367,11 @@ class Explorer:
         self.us_sensor.mode = "US-DIST-CM"  # Measure distance in cm
 
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
-        k_p = 0.11  # Proportional constant
+        k_p = 0.108  # Proportional constant
         offset = 170  # Light sensor offset
-        k_i = 0  # Integral constant, we disable this component because it ruins everything
+        k_i = 0.0  # Integral constant, we disable this component because it ruins everything
         integral = 0  # Integral
-        k_d = 0.04  # Derivative constant
+        k_d = 0.058  # Derivative constant
         last_error = 0  # Error value of last loop
 
         while True:
@@ -363,7 +382,7 @@ class Explorer:
                 self.logger.debug("Path blocked")
                 self.stop_motors()
                 self.expression.tone_warning().wait()
-                self.rotate(180)
+                self.rotate(180 - 10)
                 self.odometry.update_motor_stack()
                 self.odometry.clear_motor_stack()
                 new_angle = (self.odometry.angle - 180) % 360  # TODO: try if odometry would calculate this correctly

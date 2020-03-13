@@ -48,72 +48,9 @@ def drive(sp_right=25, sp_left=25):
     m_left.command = "run-direct"
 
 
-def do_360(sp_right=-25, sp_left=25):
-    reset()
-    drive(sp_right, sp_left)
-    while gs.angle < 360:
-        time.sleep(0.1)
-    stop()
-    reset()
-
-
 def rgb_to_grayscale(red, green, blue):
     # Convert RGB to grayscale
     return (0.3 * red) + (0.59 * green) + (0.11 * blue)
-
-
-def test_color_gs():
-    # Output current sensor grayscale value every second
-    while True:
-        rgb = cs.bin_data("hhh")
-        r = rgb[0]
-        g = rgb[1]
-        b = rgb[2]
-        gs = rgb_to_grayscale(r, g, b)
-        print("grayscale %s, error %s" % (int(gs), int(gs - 170)))
-        time.sleep(1)
-
-
-def test_color():
-    # Detect every second, if current color sensor value is red or blue, if not convert to grayscale.
-    while True:
-        rgb = cs.bin_data("hhh")
-        r = rgb[0]
-        g = rgb[1]
-        b = rgb[2]
-        if r > 100 > g and b < 100:
-            print("red")
-        elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
-            print("blue")
-        else:
-            print("grayscale %s" % rgb_to_grayscale(r, g, b))
-        time.sleep(1)
-
-
-def test_path_rotation():
-    cs.mode = ev3.ColorSensor.MODE_COL_COLOR
-    drive(-17, 15)
-    started_at_degrees = 1
-    current_degrees = 1
-    counter = 0
-    while current_degrees < started_at_degrees + 360:
-        color = cs.value()
-        if color == 1:
-            # print("black")
-            counter += 1
-        elif color == 2:
-            # print("blue")
-            counter += 1
-        elif color == 5:
-            # print("red")
-            pass
-        else:
-            counter = 0
-        current_degrees += 3.5
-        if counter > 2:
-            print("MATCH")
-        time.sleep(0.1)
-    stop()
 
 
 def follow(delay=0.1, k_p=1 / 6, offset=170, target_power=20, k_i=0, k_d=0.1):
@@ -128,18 +65,6 @@ def follow(delay=0.1, k_p=1 / 6, offset=170, target_power=20, k_i=0, k_d=0.1):
         g = rgb[1]
         b = rgb[2]
         gs = rgb_to_grayscale(r, g, b)  # Convert RGB to grayscale
-        if r > 100 > g and b < 100:
-            if red_counter > 5:
-                print("red square")
-                red_counter = 0
-            else:
-                red_counter += 1
-        elif g > 100 > r and b < 100 or b > 100 > r and g < 100:
-            if blue_counter > 5:
-                print("blue square")
-                blue_counter = 0
-            else:
-                blue_counter += 1
         # Calculate error, turn and motor powers
         error = gs - offset
         integral = 2 / 3 * integral + error
