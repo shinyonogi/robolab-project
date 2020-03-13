@@ -251,7 +251,6 @@ class Explorer:
             chosen_path = None
             last_message_at = time.time()
             while last_message_at + 3 > time.time():
-                last_message_at = self.communication.last_message_at
                 communication_target = self.communication.target
                 path_select = self.communication.path_select
 
@@ -261,8 +260,8 @@ class Explorer:
 
                     dfs_direction = self.dfs_get_direction(coords)
 
-                    if not dfs_direction:
-                        self.exploration_completed()
+                    if dfs_direction is None:
+                        self.exploration_completed(coords)
                     else:
                         chosen_path = int(dfs_direction)
 
@@ -274,9 +273,10 @@ class Explorer:
                     self.communication.reset_path_select()
 
                 time.sleep(0.25)
+                last_message_at = self.communication.last_message_at
 
             self.logger.debug("End of transmission for this point")
-            self.expression.tone_end_communication().wait()
+            # self.expression.tone_end_communication().wait()
 
             self.logger.debug("Chosen direction is %s" % chosen_path)
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
@@ -289,7 +289,7 @@ class Explorer:
 
             prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, chosen_path
 
-            with open("/home/robot/planet_%s.pickle" % self.planet.name, "wb+") as file:
+            with open("/home/robot/%s.pickle" % self.planet.name.lower(), "wb+") as file:
                 pickle.dump(self.planet, file)
 
     def dfs_get_direction(self, coords):
