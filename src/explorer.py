@@ -166,7 +166,8 @@ class Explorer:
         prev_coords = None
         prev_arrive_direction = None
         prev_start_direction = prev_arrive_direction
-        while True:
+        done = False
+        while not done:
             blocked, color = self.drive_to_next_point()  # Follow the path to the next point
 
             if is_first_point:  # Run if this is our "entry" point
@@ -247,67 +248,7 @@ class Explorer:
                 for p in paths:
                     self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
 
-            dfs = self.planet.depth_first_search(coords)  # Search which path to drive next with DFS
-
-            try:
-                self.logger.debug("DFS: %s" % str(dfs))
-                if type(dfs) is list:
-                    result = dfs[0][1]
-                elif type(dfs) is dict:
-                    result = dfs[0][0][1]
-                elif dfs is None:
-                    self.communication.exploration_completed_message()
-                    # TODO: wait for answer / further instructions
-                    break
-                else:  # This shouldn't happen
-                    result = direction
-                self.logger.debug("DFS result: %s" % str(result))
-                chosen_path = int(result)
-            except Exception as error:
-                self.logger.warning("DFS error")
-                self.logger.exception(error)
-                chosen_path = direction
-
-            self.logger.debug("DFS chosen direction: %s" % chosen_path)
-
-            if self.communication.target:
-                self.target = self.communication.target  # Target coordinates
-                self.communication.reset_target()
-
-            if self.target:
-                if coords == self.target:
-                    self.logger.info("Target reached")
-                    self.target = None
-                    self.path_to_target = None  # TODO: end here?
-
-                if not self.path_to_target:  # TODO: maybe calculate new shortest path on every reached point?
-                    self.path_to_target = self.planet.shortest_path(coords, self.target)  # Shortest path to target
-                    self.logger.debug("Shortest path to target is %s" % str(self.path_to_target))
-
-                if self.path_to_target:  # If shortest path is possible
-                    select = [d for d in self.path_to_target if d[0] == coords]  # Find current coords in shortest path
-                    if len(select) > 0:
-                        chosen_path = int(select[0][1])
-
-            self.communication.path_select_message(coords[0], coords[1], chosen_path)  # Send chosen path to mothership
-
-            path_select_answer = None
-            while self.communication.last_message_at + 3 > time.time():  # 3 second timeout after last message
-                path_select_answer = self.communication.path_select
-                time.sleep(0.25)
-
-            self.logger.debug("End of transmission for this point")
-
-            # self.expression.tone_end_communication().wait()
-
-            if path_select_answer:
-                chosen_path = path_select_answer  # Apply path direction
-                self.logger.debug("Server chose direction: %s" % chosen_path)
-                self.communication.reset_path_select()
-
-            self.logger.debug("Chosen direction is %s" % chosen_path)
-
-            self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen path
+            chosen_path = None
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
                 self.rotate((direction - chosen_path) % 360)
