@@ -275,8 +275,9 @@ class RoboLabPlanetTests(unittest.TestCase):
 
     def test_andre(self):
 
-
         """
+        PLANET: HASSELHOFF
+
         (loop1) (0, 3)   -   +   -   +
                                      |
                     +    - (1, 2) -  (2, 2)
@@ -296,10 +297,10 @@ class RoboLabPlanetTests(unittest.TestCase):
         test_planet.add_andre((0, 0))
 
         select_path = test_planet.depth_first_search((0, 0))
-        print(select_path)
+        self.assertEqual(select_path, [((0, 0), Direction.NORTH)])
         test_planet.depth_first_add_reached((0, 0), Direction.NORTH)
 
-        test_planet.add_path(((0, 0), Direction.NORTH), ((0, 1), Direction.SOUTH), 1)
+        test_planet.add_path(((0, 0), Direction.NORTH), ((0, 1), Direction.SOUTH), 4)
 
 
         #Second point (0, 1)
@@ -309,10 +310,10 @@ class RoboLabPlanetTests(unittest.TestCase):
         test_planet.add_andre((0, 1))
 
         select_path = test_planet.depth_first_search((0, 1))
-        print(select_path)
+        self.assertEqual(select_path, [((0, 1), Direction.NORTH)])
         test_planet.depth_first_add_reached((0, 1), Direction.NORTH)
 
-        test_planet.add_path(((0, 1), Direction.NORTH), ((1, 2), Direction.WEST), 1)
+        test_planet.add_path(((0, 1), Direction.NORTH), ((1, 2), Direction.WEST), 10)
 
 
         #Third point (1, 2)
@@ -321,10 +322,10 @@ class RoboLabPlanetTests(unittest.TestCase):
         test_planet.add_andre((1, 2))
 
         select_path = test_planet.depth_first_search((1, 2))
-        print(select_path)
+        self.assertEqual(select_path, [((1, 2), Direction.EAST)])
         test_planet.depth_first_add_reached((1, 2), Direction.EAST)
 
-        test_planet.add_path(((1, 2), Direction.EAST), ((2, 2), Direction.WEST), 1)
+        test_planet.add_path(((1, 2), Direction.EAST), ((2, 2), Direction.WEST), 7)
 
 
         #Fourth point (2, 2)
@@ -332,15 +333,15 @@ class RoboLabPlanetTests(unittest.TestCase):
         test_planet.depth_first_add_stack((2, 2), Direction.SOUTH)
         test_planet.add_andre((2, 2))
 
-        test_planet.add_path(((2, 2), Direction.NORTH), ((0, 3), Direction.EAST), 3)
-
         select_path = test_planet.depth_first_search((2, 2))
-        print(select_path)
+        self.assertEqual(select_path, [((2, 2), Direction.NORTH)])
         test_planet.depth_first_add_reached((2, 2), Direction.NORTH)
 
+        test_planet.add_path(((2, 2), Direction.NORTH), ((0, 3), Direction.EAST), 3)
 
 
-        #Fifth point (3, 0)
+
+        #Fifth point (0, 3)
         test_planet.depth_first_add_stack((0, 3), Direction.SOUTH)
         test_planet.depth_first_add_stack((0, 3), Direction.WEST)
         test_planet.add_andre((0, 3))
@@ -350,21 +351,88 @@ class RoboLabPlanetTests(unittest.TestCase):
         test_planet.add_path(((2, 0), Direction.NORTH), ((2, 2), Direction.SOUTH), 2)
 
         select_path = test_planet.depth_first_search((0, 3))
-        print(select_path)
+        self.assertEqual(select_path, [((0, 3), Direction.SOUTH)])
         test_planet.depth_first_add_reached((0, 3), Direction.SOUTH)
 
 
         #Sixth point (3, 0)
-        test_planet.add_path(((0, 3), Direction.SOUTH), ((0, 3), Direction.WEST), 1)
+        test_planet.add_path(((0, 3), Direction.SOUTH), ((0, 3), Direction.WEST), 4)
         
         select_path = test_planet.depth_first_search((0, 3))
-        print(select_path)
+        self.assertEqual(select_path[0][0], ((0, 3), Direction.EAST))
+        self.assertEqual(select_path[0][1], ((2, 2), Direction.SOUTH))
+        self.assertEqual(select_path[0][2], ((2, 0), Direction.WEST))
+        test_planet.depth_first_add_reached((0, 3), Direction.EAST)
 
-        #print(test_planet.andre)
+        #Seventh point (2, 0)
 
-        #print(test_planet.shortest_path((0, 0), (2, 2)))
-        #print(test_planet.shortest_path((0, 3), (0, 0)))
+        test_planet.depth_first_add_stack((2, 0), Direction.SOUTH)
+        test_planet.depth_first_add_stack((2, 0), Direction.NORTH)
+        test_planet.depth_first_add_stack((2, 0), Direction.WEST)
+        test_planet.add_andre((2, 0))
 
+        test_planet.add_path(((2, 2), Direction.SOUTH), ((2, 0), Direction.NORTH), 2)
+        
+        select_path = test_planet.depth_first_search((2, 0))
+        self.assertEqual(select_path, [((2, 0), Direction.SOUTH)])
+        test_planet.depth_first_add_reached((2, 0), Direction.SOUTH)
+
+
+        #Eith point (2, 0):
+
+        select_path = test_planet.depth_first_search((2, 0))
+        self.assertEqual(select_path, [((2, 0), Direction.WEST)])
+
+
+    
+    def test_grommit(self):
+
+            paths = {
+        (-1, -2): {0: ((-1, -1), 180, 1)},
+        (-1, -1): {180: ((-1, -2), 0, 1), 0: ((-1, 1), 180, 1)},
+        (-1, 1): {180: ((-1, -1), 0, 1), 0: ((-2, 2), 90, 1)},
+        (-2, 2): {90: ((-1, 1), 0, 1), 180: ((-2, 1), 0, 1)},
+        (-2, 1): {0: ((-2, 2), 180, 1), 180: ((-2, 0), 0, 1)},
+        (-2, 0): {0: ((-2, 1), 180, 1), 180: ((-2, -1), 0, 1)},
+        (-3, -1): {0: ((-3, -1), 270, 1), 270: ((-3, -1), 0, 1)},
+        (-2, -1): {0: ((-2, 0), 180, 1), 180: ((-2, -2), 0, 1)},
+        (-2, -2): {0: ((-2, -1), 180, 1), 180: ((-2, -2), 180, -1)}
+    }
+
+    andre = [
+        (-1, -2),
+        (-1, -1),
+        (-1, 1),
+        (-2, 2),
+        (-2, 1),
+        (-2, 0),
+        (-2, -1),
+        (-2, -2)
+    ]
+
+    dfs_stack = {
+        (-1, -2): [0],
+        (-1, -1): [180, 0],
+        (-1, 1): [180, 0],
+        (-2, 2): [90, 270, 180],
+        (-2, 1): [0, 180, 270],
+        (-2, 0): [0, 180, 270],
+        (-3, -1): [0, 270],
+        (-2, -1): [0, 180, 270],
+        (-2, -2): [0, 180, 270]
+    }
+
+    dfs_searched = {
+        (-1, -2): [0],
+        (-1, -1): [180, 0],
+        (-1, 1): [180, 0],
+        (-2, 2): [90, 180],
+        (-2, 1): [0, 180],
+        (-2, 0): [0, 180],
+        (-3, -1): [0, 270],
+        (-2, -1): [0, 180],
+        (-2, -2): [0, 180, 270]
+    }
 
 
 if __name__ == "__main__":
