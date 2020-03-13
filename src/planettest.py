@@ -504,7 +504,7 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         select_path = grommit.depth_first_search((-3, -1))
         #elf.assertEqual(select_path, [((-3, -1), Direction.NORTH)])
-        self.assertEqual(select_path, [((-3, -1), Direction.EAST)])
+        self.assertEqual(select_path, [((-3, -1), Direction.SOUTH)])
 
         #print(grommit.shortest_path((-3, -1), (-2, -1)))
 

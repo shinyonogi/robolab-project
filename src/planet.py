@@ -231,6 +231,9 @@ class Planet:
         #print(start, direction)
         
         if start in self.depth_first_stack:
+            direction_list = self.depth_first_stack[start]
+            del self.depth_first_stack[start]
+            self.depth_first_stack[start] = direction_list
             if not direction in self.depth_first_stack[start]:
                 self.depth_first_stack[start].append(direction)
         else:
