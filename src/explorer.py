@@ -346,7 +346,7 @@ class Explorer:
         This method is called after a point was discovered.
         """
         self.run_motors(self.target_power - 3, self.target_power)
-        time.sleep(1)  # TODO: replace with odometry stuff
+        time.sleep(1)
         self.stop_motors()
 
     def drive_to_next_point(self):
@@ -363,11 +363,11 @@ class Explorer:
         self.us_sensor.mode = "US-DIST-CM"  # Measure distance in cm
 
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
-        k_p = 0.108  # Proportional constant
+        k_p = 0.13  # Proportional constant
         offset = 170  # Light sensor offset
         k_i = 0.0  # Integral constant, we disable this component because it ruins everything
         integral = 0  # Integral
-        k_d = 0.058  # Derivative constant
+        k_d = 0.06  # Derivative constant
         last_error = 0  # Error value of last loop
 
         while True:
@@ -381,7 +381,7 @@ class Explorer:
                 self.rotate(180 - 10)
                 self.odometry.update_motor_stack()
                 self.odometry.clear_motor_stack()
-                new_angle = (self.odometry.angle - 180) % 360  # TODO: try if odometry would calculate this correctly
+                new_angle = (self.odometry.angle - 180) % 360
                 self.odometry.angle = new_angle
                 self.odometry.set_coord(None, self.odometry.angle_to_direction(new_angle))
                 continue  # Drive back
