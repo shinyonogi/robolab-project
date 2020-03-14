@@ -59,9 +59,6 @@ class Explorer:
         # self.red_rb_range = ((100, 140), (10, 30))
         # self.blue_rb_range = ((20, 50), (80, 100))
 
-        self.target = None
-        self.path_to_target = None
-
         self.logger.info("Explorer initialized and ready")
 
     def start_calibration(self):
@@ -244,7 +241,6 @@ class Explorer:
                 # Do a 360* scan, if we haven't discovered scanned this path before.
                 paths = self.scan_for_paths(direction)  # Do a 360* scan for outgoing paths
                 self.planet.add_andre(coords)  # Add this point to scanned points
-                self.logger.debug("Paths in directions: %s" % paths)
                 self.reset_motors()
                 self.odometry.reset()
 
@@ -253,6 +249,8 @@ class Explorer:
                     if remove_path in paths:
                         paths.remove(remove_path)  # Remove the "entry" path from the list of paths
                     is_first_point = False
+
+                self.logger.debug("Paths in directions: %s" % paths)
 
                 for p in paths:
                     self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
@@ -263,8 +261,7 @@ class Explorer:
                 communication_target = self.communication.target
                 path_select = self.communication.path_select
 
-                if chosen_path is None or self.target != communication_target:
-                    self.target = communication_target
+                if chosen_path is None or self.planet.target != communication_target:
                     self.planet.set_target(communication_target)
 
                     dfs_direction = self.dfs_get_direction(coords)
@@ -291,25 +288,18 @@ class Explorer:
                 break
 
             self.logger.debug("End of transmission for this point")
-            # self.expression.tone_end_communication().wait()
+            # self.expression.tone_end_communication().wait()  # TODO: comment this out when ready
 
             self.logger.debug("Chosen direction: %s" % chosen_path)
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
-                rotate = (direction - chosen_path) % 360
-                # if rotate == 270:
-                #     self.rotate_clockwise(90 + 10)
-                # else:
                 self.rotate((direction - chosen_path) % 360 - 10)
                 self.odometry.set_coord(None, chosen_path)
                 self.reset_motors()
                 self.odometry.reset()
 
             prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, chosen_path
-
-            with open("/home/robot/%s.pickle" % self.planet.name.lower(), "wb+") as file:
-                pickle.dump(self.planet, file)
 
     def dfs_get_direction(self, coords):
         dfs = self.planet.depth_first_search(coords)  # Search which path to drive next with DFS
@@ -326,7 +316,7 @@ class Explorer:
         return result
 
     def exploration_completed(self, coords):
-        if self.target and coords == self.target:
+        if self.planet.target and coords == self.planet.target:
             self.communication.target_reached_message()
         else:
             self.communication.exploration_completed_message()
@@ -338,7 +328,7 @@ class Explorer:
                 self.expression.song_star_wars_short()
                 break
 
-        return done  # This only happens when done is False, so we've missed something
+        return done
 
     def drive_off_point(self):
         """Drive off a colored square using the color sensor. The robot stops after when it only detects black or white.
@@ -365,7 +355,7 @@ class Explorer:
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
         k_p = 0.13  # Proportional constant
         offset = 170  # Light sensor offset
-        k_i = 0.0  # Integral constant, we disable this component because it ruins everything
+        k_i = 0  # Integral constant, we disable this component because it ruins everything
         integral = 0  # Integral
         k_d = 0.06  # Derivative constant
         last_error = 0  # Error value of last loop
