@@ -1,5 +1,4 @@
 import time
-import pickle
 
 
 def round_ten(number, down=False):
@@ -294,7 +293,7 @@ class Explorer:
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
-                self.rotate((direction - chosen_path) % 360 - 10)
+                self.rotate((self.odometry.angle - chosen_path) % 360 - 10)
                 self.odometry.set_coord(None, chosen_path)
                 self.reset_motors()
                 self.odometry.reset()
@@ -426,15 +425,14 @@ class Explorer:
         path_at_angles = []
         gyro_start_angle = abs(self.gyro_sensor.angle)
 
-        self.run_motors(self.target_power - 5, -self.target_power - 5)
+        self.run_motors(self.target_power - 10, -self.target_power - 10)
 
-        while abs(self.gyro_sensor.angle) < gyro_start_angle + 355:
+        while abs(self.gyro_sensor.angle) < gyro_start_angle + 350:
             angle = abs(self.gyro_sensor.angle) - gyro_start_angle
             color = self.color_sensor.value()
             if color == 1:  # black
                 path_at_angles.append(angle)
-                # self.logger.debug("Path at %s" % ((start_direction - angle) % 360))
-            time.sleep(0.05)
+            time.sleep(0.01)
 
         self.stop_motors()
 

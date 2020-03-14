@@ -107,11 +107,6 @@ def run():
             communication.testplanet_message(planet_name)
         elif cmd == "c":
             explorer.start_calibration()
-        elif cmd == "import":
-            import pickle
-            path = input("Enter path to file: ")
-            with open(path, "rb") as file:
-                planet = pickle.load(file)
         elif cmd == "shell":
             import readline
             import code
