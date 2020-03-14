@@ -24,8 +24,8 @@ def reset():
     # Reset motors
     m_right.reset()
     m_left.reset()
-    m_right.stop_action = ev3.LargeMotor.STOP_ACTION_COAST
-    m_left.stop_action = ev3.LargeMotor.STOP_ACTION_COAST
+    m_right.stop_action = ev3.LargeMotor.STOP_ACTION_BRAKE
+    m_left.stop_action = ev3.LargeMotor.STOP_ACTION_BRAKE
     # Reset gyro sensor
     gs.mode = ev3.GyroSensor.MODE_GYRO_RATE
     gs.mode = ev3.GyroSensor.MODE_GYRO_ANG
@@ -46,6 +46,23 @@ def drive(sp_right=25, sp_left=25):
     m_left.duty_cycle_sp = sp_left
     m_right.command = "run-direct"
     m_left.command = "run-direct"
+
+
+def check():
+    cs.mode = "COL-COLOR"
+    reset()  # Calibrate gyro sensor
+    time.sleep(1)
+    colors = {}
+    gyro_start_angle = gs.angle
+    for i in [-1, 1]:
+        drive(i * 30 - 5, - i * 30 - 5)
+        while (gs.angle < gyro_start_angle + 25) if i == -1 else (gs.angle > gyro_start_angle - 25):
+            c = cs.value()
+            colors[c] = colors.get(c, 0) + 1
+            time.sleep(0.01)
+        stop()
+    print(colors)
+    return colors.get(1, 0) + colors.get(6, 0) < colors.get(2, 0) + colors.get(5, 0)
 
 
 def rgb_to_grayscale(red, green, blue):
