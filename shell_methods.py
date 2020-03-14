@@ -15,7 +15,7 @@ cs.mode = ev3.ColorSensor.MODE_RGB_RAW
 us = ev3.UltrasonicSensor(ev3.INPUT_4)
 us.mode = ev3.UltrasonicSensor.MODE_US_DIST_CM
 
-gs = ev3.GyroSensor(ev3.INPUT_2)
+gs = ev3.GyroSensor(ev3.INPUT_3)
 gs.mode = ev3.GyroSensor.MODE_GYRO_RATE
 gs.mode = ev3.GyroSensor.MODE_GYRO_ANG
 
@@ -53,7 +53,7 @@ def rgb_to_grayscale(red, green, blue):
     return (0.3 * red) + (0.59 * green) + (0.11 * blue)
 
 
-def follow(delay=0.1, k_p=1 / 6, offset=170, target_power=20, k_i=0, k_d=0.1):
+def follow(delay=0.1, k_p=0.15, offset=170, target_power=20, k_i=0, k_d=0.1):
     # PID controller method for tuning
     integral = 0
     last_error = 0
