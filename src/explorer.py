@@ -267,7 +267,6 @@ class Explorer:
 
                     if dfs_direction is None:
                         done = self.exploration_completed(coords)
-                        # TODO: what to do when not done?
                         if done:
                             break
                     else:
@@ -312,11 +311,13 @@ class Explorer:
         else:
             result = None
 
-        self.logger.debug("DFS result: %s" % str(result))
-
         return result
 
     def exploration_completed(self, coords):
+        """Send a exploration completed or target reached message and wait for the server's response.
+
+        TODO: Do something when the mothership doesn't confirm our success, meaning when we missed something.
+        """
         if self.planet.target and coords == self.planet.target:
             self.communication.target_reached_message()
         else:
@@ -334,18 +335,15 @@ class Explorer:
         return done
 
     def drive_off_point(self):
-        """Drive off a colored square using the color sensor. The robot stops after when it only detects black or white.
-
-        This method is called after a point was discovered.
-        """
+        """Drive off a colored square. This method is called after a point was discovered."""
         self.run_motors(self.target_power - 3, self.target_power)
         time.sleep(0.75)
         self.stop_motors()
 
     def drive_to_next_point(self):
-        """Drive the robot along the path using a PID controller, until it reaches a colored square.
+        """Drive the robot along the path using a PD controller, until it reaches a colored square.
 
-        Returns a tuple of properties, e.g. if the path was blocked and what color the target square is.
+        Returns a tuple of properties, if the path was blocked and what color the target square is.
         """
         # These are the return values, expand as necessary
         blocked = False
@@ -420,7 +418,7 @@ class Explorer:
         return blocked, square_color
 
     def scan_for_paths(self, start_direction):
-        """Make the robot do a 360 degree rotation and detect outgoing paths.
+        """Make the robot do a 360-ish degree rotation and detect outgoing paths.
 
         This method is called after we've detected a point.
         The result is returned as a list of directions.
