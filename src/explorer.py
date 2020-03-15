@@ -119,20 +119,32 @@ class Explorer:
             self.motor_left.stop()
 
     def reset_motors(self):
+        self.stop_motors()
         self.motor_right.reset()
         self.motor_left.reset()
         self.motor_right.stop_action = "brake"
         self.motor_left.stop_action = "brake"
 
-    def rotate(self, degrees):
-        """Rotate the robot counter-clockwise by the specified degrees."""
+    def rotate_to_path(self, start_direction, target_direction):
+        rotate_degrees = (start_direction - target_direction) % 360
+        self.logger.debug("rotating by %s degrees" % rotate_degrees)
+        return self.rotate_by_degrees_to_path(rotate_degrees)
+
+    def rotate_by_degrees_to_path(self, degrees):
+        self.color_sensor.mode = "COL-COLOR"
         self.reset_gyro()
-        time.sleep(1)
-        gyro_start_angle = self.gyro_sensor.angle
-        self.run_motors(self.target_power - 5, -self.target_power - 5)
-        while self.gyro_sensor.angle > gyro_start_angle - degrees:
+        target_degrees = self.gyro_sensor.angle - degrees + 45
+
+        self.run_motors(self.target_power - 5, -(self.target_power - 5))
+
+        while self.gyro_sensor.angle > target_degrees:
             pass
+
+        while self.color_sensor.value() != 1:
+            pass
+
         self.stop_motors()
+        self.color_sensor.mode = "RGB-RAW"
 
     def reset_gyro(self):
         """Reset and calibrate the gyro sensor.
@@ -142,6 +154,7 @@ class Explorer:
         # self.logger.debug("Resetting gyro sensor")
         self.gyro_sensor.mode = "GYRO-RATE"
         self.gyro_sensor.mode = "GYRO-ANG"
+        time.sleep(1)
 
     def start_exploration(self, is_first_point=True, silent_mode=False):
         self.logger.info("Explorer starting")
@@ -241,13 +254,13 @@ class Explorer:
                 for p in paths:
                     self.planet.depth_first_add_stack(coords, p)  # Add paths to DFS stack
 
-            chosen_path = None
+            target_direction = None
             last_message_at = time.time()
             while last_message_at + 3 > time.time():
                 communication_target = self.communication.target
                 path_select = self.communication.path_select
 
-                if chosen_path is None or self.planet.target != communication_target:
+                if target_direction is None or self.planet.target != communication_target:
                     self.planet.set_target(communication_target)
 
                     dfs_direction = self.dfs_get_direction(coords)
@@ -258,13 +271,13 @@ class Explorer:
                         if done:
                             break
                     else:
-                        chosen_path = int(dfs_direction)
+                        target_direction = int(dfs_direction)
 
-                    self.communication.path_select_message(coords[0], coords[1], chosen_path)
+                    self.communication.path_select_message(coords[0], coords[1], target_direction)
 
                 if path_select:
-                    chosen_path = path_select
-                    self.logger.debug("Server chose direction: %s" % chosen_path)
+                    target_direction = path_select
+                    self.logger.debug("Server chose direction: %s" % target_direction)
                     self.communication.reset_path_select()
 
                 time.sleep(0.25)
@@ -278,16 +291,16 @@ class Explorer:
             if not self.silent_mode:
                 self.expression.tone_end_communication().wait()
 
-            self.logger.debug("Chosen direction: %s" % chosen_path)
-            self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
+            self.logger.debug("Chosen direction: %s" % target_direction)
+            self.planet.depth_first_add_reached(coords, target_direction)  # Inform DFS about chosen direction
 
-            if chosen_path != direction:  # If the path isn't in front of us, rotate to it
-                self.rotate((self.odometry.angle - chosen_path) % 360 - 20)
-                self.odometry.set_coord(None, chosen_path)
+            if target_direction != direction:  # If the path isn't in front of us, rotate to it
+                self.rotate_to_path(direction, target_direction)
+                self.odometry.set_coord(None, target_direction)
                 self.reset_motors()
                 self.odometry.reset()
 
-            prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, chosen_path
+            prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, target_direction
 
     def dfs_get_direction(self, coords):
         dfs = self.planet.depth_first_search(coords)  # Search which path to drive next with DFS
@@ -359,7 +372,7 @@ class Explorer:
                 self.stop_motors()
                 if not self.silent_mode:
                     self.expression.tone_warning().wait()
-                self.rotate(180 - 10)
+                self.rotate_by_degrees_to_path(180)
                 self.odometry.update_motor_stack()
                 self.odometry.clear_motor_stack()
                 new_angle = (self.odometry.angle - 180) % 360
@@ -413,26 +426,26 @@ class Explorer:
         The result is returned as a list of directions.
         """
         self.color_sensor.mode = "COL-COLOR"
+        self.reset_gyro()
+        gyro_start_angle = self.gyro_sensor.angle
+        target_angle = gyro_start_angle - 315
 
-        self.reset_gyro()  # Calibrate gyro sensor
-        time.sleep(1)
+        self.run_motors(self.target_power - 5, -(self.target_power - 5))
 
         path_at_angles = []
-        gyro_start_angle = abs(self.gyro_sensor.angle)
+        while self.gyro_sensor.angle > target_angle:
+            if self.color_sensor.value() == 1:  # black
+                path_at_angles.append(self.gyro_sensor.angle)
 
-        self.run_motors(self.target_power - 10, -self.target_power - 10)
-
-        while abs(self.gyro_sensor.angle) < gyro_start_angle + 350:
-            color = self.color_sensor.value()
-            if color == 1:  # black
-                angle = abs(self.gyro_sensor.angle) - gyro_start_angle
-                path_at_angles.append(angle)
+        while self.color_sensor.value() != 1:
+            pass
 
         self.stop_motors()
 
         paths = []
         for a in path_at_angles:
-            direction = self.odometry.angle_to_direction((start_direction - a) % 360)
+            a -= gyro_start_angle
+            direction = self.odometry.angle_to_direction((start_direction - abs(a)) % 360)
             if direction not in paths:
                 paths.append(direction)
 
