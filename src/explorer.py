@@ -51,10 +51,8 @@ class Explorer:
         self.target_power = 30  # Our optimal target power level is 20%
 
         # Hard-Coded defaults recorded in daylight on Gromit
-        self.red_rb_range = ((120, 140), (10, 30))
+        self.red_rb_range = ((110, 140), (10, 30))
         self.blue_rb_range = ((20, 50), (80, 110))
-
-        self.logger.info("Explorer initialized and ready")
 
     def start_calibration(self):
         """Start a kind of color sensor calibration.
@@ -103,7 +101,7 @@ class Explorer:
             (min(b), sum(b) / len(b), max(b)),
         )
 
-    def run_motors(self, tp_right, tp_left, repeat=1):
+    def run_motors(self, tp_right, tp_left, repeat=3):
         # Make sure the provided powers are in the range 0 - 100
         tp_right = -100 if tp_right < -100 else 100 if tp_right > 100 else tp_right
         tp_left = -100 if tp_left < -100 else 100 if tp_left > 100 else tp_left
