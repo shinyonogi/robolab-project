@@ -52,11 +52,14 @@ def run():
     led = ev3.Led()
     speaker = ev3.Sound
     button = ev3.Button()
+    battery = ev3.PowerSupply()
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
     color_sensor = ev3.ColorSensor(ev3.INPUT_1)
     gyro_sensor = ev3.GyroSensor(ev3.INPUT_3)
     us_sensor = ev3.UltrasonicSensor(ev3.INPUT_4)
+
+    custom_logger.info("Battery is at %s Volts" % round(battery.measured_volts, 2))
 
     planet = Planet()
     communication = Communication(client, logger, planet, group_id)
