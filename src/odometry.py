@@ -42,8 +42,6 @@ class Odometry:
             self.direction = direction
             self.line_of_sight = direction / 57.2958  # angle -> arc
 
-        # self.logger.debug("LOS: %s" % self.line_of_sight)
-
     def reset(self):
         self.motor_position_right = self.motor_right.position
         self.motor_position_left = self.motor_left.position
@@ -66,14 +64,6 @@ class Odometry:
 
             if 0 <= angle_alpha <= 0.174533 or angle_alpha >= -0.174533:  # when the way is straight
                 distance_s = d_l
-                #if 0 <= self.line_of_sight % 6.28319 < 0.785398 or 6.28319 > self.line_of_sight % 6.28319 > 5.49778:  # maybe better to work with arc // precise values better
-                    #delta_y = delta_y + distance_s
-                #elif 2.35619 <= self.line_of_sight % 6.28319 < 3.92699:
-                    #delta_y = delta_y - distance_s
-                #elif 0.785398 <= self.line_of_sight % 6.28319 < 2.35619:
-                    #delta_x = delta_x + distance_s
-                #elif 3.92699 <= self.line_of_sight % 6.28319 < 5.49779:
-                    #delta_x = delta_x - distance_s
                 delta_x = delta_x + -math.sin(self.line_of_sight) * distance_s
                 delta_y = delta_y + math.cos(self.line_of_sight) * distance_s
             else:
@@ -83,8 +73,6 @@ class Odometry:
             self.line_of_sight += angle_alpha
 
             # self.logger.debug("LOS: %s, Angle: %s, X: %s, Y: %s, Distance: %s, d_r: %s, d_l: %s" % (self.line_of_sight, angle_alpha, delta_x, delta_y, distance_s, d_r, d_l))
-
-        #self.line_of_sight = -self.line_of_sight % 360
 
         self.coordinate_x = self.coordinate_x + round(delta_x / 50)
         self.coordinate_y = self.coordinate_y + round(delta_y / 50)

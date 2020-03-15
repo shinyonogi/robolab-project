@@ -2,8 +2,6 @@
 
 # Attention: Do not import the ev3dev.ev3 module in this file
 import json
-
-# import ssl
 import time
 
 
@@ -22,15 +20,14 @@ class Communication:
         """
         # DO NOT CHANGE THE SETUP HERE
         self.client = mqtt_client
-        # self.client.tls_set(tls_version=ssl.PROTOCOL_TLS)
         self.client.on_message = self.safe_on_message_handler
 
         self.logger = logger
         self.planet = planet
         self.group_id = group_id
 
-        self.topic = f"explorer/{group_id}"  # Used for: testplanet, ready, complete
-        self.planet_topic = f"planet/none/{group_id}"  # Used for: path, pathSelect, pathUnveiled, target
+        self.topic = f"explorer/{group_id}"  # Used for: testplanet, ready, explorationCompleted, targetReached
+        self.planet_topic = f"planet/none/{group_id}"  # Used for: path, pathSelect
 
         self.is_connected = False
         self.last_message_at = time.time()
