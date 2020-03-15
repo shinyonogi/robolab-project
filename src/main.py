@@ -90,6 +90,7 @@ def run():
     # custom_logger.info("Exploration completed in %s" % exploration_time)
     # return
 
+    silent_mode = True
     while True:
         custom_logger.info(
             "Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit"
@@ -97,7 +98,7 @@ def run():
         cmd = input("Please enter command: ")
         if cmd == "s":
             start_time = datetime.datetime.now().replace(microsecond=0)
-            explorer.start_exploration(silent_mode=True)
+            explorer.start_exploration(silent_mode)
             exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
             custom_logger.info("Exploration completed after %s" % exploration_time)
         elif cmd == "r":
@@ -110,6 +111,9 @@ def run():
             communication.testplanet_message(planet_name)
         elif cmd == "c":
             explorer.start_calibration()
+        elif cmd == "silent":
+            silent_mode = not silent_mode
+            custom_logger.info("Silent mode active" if silent_mode else "Silent mode inactive")
         elif cmd == "shell":
             import readline
             import code
