@@ -325,6 +325,7 @@ class Explorer:
             done = self.communication.is_done
             if done:
                 self.expression.song_star_wars_short()
+                break
 
         return done
 
