@@ -211,7 +211,7 @@ class Communication:
             "payload": {"message": "Target Reached"},
         }
 
-        self.send_message(self.planet_topic, message)
+        self.send_message(self.topic, message)
 
     def exploration_completed_message(self):
         message = {
