@@ -85,7 +85,7 @@ def run():
     # TODO: this is the code for the exam deploy, so comment it out on time!
     # explorer.start_calibration()
     # start_time = datetime.datetime.now().replace(microsecond=0)
-    # explorer.start_exploration()
+    # explorer.start_exploration(silent_mode=False)
     # exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
     # custom_logger.info("Exploration completed in %s" % exploration_time)
     # return
@@ -97,7 +97,7 @@ def run():
         cmd = input("Please enter command: ")
         if cmd == "s":
             start_time = datetime.datetime.now().replace(microsecond=0)
-            explorer.start_exploration()
+            explorer.start_exploration(silent_mode=True)
             exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
             custom_logger.info("Exploration completed after %s" % exploration_time)
         elif cmd == "r":

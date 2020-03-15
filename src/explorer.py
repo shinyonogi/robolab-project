@@ -48,6 +48,7 @@ class Explorer:
         self.gyro_sensor = gyro_sensor
         self.expression = expression
 
+        self.silent_mode = True
         self.target_power = 30  # Our optimal target power level is 20%
 
         # Hard-Coded defaults recorded in daylight on Gromit
@@ -142,8 +143,9 @@ class Explorer:
         self.gyro_sensor.mode = "GYRO-RATE"
         self.gyro_sensor.mode = "GYRO-ANG"
 
-    def start_exploration(self, is_first_point=True):
+    def start_exploration(self, is_first_point=True, silent_mode=False):
         self.logger.info("Explorer starting")
+        self.silent_mode = silent_mode
         prev_coords = None
         prev_arrive_direction = None
         prev_start_direction = prev_arrive_direction
@@ -272,7 +274,9 @@ class Explorer:
                 break
 
             self.logger.debug("End of transmission for this point")
-            # self.expression.tone_end_communication().wait()  # TODO: comment this out when ready
+
+            if not self.silent_mode:
+                self.expression.tone_end_communication().wait()
 
             self.logger.debug("Chosen direction: %s" % chosen_path)
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
@@ -308,8 +312,10 @@ class Explorer:
         done = False
         while self.communication.last_message_at + 5 > time.time():  # Wait for confirmation
             done = self.communication.is_done
-            if done:
+            if done and not self.silent_mode:
                 self.expression.song_star_wars_short()
+                break
+            elif done:
                 break
 
         return done
@@ -351,7 +357,8 @@ class Explorer:
                 blocked = True
                 self.logger.debug("Path blocked")
                 self.stop_motors()
-                self.expression.tone_warning().wait()
+                if not self.silent_mode:
+                    self.expression.tone_warning().wait()
                 self.rotate(180 - 10)
                 self.odometry.update_motor_stack()
                 self.odometry.clear_motor_stack()
