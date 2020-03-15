@@ -50,13 +50,9 @@ class Explorer:
 
         self.target_power = 30  # Our optimal target power level is 20%
 
-        # Hard-Coded defaults recorded in daylight on Piech
-        self.red_rb_range = ((120, 150), (10, 30))
-        self.blue_rb_range = ((30, 50), (90, 110))
-
-        # Hard-Coded defaults recorded on Hasselhoff
-        # self.red_rb_range = ((100, 140), (10, 30))
-        # self.blue_rb_range = ((20, 50), (80, 100))
+        # Hard-Coded defaults recorded in daylight on Gromit
+        self.red_rb_range = ((120, 140), (10, 30))
+        self.blue_rb_range = ((20, 50), (80, 110))
 
         self.logger.info("Explorer initialized and ready")
 
@@ -107,20 +103,21 @@ class Explorer:
             (min(b), sum(b) / len(b), max(b)),
         )
 
-    def run_motors(self, tp_right, tp_left, check_dc=True):
+    def run_motors(self, tp_right, tp_left, repeat=1):
         # Make sure the provided powers are in the range 0 - 100
         tp_right = -100 if tp_right < -100 else 100 if tp_right > 100 else tp_right
         tp_left = -100 if tp_left < -100 else 100 if tp_left > 100 else tp_left
         # I guess this is might be a fix for it... just send the command three times so the motors really get it
-        for i in range(3 if check_dc else 1):
+        for i in range(repeat):
             self.motor_right.duty_cycle_sp = tp_right
             self.motor_left.duty_cycle_sp = tp_left
             self.motor_right.command = "run-direct"
             self.motor_left.command = "run-direct"
 
-    def stop_motors(self):
-        self.motor_right.stop()
-        self.motor_left.stop()
+    def stop_motors(self, repeat=3):
+        for i in range(repeat):
+            self.motor_right.stop()
+            self.motor_left.stop()
 
     def reset_motors(self):
         self.motor_right.reset()
@@ -135,17 +132,7 @@ class Explorer:
         gyro_start_angle = self.gyro_sensor.angle
         self.run_motors(self.target_power - 5, -self.target_power - 5)
         while self.gyro_sensor.angle > gyro_start_angle - degrees:
-            time.sleep(0.1)
-        self.stop_motors()
-
-    def rotate_clockwise(self, degrees):
-        """Rotate the robot clockwise by the specified degrees."""
-        self.reset_gyro()
-        time.sleep(1)
-        gyro_start_angle = self.gyro_sensor.angle
-        self.run_motors(-self.target_power - 5, self.target_power - 5)
-        while self.gyro_sensor.angle < gyro_start_angle + degrees:
-            time.sleep(0.1)
+            pass
         self.stop_motors()
 
     def reset_gyro(self):
@@ -238,7 +225,7 @@ class Explorer:
 
             if not self.planet.check_if_scanned(coords):
                 # Do a 360* scan, if we haven't discovered scanned this path before.
-                paths = self.scan_for_paths(direction)  # Do a 360* scan for outgoing paths
+                paths = self.scan_for_paths(self.odometry.angle)  # Do a 360* scan for outgoing paths
                 self.planet.add_andre(coords)  # Add this point to scanned points
                 self.reset_motors()
                 self.odometry.reset()
@@ -293,7 +280,7 @@ class Explorer:
             self.planet.depth_first_add_reached(coords, chosen_path)  # Inform DFS about chosen direction
 
             if chosen_path != direction:  # If the path isn't in front of us, rotate to it
-                self.rotate((self.odometry.angle - chosen_path) % 360 - 10)
+                self.rotate((self.odometry.angle - chosen_path) % 360 - 20)
                 self.odometry.set_coord(None, chosen_path)
                 self.reset_motors()
                 self.odometry.reset()
@@ -335,7 +322,7 @@ class Explorer:
         This method is called after a point was discovered.
         """
         self.run_motors(self.target_power - 3, self.target_power)
-        time.sleep(1)
+        time.sleep(0.75)
         self.stop_motors()
 
     def drive_to_next_point(self):
@@ -352,11 +339,11 @@ class Explorer:
         self.us_sensor.mode = "US-DIST-CM"  # Measure distance in cm
 
         # See http://www.inpharmix.com/jps/PID_Controller_For_Lego_Mindstorms_Robots.html for documentation
-        k_p = 0.13  # Proportional constant
+        k_p = 0.14  # Proportional constant
         offset = 170  # Light sensor offset
         k_i = 0  # Integral constant, we disable this component because it ruins everything
         integral = 0  # Integral
-        k_d = 0.06  # Derivative constant
+        k_d = 0.055  # Derivative constant
         last_error = 0  # Error value of last loop
 
         while True:
@@ -380,7 +367,10 @@ class Explorer:
 
             r_rb_range = self.red_rb_range
             b_rb_range = self.blue_rb_range
-            if r_rb_range[0][0] <= r <= r_rb_range[0][1] and r_rb_range[1][0] <= b <= r_rb_range[1][1]:
+            if (
+                r_rb_range[0][0] <= r <= r_rb_range[0][1]
+                and r_rb_range[1][0] <= b <= r_rb_range[1][1]
+            ):
                 self.logger.debug("Detected RED")
                 # With a calibrated sensor we cas assume we're on a colored square after it was detected for two loops
                 # TODO: instead, maybe stop and do a short (30 Degree) turn in each direction and scan for colors?
@@ -405,9 +395,9 @@ class Explorer:
             power_right = self.target_power + turn
             power_left = self.target_power - turn
 
-            self.run_motors(power_right, power_left, False)  # Apply motor powers
+            self.run_motors(power_right, power_left, 1)  # Apply motor powers
 
-            time.sleep(0.05)  # 50 ms between loops seems to be optimal
+            time.sleep(0.03)  # 50 ms between loops seems to be optimal
 
         return blocked, square_color
 
@@ -428,11 +418,10 @@ class Explorer:
         self.run_motors(self.target_power - 10, -self.target_power - 10)
 
         while abs(self.gyro_sensor.angle) < gyro_start_angle + 350:
-            angle = abs(self.gyro_sensor.angle) - gyro_start_angle
             color = self.color_sensor.value()
             if color == 1:  # black
+                angle = abs(self.gyro_sensor.angle) - gyro_start_angle
                 path_at_angles.append(angle)
-            time.sleep(0.01)
 
         self.stop_motors()
 
