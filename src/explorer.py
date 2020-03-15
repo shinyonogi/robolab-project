@@ -133,11 +133,11 @@ class Explorer:
     def rotate_by_degrees_to_path(self, degrees):
         self.color_sensor.mode = "COL-COLOR"
         self.reset_gyro()
-        target_degrees = self.gyro_sensor.angle - degrees + 45
+        target_angle = self.gyro_sensor.angle - degrees + 45
 
         self.run_motors(self.target_power - 5, -(self.target_power - 5))
 
-        while self.gyro_sensor.angle > target_degrees:
+        while self.gyro_sensor.angle > target_angle:
             pass
 
         while self.color_sensor.value() != 1:
@@ -428,7 +428,8 @@ class Explorer:
         self.color_sensor.mode = "COL-COLOR"
         self.reset_gyro()
         gyro_start_angle = self.gyro_sensor.angle
-        target_angle = gyro_start_angle - 315
+        target_angle = gyro_start_angle - 360 + 45
+        max_angle = gyro_start_angle - 360 - 15
 
         self.run_motors(self.target_power - 5, -(self.target_power - 5))
 
@@ -437,7 +438,7 @@ class Explorer:
             if self.color_sensor.value() == 1:  # black
                 path_at_angles.append(self.gyro_sensor.angle)
 
-        while self.color_sensor.value() != 1:
+        while self.color_sensor.value() != 1 and self.gyro_sensor.angle > max_angle:
             pass
 
         self.stop_motors()
