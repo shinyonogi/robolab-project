@@ -39,6 +39,7 @@ class Communication:
         self.path_select = None
         self.target = None
         self.is_done = False
+        self.adjust_counter = 0
 
     def connect(self, username, password):
         self.client.username_pw_set(username=username, password=password)
@@ -81,7 +82,8 @@ class Communication:
         self.last_message_at = time.time()
 
         if m_from == "debug":
-            pass
+            if m_type == "adjust":
+                self.adjust_counter += 1
         elif m_from == "server":
             if m_type == "planet":
                 self.planet_topic = "planet/%s/%s" % (

@@ -100,7 +100,10 @@ def run():
             start_time = datetime.datetime.now().replace(microsecond=0)
             explorer.start_exploration(silent_mode)
             exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
-            custom_logger.info("Exploration completed after %s" % exploration_time)
+            custom_logger.info("Exploration completed after %s with %s coordinate adjusts" % (
+                exploration_time,
+                communication.adjust_counter
+            ))
         elif cmd == "r":
             explorer.run_motors(50, 50)
             custom_logger.info("Press enter to stop")
