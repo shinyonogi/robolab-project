@@ -126,7 +126,7 @@ class Explorer:
 
     def rotate_to_path(self, start_direction, target_direction):
         rotate_degrees = (start_direction - target_direction) % 360
-        self.logger.debug("rotating by %s degrees" % rotate_degrees)
+        self.logger.debug("Rotating by %s degrees" % rotate_degrees)
         return self.rotate_by_degrees_to_path(rotate_degrees)
 
     def rotate_by_degrees_to_path(self, degrees):
@@ -259,22 +259,34 @@ class Explorer:
                 path_select = self.communication.path_select
 
                 if target_direction is None or self.planet.target != communication_target:
+                    if communication_target and self.planet.target != communication_target:
+                        self.logger.debug("Got new target from mothership: %s" % str(communication_target))
                     self.planet.set_target(communication_target)
 
                     dfs_direction = self.dfs_get_direction(coords)
 
-                    if dfs_direction is None:
-                        done = self.exploration_completed(coords)
-                        if done:
+                    if coords == communication_target:
+                        self.logger.info("Sending targetReached message")
+                        self.communication.target_reached_message()
+                        if self.complete():
                             break
+                        else:
+                            pass  # TODO: do something
+                    elif dfs_direction is None:
+                        self.logger.info("Sending explorationCompleted message")
+                        self.communication.exploration_completed_message()
+                        if self.complete():
+                            break
+                        else:
+                            pass  # TODO: do something
                     else:
                         target_direction = int(dfs_direction)
 
                     self.communication.path_select_message(coords[0], coords[1], target_direction)
 
                 if path_select:
-                    target_direction = path_select
                     self.logger.debug("Server chose direction: %s" % target_direction)
+                    target_direction = path_select
                     self.communication.reset_path_select()
 
                 time.sleep(0.25)
@@ -310,20 +322,12 @@ class Explorer:
 
         return result
 
-    def exploration_completed(self, coords):
-        """Send a exploration completed or target reached message and wait for the server's response.
-
-        TODO: Do something when the mothership doesn't confirm our success, meaning when we missed something.
-        """
-        if self.planet.target and coords == self.planet.target:
-            self.communication.target_reached_message()
-        else:
-            self.communication.exploration_completed_message()
-
+    def complete(self):
         done = False
         while self.communication.last_message_at + 5 > time.time():  # Wait for confirmation
             done = self.communication.is_done
             if done:
+                self.logger.info("Got confirmation from server, celebrating...")
                 self.expression.song_star_wars_short()
                 break
 
@@ -410,6 +414,21 @@ class Explorer:
             time.sleep(0.03)  # 50 ms between loops seems to be optimal
 
         return blocked, square_color
+
+    def check_if_on_point(self):
+        self.color_sensor.mode = "COL-COLOR"
+        self.reset_gyro()  # Calibrate gyro sensor
+        time.sleep(1)
+        colors = {}
+        gyro_start_angle = self.gyro_sensor.angle
+        for i in [-1, 1]:
+            self.run_motors(i * self.target_power - 5, -(i * self.target_power - 5))
+            while (self.gyro_sensor.angle < gyro_start_angle + 25) if i == -1 else (self.gyro_sensor.angle > gyro_start_angle - 25):
+                c = self.color_sensor.value()
+                colors[c] = colors.get(c, 0) + 1
+                time.sleep(0.01)
+            self.stop_motors()
+        return colors.get(1, 0) + colors.get(6, 0) < colors.get(2, 0) + colors.get(5, 0)
 
     def scan_for_paths(self, start_direction):
         """Make the robot do a 360-ish degree rotation and detect outgoing paths.
