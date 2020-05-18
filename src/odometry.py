@@ -13,15 +13,6 @@ class Odometry:
     def __init__(self, logger, motor_right, motor_left):
         self.logger = logger
 
-        self.line_of_sight = 0
-        self.direction = 0
-        self.coordinate_x = 0
-        self.coordinate_y = 0
-
-        self.angle = 0
-        self.distance_cm_x = 0
-        self.distance_cm_y = 0
-
         self.motor_right = motor_right
         self.motor_left = motor_left
 
@@ -30,60 +21,72 @@ class Odometry:
 
         self.motor_stack = []
 
-    def set_coord(self, coordinate, direction):
-        if coordinate:
-            self.coordinate_x = coordinate[0]
-            self.coordinate_y = coordinate[1]
-            self.distance_cm_x = 0
-            self.distance_cm_y = 0
+        self.wheel_circumference_mm = 2 * math.pi * 28
+        self.wheel_distance_mm = 120
+
+        self.angle_rad = 0
+        self.x_position_mm = 0
+        self.y_position_mm = 0
+
+    def set_coord(self, x_coord=None, y_coord=None, direction=None):
+        if x_coord is not None:
+            self.x_position_mm = x_coord * 500
+
+        if y_coord is not None:
+            self.y_position_mm = y_coord * 500
 
         if direction is not None:
-            self.angle = direction
-            self.direction = direction
-            self.line_of_sight = direction / 57.2958  # angle -> arc
+            self.angle_rad = math.radians(direction)
 
-    def reset(self):
-        self.motor_position_right = self.motor_right.position
-        self.motor_position_left = self.motor_left.position
-        self.clear_motor_stack()
+    def get_coord(self):
+        return (
+            (round(self.x_position_mm / 500), round(self.y_position_mm / 500)),
+            self.angle_to_direction(math.degrees(self.angle_rad))
+        )
+
+    def get_mm_coord(self):
+        return (
+            (self.x_position_mm, self.y_position_mm),
+            math.degrees(self.angle_rad)
+        )
 
     def calc_coord(self):
-        distance_tire = 12
+        if len(self.motor_stack) == 0:
+            return self.get_coord()
 
-        delta_x = 0
-        delta_y = 0
+        prev_pos_right = self.motor_stack[0][0]
+        prev_pos_left = self.motor_left[0][1]
+        self.motor_stack.pop(0)
 
-        self.line_of_sight = -self.line_of_sight % 6.28319
+        while len(self.motor_stack) > 0:
+            current_pos = self.motor_stack.pop(0)
+            pos_right = current_pos[0]
+            pos_left = current_pos[1]
 
-        for i in range(len(self.motor_stack)):
-            d_r = self.distance_per_tick(self.motor_stack[i][1])
-            d_l = self.distance_per_tick(self.motor_stack[i][0])
+            ticks_right = pos_right - prev_pos_right
+            ticks_left = pos_left - prev_pos_left
 
-            angle_alpha = (d_r - d_l) / distance_tire
-            angle_beta = angle_alpha / 2
+            if not ticks_right and not ticks_left:
+                continue
 
-            if 0 <= angle_alpha <= 0.174533 or angle_alpha >= -0.174533:  # when the way is straight
-                distance_s = d_l
-                delta_x = delta_x + -math.sin(self.line_of_sight) * distance_s
-                delta_y = delta_y + math.cos(self.line_of_sight) * distance_s
-            else:
-                distance_s = (d_r + d_l) / angle_alpha * math.sin(angle_beta)
-                delta_x = delta_x + -math.sin(self.line_of_sight + angle_beta) * distance_s
-                delta_y = delta_y + math.cos(self.line_of_sight + angle_beta) * distance_s
-            self.line_of_sight += angle_alpha
+            prev_pos_right = pos_right
+            prev_pos_left = pos_left
 
-            # self.logger.debug("LOS: %s, Angle: %s, X: %s, Y: %s, Distance: %s, d_r: %s, d_l: %s" % (self.line_of_sight, angle_alpha, delta_x, delta_y, distance_s, d_r, d_l))
+            rotations_right = float(ticks_right / 360)
+            rotations_left = float(ticks_left / 360)
 
-        self.coordinate_x = self.coordinate_x + round(delta_x / 50)
-        self.coordinate_y = self.coordinate_y + round(delta_y / 50)
-        self.angle = round(-self.line_of_sight * 57.2958) % 360
+            mm_right = float(rotations_right * self.wheel_circumference_mm)
+            mm_left = float(rotations_left * self.wheel_circumference_mm)
 
-        self.distance_cm_x += round(delta_x)
-        self.distance_cm_y += round(delta_y)
+            mm = (mm_right + mm_left) / 2.0
 
-        self.direction = self.angle_to_direction(self.angle)
+            self.angle_rad += (mm_left - mm_right) / self.wheel_circumference_mm
+            self.angle_rad %= 2 * math.pi
 
-        return (self.coordinate_x, self.coordinate_y), self.direction
+            self.x_position_mm += mm * math.sin(self.angle_rad)
+            self.y_position_mm += mm * math.cos(self.angle_rad)
+
+        return self.get_coord()
 
     @staticmethod
     def angle_to_direction(angle):
@@ -98,14 +101,6 @@ class Odometry:
         else:
             return 0
 
-    @staticmethod
-    def distance_per_tick(motor_spin):
-        radius = 2.8
-        circumference = 2 * radius * math.pi
-        motor_spin = motor_spin * (circumference / 360)
-
-        return motor_spin
-
     def update_motor_stack(self):
         delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
         delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
@@ -114,7 +109,11 @@ class Odometry:
             self.motor_stack.append([delta_motor_left, delta_motor_right])
             self.motor_position_left = self.motor_left.position
             self.motor_position_right = self.motor_right.position
-            # self.logger.debug("pos_left: %s, pos_right: %s, delta_left: %s, delta_right: %s" % (self.motor_position_left, self.motor_position_right, delta_motor_left, delta_motor_right))
+
+    def update_motor_positions(self):
+        self.motor_position_right = self.motor_right.position
+        self.motor_position_left = self.motor_left.position
+        self.clear_motor_stack()
 
     def clear_motor_stack(self):
         self.motor_stack.clear()
