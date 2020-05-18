@@ -40,7 +40,7 @@ class Explorer:
         motor_left,
         color_sensor,
         gyro_sensor,
-        us_sensor,
+        us_sensor
     ):
         self.logger = logger
         self.communication = communication
@@ -215,17 +215,7 @@ class Explorer:
             if is_first_point:  # Run if this is our "entry" point
                 self.logger.info("Sending ready-signal to mothership")
 
-                planet_data = None
-                while not planet_data:
-                    self.communication.ready_message()
-
-                    for j in range(10):  # Wait for answer from mothership
-                        planet_data = self.communication.planet_data
-                        if planet_data:
-                            break
-                        time.sleep(0.2)
-
-                    time.sleep(3)
+                planet_data = self.ready_message()
 
                 self.logger.info("Our planet is called %s" % planet_data.get("planetName"))
                 self.planet.set_name(planet_data.get("planetName"))
@@ -239,39 +229,27 @@ class Explorer:
                 coords, direction = prev_coords, (prev_start_direction - 180) % 360
             else:
                 coords, direction = self.odometry.calc_coord()  # Calculate current coordinates and direction
+
             self.odometry.clear_motor_stack()
 
             self.logger.debug(
-                "Coords: %s, Direction: %s, DeltaX: %s, DeltaY: %s, Angle: %s"
+                "Coords: %s, Direction: %s"
                 % (
                     coords,
-                    direction,
-                    self.odometry.distance_cm_x,
-                    self.odometry.distance_cm_y,
-                    self.odometry.angle,
+                    direction
                 )
             )
 
             if not is_first_point:
-                path = None
-                while not path:  # Send path to server and wait for confirmation / correction
-                    self.communication.path_message(
-                        prev_coords[0],
-                        prev_coords[1],
-                        prev_start_direction,
-                        coords[0],
-                        coords[1],
-                        (direction - 180) % 360,
-                        "blocked" if blocked else "free",
-                    )  # Send the discovered path to the mothership
-
-                    for j in range(10):  # Wait for answer from mothership
-                        path = self.communication.path
-                        if path:
-                            break
-                        time.sleep(0.2)
-
-                    time.sleep(1)
+                path = self.path_message(
+                    (prev_coords[0],
+                     prev_coords[1],
+                     prev_start_direction,
+                     coords[0],
+                     coords[1],
+                     (direction - 180) % 360,
+                     "blocked" if blocked else "free")
+                )
 
                 coords = path[1][0]  # Get corrected (end) coordinates
                 direction = (path[1][1] - 180) % 360   # Get corrected direction
@@ -306,29 +284,42 @@ class Explorer:
                 communication_target = self.communication.target
                 path_select = self.communication.path_select
 
+                # TODO: in case we received some pathUnveil messages, we might want to redo the DFS
                 if target_direction is None or self.planet.target != communication_target:
                     if communication_target and self.planet.target != communication_target:
                         self.logger.debug("Got new target from mothership: %s" % str(communication_target))
-                    self.planet.set_target(communication_target)
+
+                    # It's possible that we get a target for the point we're currently on
+                    # If that's the case, we set the target AFTER we've done our DFS stuff, to avoid finishing to early
+                    # TODO: actually, what happens when we arrive on a target and get a new one?
+                    if coords != communication_target:
+                        self.planet.set_target(communication_target)
 
                     dfs_direction = self.dfs_get_direction(coords)
 
-                    if coords == communication_target:  # Reached target
-                        self.logger.info("Sending targetReached message")
+                    if coords == self.planet.target:  # Reached target
+                        self.logger.info("Target %s reached" % str(coords))
                         self.communication.target_reached_message()
-                        if self.complete():
+
+                        done = self.complete()
+                        if done:
                             break
                         else:
                             pass  # TODO: do something
                     elif dfs_direction is None:  # Nothing left to explore, at least that the DFS knows of
-                        self.logger.info("Sending explorationCompleted message")
+                        self.logger.info("Exploration completed")
                         self.communication.exploration_completed_message()
-                        if self.complete():
+
+                        done = self.complete
+                        if done:
                             break
                         else:
                             pass  # TODO: do something
                     else:
                         target_direction = int(dfs_direction)
+
+                    if coords == communication_target:
+                        self.planet.set_target(communication_target)
 
                     self.communication.path_select_message(coords[0], coords[1], target_direction)  # Send path choice
 
@@ -357,6 +348,8 @@ class Explorer:
                 self.reset_motors()
                 self.odometry.reset()
 
+            self.logger.debug("--------------------------------------------------")
+
             prev_coords, prev_arrive_direction, prev_start_direction = coords, direction, target_direction
 
     def dfs_get_direction(self, coords):
@@ -373,6 +366,40 @@ class Explorer:
             result = None
 
         return result
+
+    def ready_message(self):
+        """
+        Send ready message to the mothership and wait for a response. Repeat if no response was received for 2 seconds.
+        """
+        planet_data = None
+        while not planet_data:
+            self.communication.ready_message()
+
+            for j in range(10):  # Wait for answer from mothership
+                planet_data = self.communication.planet_data
+                if planet_data:
+                    break
+                time.sleep(0.2)
+
+            time.sleep(3)
+        return planet_data
+
+    def path_message(self, payload):
+        """
+        Send path message to the mothership and wait for a response. Repeat if no response was received for 2 seconds.
+        """
+        path = None
+        while not path:  # Send path to server and wait for confirmation / correction
+            self.communication.path_message(*payload)  # Send the discovered path to the mothership
+
+            for j in range(10):  # Wait for answer from mothership
+                path = self.communication.path
+                if path:
+                    break
+                time.sleep(0.2)
+
+            time.sleep(1)
+        return path
 
     def complete(self):
         """
