@@ -9,7 +9,6 @@ import uuid
 import datetime
 
 from communication import Communication
-from expression import Expression
 from odometry import Odometry
 from planet import Planet
 from explorer import Explorer
@@ -48,10 +47,7 @@ def run():
     group_pwd = "vexyOo1M27"
 
     # Declare hardware components
-    screen = ev3.Screen()
-    led = ev3.Led()
-    speaker = ev3.Sound
-    button = ev3.Button()
+    sound = ev3.Sound
     battery = ev3.PowerSupply()
     motor_right = ev3.LargeMotor(ev3.OUTPUT_A)
     motor_left = ev3.LargeMotor(ev3.OUTPUT_D)
@@ -64,18 +60,17 @@ def run():
     planet = Planet()
     communication = Communication(client, logger, planet, group_id)
     odometry = Odometry(custom_logger, motor_right, motor_left)
-    expression = Expression(custom_logger, screen, led, speaker)
     explorer = Explorer(
         custom_logger,
         communication,
         odometry,
         planet,
-        expression,
+        None,
         motor_right,
         motor_left,
         color_sensor,
         gyro_sensor,
-        us_sensor,
+        us_sensor
     )
     explorer.reset_motors()
     explorer.reset_gyro()
@@ -83,6 +78,7 @@ def run():
     communication.connect(group_id, group_pwd)
 
     # TODO: this is the code for the exam deploy, so comment it out on time!
+    # explorer.sound = sound
     # explorer.start_calibration()
     # start_time = datetime.datetime.now().replace(microsecond=0)
     # explorer.start_exploration()

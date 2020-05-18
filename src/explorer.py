@@ -35,7 +35,7 @@ class Explorer:
         communication,
         odometry,
         planet,
-        expression,
+        sound,
         motor_right,
         motor_left,
         color_sensor,
@@ -51,7 +51,7 @@ class Explorer:
         self.color_sensor = color_sensor
         self.us_sensor = us_sensor
         self.gyro_sensor = gyro_sensor
-        self.expression = expression
+        self.sound = sound
 
         self.target_power = 30  # Power target level for motors in percent
 
@@ -182,6 +182,24 @@ class Explorer:
         self.gyro_sensor.mode = "GYRO-RATE"
         self.gyro_sensor.mode = "GYRO-ANG"
         time.sleep(1)
+
+    def sound_beep(self):
+        return self.sound.beep()
+
+    def sound_end_communication(self):
+        return self.sound.tone([(200, 100, 100), (500, 200)])
+
+    def sound_warning(self):
+        return self.sound.tone([(200, 300, 500), (200, 300, 500), (200, 300)])
+
+    def sound_star_wars_short(self):
+        return self.sound.play_song((
+            ('D4', 'e3'),
+            ('D4', 'e3'),
+            ('D4', 'e3'),
+            ('G4', 'h'),
+            ('D5', 'h')
+        ))
 
     def start_exploration(self, is_first_point=True):
         """
@@ -327,7 +345,8 @@ class Explorer:
 
             self.logger.debug("End of transmission for this point")
 
-            # self.expression.tone_end_communication().wait()  # TODO: comment this out
+            if self.sound:
+                self.sound_end_communication().wait()
 
             self.logger.debug("Chosen direction: %s" % target_direction)
             self.planet.depth_first_add_reached(coords, target_direction)  # Inform DFS about chosen direction
@@ -366,7 +385,8 @@ class Explorer:
             done = self.communication.is_done
             if done:
                 self.logger.info("Got confirmation from server, celebrating...")
-                self.expression.song_star_wars_short()
+                if self.sound:
+                    self.sound_star_wars_short()
                 break
 
         return done
@@ -408,7 +428,8 @@ class Explorer:
                 blocked = True
                 self.logger.debug("Path blocked")
                 self.stop_motors()
-                self.expression.tone_warning().wait()
+                if self.sound:
+                    self.sound_warning().wait()
                 self.rotate_by_degrees_to_path(180)
                 self.odometry.update_motor_stack()
                 self.odometry.clear_motor_stack()
