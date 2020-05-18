@@ -209,7 +209,7 @@ class Explorer:
         prev_coords = None
         prev_arrive_direction = None
         prev_start_direction = prev_arrive_direction
-        while True is not False and False is not True:  # Python is great
+        while True:
             blocked, color = self.drive_to_next_point()  # Follow the path to the next point
 
             if is_first_point:  # Run if this is our "entry" point
@@ -475,8 +475,9 @@ class Explorer:
                 and r_rb_range[1][0] <= b <= r_rb_range[1][1]
             ):
                 self.logger.debug("Detected RED")
-                # TODO: check_if_on_point method? Maybe, idk.
-                # With this implementation it hasn't happened once that blue was detected on the edge of the black line
+                # if not self.check_if_on_point():
+                #     self.logger.debug("Not on point, continuing")
+                #     pass
                 square_color = "red"
                 self.stop_motors()
                 break
@@ -485,6 +486,9 @@ class Explorer:
                 and b_rb_range[1][0] <= b <= b_rb_range[1][1]
             ):
                 self.logger.debug("Detected BLUE")
+                # if not self.check_if_on_point():
+                #     self.logger.debug("Not on point, continuing")
+                #     pass
                 square_color = "blue"
                 self.stop_motors()
                 break
@@ -506,21 +510,27 @@ class Explorer:
 
     def check_if_on_point(self):
         """
-        TBD
+        Rotate the robot to the left and right and scan the detected color while doing it, to check if we're actually
+        on a point.
         """
         self.color_sensor.mode = "COL-COLOR"
         self.reset_gyro()  # Calibrate gyro sensor
         time.sleep(1)
-        colors = {}
+        colors = []
         gyro_start_angle = self.gyro_sensor.angle
-        for i in [-1, 1]:
-            self.run_motors(i * self.target_power - 5, -(i * self.target_power - 5))
-            while (self.gyro_sensor.angle < gyro_start_angle + 25) if i == -1 else (self.gyro_sensor.angle > gyro_start_angle - 25):
-                c = self.color_sensor.value()
-                colors[c] = colors.get(c, 0) + 1
-                time.sleep(0.01)
-            self.stop_motors()
-        return colors.get(1, 0) + colors.get(6, 0) < colors.get(2, 0) + colors.get(5, 0)
+
+        self.run_motors(self.target_power - 5, -(self.target_power - 5))
+        while self.gyro_sensor.angle > gyro_start_angle - 25:
+            colors.append(self.color_sensor.value())
+            time.sleep(0.01)
+
+        self.run_motors(-(self.target_power - 5), self.target_power - 5)
+        while self.gyro_sensor.angle < gyro_start_angle + 25:
+            colors.append(self.color_sensor.value())
+            time.sleep(0.01)
+
+        self.stop_motors()
+        return colors.count(1) + colors.count(6) < colors.count(2) + colors.count(5)
 
     def scan_for_paths(self, start_direction):
         """
