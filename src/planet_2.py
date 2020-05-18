@@ -36,10 +36,9 @@ import math
         self.start = None #Startknoten
         self.weight = None #Gewichtung
         self.allpathes = {} #Menge aller Knoten und den dazugehörigen abgehenden Pfaden und Nachbarknoten
-        self.allnodes = []
-        self.visitednodes = []
-        self.alternativ = None
-        self.weg = []
+        self.unvisitednodes = self.allpathes.keys()
+        self.distance = {}
+        self.predecessor = {}
 
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction], weight = int):
 
@@ -63,20 +62,26 @@ import math
 #Union = Vereinigung von 2 Listen z.B. Input [1,2,3] und [4,5,6] > ouput [1,2,3,4,5,6]
 
 #Hilfsmittel: https://de.wikipedia.org/wiki/Dijkstra-Algorithmus und AUD-Skript
+    def shortest_path (self, start: Tuple[int, int], target: Tuple[int, int]) -> Union[None, List[Tuple[Tuple[int, int], Direction]]]:
+        if self.start not in self.allpathes:
+            return None
+        if self.target not in self.allpathes:
+            return None
+        if start == target:
+            print("Du bist bereits am Ziel")
 
 #1. Initialsierung von distance und predecessor mit Zuweisung, das bei allen Knoten des Graphen: Distanz = unendlich, Vorgänger = 0
-    def init_distance_predecessor (self, distance, predecessor):
-        for i in self.allpathes:
-            self.allnodes[i]=[math.inf, 0]
-        for i  in self.allpathes:
-            self.allnodes[i]=[0,i]
-            break
+        for i in self.unvisitednodes:
+            self.distance[i] = math.inf
+        self.distance[self.start] = 0
 
-# 1  Methode distanz_update(u,v,abstand[],vorgänger[]):
-# 2      alternativ:= abstand[u] + abstand_zwischen(u, v)   // Weglänge vom Startknoten nach v über u
-# 3      falls alternativ < abstand[v]:
-# 4          abstand[v]:= alternativ
-# 5          vorgänger[v]:= u
+        while self.unvisitednodes = true and start != target:
+            self.unvisitednodes.remove(start)
+            # 1  Methode distanz_update(u,v,abstand[],vorgänger[]):
+            # 2      alternativ:= abstand[u] + abstand_zwischen(u, v)   // Weglänge vom Startknoten nach v über u
+            # 3      falls alternativ < abstand[v]:
+            # 4          abstand[v]:= alternativ
+            # 5          vorgänger[v]:= u
 
     def distance_update(self, start, target,weight, u):
         alternativ =  self.allpathes[start[0] ][start[u](weight)] + self.allpathes[target[0]][target[u](weight)]
@@ -102,7 +107,7 @@ import math
 # Speichere, dass dieser Knoten schon besucht wurde.
 # Berechne für alle noch unbesuchten Nachbarknoten die Summe des jeweiligen Kantengewichtes und der Distanz im aktuellen Knoten.
 # Ist dieser Wert für einen Knoten kleiner als die dort gespeicherte Distanz, aktualisiere sie und setze den aktuellen Knoten als Vorgänger.
-
+g
  #1  Funktion Dijkstra(Graph, Startknoten):
  #2      initialisiere(Graph,Startknoten,abstand[],vorgänger[],Q)
  #3      solange Q nicht leer:                       // Der eigentliche Algorithmus
