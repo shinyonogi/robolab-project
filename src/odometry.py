@@ -37,7 +37,7 @@ class Odometry:
             self.distance_cm_x = 0
             self.distance_cm_y = 0
 
-        if direction:
+        if direction is not None:
             self.angle = direction
             self.direction = direction
             self.line_of_sight = direction / 57.2958  # angle -> arc
@@ -110,7 +110,7 @@ class Odometry:
         delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
         delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
 
-        if delta_motor_left >= 220 or delta_motor_right >= 220:
+        if delta_motor_left >= 0 or delta_motor_right >= 0:
             self.motor_stack.append([delta_motor_left, delta_motor_right])
             self.motor_position_left = self.motor_left.position
             self.motor_position_right = self.motor_right.position
