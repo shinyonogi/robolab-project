@@ -145,24 +145,24 @@ class Planet_3:
 
 
                 
-planet = Planet_3()
+#planet = Planet_3()
 
-planet.add_path(((1, 1), Direction.EAST), ((2, 1), Direction.WEST), 1)
-planet.add_path(((1, 1), Direction.NORTH), ((1, 2), Direction.SOUTH), 1)
-planet.add_path(((2, 1), Direction.EAST), ((3, 2), Direction.SOUTH), 2)
-planet.add_path(((3, 2), Direction.NORTH), ((3, 4), Direction.SOUTH), 2)
-planet.add_path(((3, 4), Direction.NORTH), ((3, 5), Direction.SOUTH), 1)
-planet.add_path(((3, 5), Direction.NORTH), ((1, 6), Direction.EAST), 3)
-planet.add_path(((1, 6), Direction.WEST), ((1, 6), Direction.SOUTH), 2)
-planet.add_path(((1, 2), Direction.EAST), ((2, 3), Direction.SOUTH), 2)
-planet.add_path(((2, 3), Direction.WEST), ((1, 3), Direction.EAST), 1)
-planet.add_path(((1, 3), Direction.WEST), ((1, 3), Direction.SOUTH), 1)
-planet.add_path(((2, 3), Direction.NORTH), ((3, 5), Direction.WEST), 3)
-planet.add_path(((1, 3), Direction.NORTH), ((1, 5), Direction.SOUTH), 2)
+#planet.add_path(((1, 1), Direction.EAST), ((2, 1), Direction.WEST), 1)
+#planet.add_path(((1, 1), Direction.NORTH), ((1, 2), Direction.SOUTH), 1)
+#planet.add_path(((2, 1), Direction.EAST), ((3, 2), Direction.SOUTH), 2)
+#planet.add_path(((3, 2), Direction.NORTH), ((3, 4), Direction.SOUTH), 2)
+#planet.add_path(((3, 4), Direction.NORTH), ((3, 5), Direction.SOUTH), 1)
+##planet.add_path(((3, 5), Direction.NORTH), ((1, 6), Direction.EAST), 3)
+#planet.add_path(((1, 6), Direction.WEST), ((1, 6), Direction.SOUTH), 2)
+#planet.add_path(((1, 2), Direction.EAST), ((2, 3), Direction.SOUTH), 2)
+#planet.add_path(((2, 3), Direction.WEST), ((1, 3), Direction.EAST), 1)
+#planet.add_path(((1, 3), Direction.WEST), ((1, 3), Direction.SOUTH), 1)
+#planet.add_path(((2, 3), Direction.NORTH), ((3, 5), Direction.WEST), 3)
+#planet.add_path(((1, 3), Direction.NORTH), ((1, 5), Direction.SOUTH), 2)
 
 #planet.get_paths()
 
 #shortest_path = planet.shortest_path((1, 1), (2, 1))
 #print(shortest_path)
 
-print(planet.shortest_path((1, 1), (1, 6)))
+#print(planet.shortest_path((1, 1), (1, 6)))
