@@ -36,10 +36,7 @@ import math
         self.start = None #Startknoten
         self.weight = None #Gewichtung
         self.allpathes = {} #Menge aller Knoten und den dazugehörigen abgehenden Pfaden und Nachbarknoten
-        self.unvisitednodes = self.allpathes.keys()
-        self.allvisitednodes = {}
-        self.distance = {}
-        self.predecessor = {}
+        #self.unvisitednodes = self.allpathes.keys()
 
     def add_path(self, start: Tuple[Tuple[int, int], Direction], target: Tuple[Tuple[int, int], Direction], weight = int):
 
@@ -67,25 +64,25 @@ import math
 
         for r in Direction:
             try:
-                if self.allpathes [start][r][0] == target
+                if self.allpathes [start][r][0] == target # für den fall, dass kürzester Weg zwischen 2 direkt verbunden Knoten gesucht wird
                     return [(start, r)]
             except KeyError as e:
                 continue
 
         numbers_column_row = len(self.allpathes)
-        matrix = [[0] * numbers_column_row for k in range(numbers_column_row)]
+        self.matrix = [[0] * numbers_column_row for k in range(numbers_column_row)] #Wert 0 Matrix erstellen
 
         row = 0
         column = 0
 
         for i in self.allpathes:
             for r in Direction:
-                for w in self.allpahes:
+                for w in self.allpathes:
                     try:
-                        if (self.allpathes[i][r][0]== w and column != row):
-                            matrix[row][column] = self.allpathes[i][r][2]
+                        if (self.allpathes[i][r][0]== w and column != row): #falls Knoten direkt verbunden sind, setze Wert in Matrix ein
+                            self.matrix[row][column] = self.allpathes[i][r][2]
                         else:
-                            matrix[row][column] = math.inf
+                            self.matrix[row][column] = math.inf #ansonsten setze den Wert unenedlich in Matrix ein
                         column += 1
                     except KeyError as e:
                         continue
@@ -105,6 +102,35 @@ import math
                     self.shortestpathes_dictionary[(i,j)].append((i,r))
                 except:
                     continue
+
+#bis hier zusammen mit Shintaro Schritt für Schritt erarbeitet!
+
+#weitere Quelle: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
+
+    def dijkstra(self, matrix, start, target, number_column_row,column, row):
+
+        row = 0
+        column = 0
+
+        for i in self.allpathes:
+            for r in Direction:
+                for j in self.allpathes:
+                    try:
+                        if self.matrix[j][i] > 0 and self.allpathes[i][r][2] > self.allpathes[j][r][2] + self.matrix[j][i]:
+                            self.matrix[j][i] = self.allpathes[j][r][2] + self.matrix[j][i]
+                    except KeyError as e:
+                column = 0
+            row += 1
+
+        return self.matrix
+
+        for i in self.allpathes:
+            for j in self.allpathes:
+                shortestpathes_dictionary[(i, j)] = self.matrix[j][i]
+
+        return shortestpathes_dictionary[(start, target)]
+                    
+
 
 
 
