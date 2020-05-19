@@ -288,22 +288,16 @@ class Explorer:
 
                     if coords == self.planet.target:  # Reached target
                         self.logger.info("Target %s reached" % str(coords))
-                        self.communication.target_reached_message()
 
                         done = self.complete()
                         if done:
                             break
-                        else:
-                            pass  # TODO: do something
                     elif dfs_direction is None:  # Nothing left to explore, at least that the DFS knows of
                         self.logger.info("Exploration completed")
-                        self.communication.exploration_completed_message()
 
-                        done = self.complete
+                        done = self.complete(target_reached=True)
                         if done:
                             break
-                        else:
-                            pass  # TODO: do something
                     else:
                         target_direction = int(dfs_direction)
 
@@ -371,7 +365,9 @@ class Explorer:
                     break
                 time.sleep(0.2)
 
-            time.sleep(3)
+            if not planet_data:
+                time.sleep(3)
+
         return planet_data
 
     def path_message(self, payload):
@@ -388,15 +384,22 @@ class Explorer:
                     break
                 time.sleep(0.2)
 
-            time.sleep(1)
+            if not path:
+                time.sleep(1)
+
         return path
 
-    def complete(self):
+    def complete(self, target_reached=False):
         """
         Wait for a done message from the server after sending a explorationCompleted or targetReached message.
 
         Returns a bool, if message was received. If it's False, we screwed up somewhere.
         """
+        if target_reached:
+            self.communication.target_reached_message()
+        else:
+            self.communication.exploration_completed_message()
+
         done = False
         while self.communication.last_message_at + 5 > time.time():  # Wait for confirmation
             done = self.communication.is_done
@@ -469,6 +472,7 @@ class Explorer:
                     break
                 else:
                     self.logger.debug("Not on point, continuing")
+                    self.drive_off_point()
             elif (
                 b_rb_range[0][0] <= r <= b_rb_range[0][1]
                 and b_rb_range[1][0] <= b <= b_rb_range[1][1]
@@ -480,6 +484,7 @@ class Explorer:
                     break
                 else:
                     self.logger.debug("Not on point, continuing")
+                    self.drive_off_point()
 
             # Calculate error, turn and motor powers
             error = gs - offset
@@ -534,6 +539,13 @@ class Explorer:
         gyro_start_angle = self.gyro_sensor.angle
         target_angle = gyro_start_angle - 360 + 45  # Rotate to this angle using the gyro sensor
         max_angle = gyro_start_angle - 360 - 15  # Use the color sensor to find a path in between target_angle and this
+
+        # Sometimes the robot might stand left from the line after driving of the point, so we check if the color
+        # sensor detects white and then rotate about 10 degrees to the right
+        if self.color_sensor.value() == 6:
+            self.run_motors(-(self.target_power - 7), self.target_power - 7)
+            while self.gyro_sensor.angle < gyro_start_angle + 10:
+                pass
 
         self.run_motors(self.target_power - 7, -(self.target_power - 7))
 
