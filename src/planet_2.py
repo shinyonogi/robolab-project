@@ -121,6 +121,7 @@ import math
                         if self.matrix[j][i] > 0 and self.allpathes[i][r][2] > self.allpathes[j][r][2] + self.matrix[j][i]:
                             self.matrix[j][i] = self.allpathes[j][r][2] + self.matrix[j][i]
                     except KeyError as e:
+                        continue
                 column = 0
             row += 1
 
