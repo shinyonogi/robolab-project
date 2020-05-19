@@ -463,23 +463,23 @@ class Explorer:
                 and r_rb_range[1][0] <= b <= r_rb_range[1][1]
             ):
                 self.logger.debug("Detected RED")
-                # if not self.check_if_on_point():
-                #     self.logger.debug("Not on point, continuing")
-                #     pass
-                square_color = "red"
                 self.stop_motors()
-                break
+                if self.check_if_on_point():
+                    square_color = "red"
+                    break
+                else:
+                    self.logger.debug("Not on point, continuing")
             elif (
                 b_rb_range[0][0] <= r <= b_rb_range[0][1]
                 and b_rb_range[1][0] <= b <= b_rb_range[1][1]
             ):
                 self.logger.debug("Detected BLUE")
-                # if not self.check_if_on_point():
-                #     self.logger.debug("Not on point, continuing")
-                #     pass
-                square_color = "blue"
                 self.stop_motors()
-                break
+                if self.check_if_on_point():
+                    square_color = "blue"
+                    break
+                else:
+                    self.logger.debug("Not on point, continuing")
 
             # Calculate error, turn and motor powers
             error = gs - offset
@@ -503,7 +503,6 @@ class Explorer:
         """
         self.color_sensor.mode = "COL-COLOR"
         self.reset_gyro()  # Calibrate gyro sensor
-        time.sleep(1)
         colors = []
         gyro_start_angle = self.gyro_sensor.angle
 
@@ -516,6 +515,10 @@ class Explorer:
         while self.gyro_sensor.angle < gyro_start_angle + 25:
             colors.append(self.color_sensor.value())
             time.sleep(0.01)
+
+        self.run_motors(self.target_power - 5, -(self.target_power - 5))
+        while self.gyro_sensor.angle > gyro_start_angle + 5:
+            pass
 
         self.stop_motors()
         return colors.count(1) + colors.count(6) < colors.count(2) + colors.count(5)
