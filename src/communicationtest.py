@@ -34,16 +34,22 @@ class CommunicationTest(unittest.TestCase):
         self.communication.connect("004", "vexyOo1M27")
 
 
-    def test_testplanet_message(self):
+    def test_a_testplanet_message(self):
         self.communication.testplanet_message("Hasselhoff")
 
-    def test_ready_message(self):
+    def test_b_ready_message(self):
         self.communication.ready_message()
         time.sleep(3)
         self.assertEqual(self.communication.planet_data["planetName"], "Hasselhoff")
         self.assertEqual(self.communication.planet_data["startX"], 0)
         self.assertEqual(self.communication.planet_data["startY"], 0)
         self.assertEqual(self.communication.planet_data["startOrientation"], 0)
+
+    def test_c_path_message(self):
+        self.communication.path_message(0, 0, 0, 0, 1, 0, "free")
+        time.sleep(3)
+        self.assertEqual(self.communication.path, (((0, 0), 0), ((0, 1), 0)))
+
 
 if __name__ == "__main__":
     unittest.main()
