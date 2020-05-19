@@ -37,6 +37,7 @@ import math
         self.weight = None #Gewichtung
         self.allpathes = {} #Menge aller Knoten und den dazugehörigen abgehenden Pfaden und Nachbarknoten
         self.unvisitednodes = self.allpathes.keys()
+        self.allvisitednodes = {}
         self.distance = {}
         self.predecessor = {}
 
@@ -56,80 +57,65 @@ import math
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
 
-        print (self.allpathes)
+        return (self.allpathes)
 
    # def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]) -> Union[None, List[Tuple[Tuple[int, int], Direction]]]
 #Union = Vereinigung von 2 Listen z.B. Input [1,2,3] und [4,5,6] > ouput [1,2,3,4,5,6]
 
 #Hilfsmittel: https://de.wikipedia.org/wiki/Dijkstra-Algorithmus und AUD-Skript
     def shortest_path (self, start: Tuple[int, int], target: Tuple[int, int]) -> Union[None, List[Tuple[Tuple[int, int], Direction]]]:
-        if self.start not in self.allpathes:
-            return None
-        if self.target not in self.allpathes:
-            return None
-        if start == target:
-            print("Du bist bereits am Ziel")
 
-#1. Initialsierung von distance und predecessor mit Zuweisung, das bei allen Knoten des Graphen: Distanz = unendlich, Vorgänger = 0
-        for i in self.unvisitednodes:
-            self.distance[i] = math.inf
-        self.distance[self.start] = 0
+        for r in Direction:
+            try:
+                if self.allpathes [start][r][0] == target
+                    return [(start, r)]
+            except KeyError as e:
+                continue
 
-        while self.unvisitednodes = true and start != target:
-            self.unvisitednodes.remove(start)
-            # 1  Methode distanz_update(u,v,abstand[],vorgänger[]):
-            # 2      alternativ:= abstand[u] + abstand_zwischen(u, v)   // Weglänge vom Startknoten nach v über u
-            # 3      falls alternativ < abstand[v]:
-            # 4          abstand[v]:= alternativ
-            # 5          vorgänger[v]:= u
+        numbers_column_row = len(self.allpathes)
+        matrix = [[0] * numbers_column_row for k in range(numbers_column_row)]
 
-    def distance_update(self, start, target,weight, u):
-        alternativ =  self.allpathes[start[0] ][start[u](weight)] + self.allpathes[target[0]][target[u](weight)]
-        if alternativ <  self.allpathes[target[0]][target[u](weight)]:  #Liste für Abstand und Predecessor wahrscheinlich weniger falsch als das hier!
-            self.allnodes[target] = [alternativ, u]
+        row = 0
+        column = 0
 
-#1  Funktion erstelleKürzestenPfad(Zielknoten,vorgänger[])
-#2   Weg[]:= [Zielknoten]
-#3   u:= Zielknoten
-#4   solange vorgänger[u] nicht null:   // Der Vorgänger des Startknotens ist null
-#5       u:= vorgänger[u]
-#6       füge u am Anfang von Weg[] ein
-#7   return Weg[]
-
-    def way(self, start, target, u):
-        self.weg = [target]
-        while self.allnodes [target[1]] != 0:
-            self.allnodes [target[1]] = target
-            self.weg.insert (0, target)
-        return self.weg
-
-#Solange es noch unbesuchte Knoten gibt, wähle darunter denjenigen mit minimaler Distanz aus und
-# Speichere, dass dieser Knoten schon besucht wurde.
-# Berechne für alle noch unbesuchten Nachbarknoten die Summe des jeweiligen Kantengewichtes und der Distanz im aktuellen Knoten.
-# Ist dieser Wert für einen Knoten kleiner als die dort gespeicherte Distanz, aktualisiere sie und setze den aktuellen Knoten als Vorgänger.
-g
- #1  Funktion Dijkstra(Graph, Startknoten):
- #2      initialisiere(Graph,Startknoten,abstand[],vorgänger[],Q)
- #3      solange Q nicht leer:                       // Der eigentliche Algorithmus
- #4          u:= Knoten in Q mit kleinstem Wert in abstand[]
- #5          entferne u aus Q                                // für u ist der kürzeste Weg nun bestimmt
- #6          für jeden Nachbarn v von u:
- #7              falls v in Q:                            // falls noch nicht berechnet
- #8                 distanz_update(u,v,abstand[],vorgänger[])   // prüfe Abstand vom Startknoten zu v
- #9      return vorgänger[]
-    def djikstra(self, target):
-        init_distance_predecessor()
         for i in self.allpathes:
-            for d in Direction:
+            for r in Direction:
+                for w in self.allpahes:
+                    try:
+                        if (self.allpathes[i][r][0]== w and column != row):
+                            matrix[row][column] = self.allpathes[i][r][2]
+                        else:
+                            matrix[row][column] = math.inf
+                        column += 1
+                    except KeyError as e:
+                        continue
+                column = 0
+            row += 1
+
+        shortestpathes_dictionary = {}
+
+        for i in self. allpathes:
+            for j in self.allpathes:
+                shortestpathes_dictionary[(i,j)] = []
+
+        for i in self.allpathes:
+            for r in Direction:
                 try:
-                    self.visitednodes.append (self.allpathes[i][d][0])
-                except KeyError as e:
+                    j = self.allpathes [i][r][0]
+                    self.shortestpathes_dictionary[(i,j)].append((i,r))
+                except:
                     continue
-        for i in self.allpathes:
-            del self.allnodes[i]
 
-        if target in self.allnodes:
-            distance_update()
+
+
+
+
+
+
+
+
+
+
 
 
 
