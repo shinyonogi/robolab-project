@@ -2,6 +2,7 @@
 
 import unittest
 from planet import Direction, Planet
+from planet_3 import Direction, Planet_3
 
 
 class ExampleTestPlanet(unittest.TestCase):
@@ -39,6 +40,9 @@ class ExampleTestPlanet(unittest.TestCase):
 
 
 class RoboLabPlanetTests(unittest.TestCase):
+
+    #Funktioniert nur mit Planet (1) Klasse 
+
     def setUp(self):
         """
         Instantiates the planet data structure and fills it with paths
@@ -61,7 +65,7 @@ class RoboLabPlanetTests(unittest.TestCase):
 
         """
         # Initialize your data structure here
-        self.planet = Planet()
+        self.planet = Planet_3()
         # self.planet.add_path(...)
 
         self.planet.add_path(((1, 1), Direction.EAST), ((2, 1), Direction.WEST), 1)
