@@ -13,8 +13,8 @@ import time
 
 
 class CommunicationTest(unittest.TestCase):
-
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         client = mqtt.Client(client_id=str(uuid.uuid4()),
                              clean_session=False,
                              protocol=mqtt.MQTTv31
