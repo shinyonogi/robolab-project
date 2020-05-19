@@ -46,9 +46,9 @@ class CommunicationTest(unittest.TestCase):
         self.assertEqual(self.communication.planet_data["startOrientation"], 0)
 
     def test_c_path_message(self):
-        self.communication.path_message(0, 0, 0, 0, 1, 0, "free")
+        self.communication.path_message(0, 0, 0, 0, 1, 180, "free")
         time.sleep(3)
-        self.assertEqual(self.communication.path, (((0, 0), 0), ((0, 1), 0)))
+        self.assertEqual(self.communication.path, (((0, 0), 0), ((0, 1), 180)))
 
 
 if __name__ == "__main__":
