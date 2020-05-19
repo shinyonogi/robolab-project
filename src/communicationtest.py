@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import unittest
+from planet import Planet
 from communication import Communication
 
 import logging
@@ -23,27 +24,19 @@ class CommunicationTest(unittest.TestCase):
                             )
         logger = logging.getLogger('RoboLab')
 
-        self.communication = Communication(client, logger)
+        
+        self.planet = Planet()
+        self.communication = Communication(client, logger, self.planet, "004")
+        self.communication.planet
         self.communication.syntax_prove()
+
+        self.communication.connect("004", "vexyOo1M27")
+
+    def test_testplanet_message(self):
+        self.communication.testplanet_message("Hasselhoff")
 
     def test_ready_message(self):
         self.communication.ready_message()
-
-    def test_path_message(self):
-        self.communication.path_message(0, 0, 0, 0, 0, 0, "blocked")
-
-    def test_path_select_message(self):
-        self.communication.path_select_message(0, 0, 0)
-
-    def test_target_reached_message(self):
-        self.communication.target_reached_message()
-
-    def test_exploration_completed_message(self):
-        self.communication.exploration_completed_message()
-
-    def test_testplanet_message(self):
-        self.communication.testplanet_message()
-
 
 if __name__ == "__main__":
     unittest.main()
