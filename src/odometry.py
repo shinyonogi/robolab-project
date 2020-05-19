@@ -16,9 +16,6 @@ class Odometry:
         self.motor_right = motor_right
         self.motor_left = motor_left
 
-        self.motor_position_left = self.motor_left.position
-        self.motor_position_right = self.motor_right.position
-
         self.motor_stack = []
 
         self.wheel_circumference_mm = 2 * math.pi * 28
@@ -114,11 +111,6 @@ class Odometry:
 
     def update_motor_stack(self):
         self.motor_stack.append([self.motor_left.position, self.motor_right.position])
-
-    def update_motor_positions(self):
-        self.motor_position_right = self.motor_right.position
-        self.motor_position_left = self.motor_left.position
-        self.clear_motor_stack()
 
     def clear_motor_stack(self):
         self.motor_stack.clear()

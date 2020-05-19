@@ -231,13 +231,7 @@ class Explorer:
 
             self.odometry.clear_motor_stack()
 
-            self.logger.debug(
-                "Coords: %s, Direction: %s"
-                % (
-                    coords,
-                    direction
-                )
-            )
+            self.logger.debug("Coords: %s, Direction: %s" % (coords, direction))
 
             if not is_first_point:
                 path = self.path_message(
@@ -252,8 +246,9 @@ class Explorer:
 
                 coords = path[1][0]  # Get corrected (end) coordinates
                 direction = (path[1][1] - 180) % 360   # Get corrected direction
-                self.logger.debug("Coords: %s" % str((coords, direction)))
-                self.odometry.set_coord(coords[0], coords[1], direction)  # Apply corrected coordinates and direction
+                self.logger.debug("Coords: %s, Direction: %s" % (coords, direction))
+                # Apply corrected coordinates and direction to odometry
+                self.odometry.set_coord(coords[0], coords[1], direction)
 
                 self.communication.reset_path()
 
@@ -262,8 +257,6 @@ class Explorer:
             if not self.planet.check_if_scanned(coords):  # Scan for paths if we haven't on this point before.
                 paths = self.scan_for_paths(self.odometry.get_mm_coord()[1])  # Do a 360* scan for outgoing paths
                 self.planet.add_andre(coords)  # Add this point to scanned points
-                self.reset_motors()
-                self.odometry.update_motor_positions()
 
                 if is_first_point:
                     remove_path = (direction - 180) % 360
@@ -347,8 +340,6 @@ class Explorer:
             if target_direction != direction:  # If the path isn't in front of us, rotate to it
                 self.rotate_to_path(direction, target_direction)
                 self.odometry.set_coord(direction=target_direction)
-                self.reset_motors()
-                self.odometry.update_motor_positions()
 
             self.logger.debug("--------------------------------------------------")
 
@@ -460,9 +451,9 @@ class Explorer:
                 if self.sound:
                     self.sound_warning().wait()
                 self.rotate_by_degrees_to_path(180)
-                self.odometry.update_motor_positions()
+                self.odometry.clear_motor_stack()
                 new_angle = (self.odometry.get_mm_coord()[1] - 180) % 360
-                self.odometry.set_coord(direction=self.odometry.angle_to_direction(new_angle))
+                self.odometry.set_coord(direction=new_angle)
                 continue
 
             r, g, b = self.color_sensor.bin_data("hhh")  # Read RGB values from sensor
