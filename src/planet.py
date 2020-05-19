@@ -113,12 +113,12 @@ class Planet:
         :return: 2-Tuple[List, Direction]
         """
 
-        for d in Direction:  # Case: if the shortest path is only a way between two coordinates
-            try:
-                if self.path_dictionary[start][d][0] == target:
-                    return [(start, d)]
-            except KeyError as e:  # Also to prevent KeyError
-                continue
+        #for d in Direction:  # Case: if the shortest path is only a way between two coordinates
+            #try:
+                #if self.path_dictionary[start][d][0] == target:
+                    #return [(start, d)]
+            #except KeyError as e:  # Also to prevent KeyError
+                #continue
 
         number_of_coordinates = len(self.path_dictionary)
         matrix = [[0] * number_of_coordinates for i in range(number_of_coordinates)]
