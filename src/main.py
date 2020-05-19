@@ -77,18 +77,16 @@ def run():
 
     communication.connect(group_id, group_pwd)
 
-    # TODO: this is the code for the exam deploy, so comment it out on time!
-    # explorer.sound = sound
-    # explorer.start_calibration()
-    # start_time = datetime.datetime.now().replace(microsecond=0)
-    # explorer.start_exploration()
-    # exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
-    # custom_logger.info("Exploration completed in %s" % exploration_time)
-    # return
-
     while True:
-        print("Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit")
+        print("Available commands: e (exam), s (start), t (set test planet), r (rescue), c (calibrate), q (quit)")
         cmd = input("Please enter command: ")
+        if cmd == "e":
+            explorer.sound = sound
+            explorer.start_calibration()
+            start_time = datetime.datetime.now().replace(microsecond=0)
+            explorer.start_exploration()
+            exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
+            custom_logger.info("Exploration completed in %s" % exploration_time)
         if cmd == "s":
             start_time = datetime.datetime.now().replace(microsecond=0)
             explorer.start_exploration()
@@ -115,8 +113,6 @@ def run():
             shell.interact()
         elif cmd == "q":
             break
-        else:
-            continue
 
 
 # DO NOT EDIT
