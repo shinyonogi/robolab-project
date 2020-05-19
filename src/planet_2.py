@@ -129,7 +129,7 @@ import math
 
         for i in self.allpathes:
             for j in self.allpathes:
-                shortestpathes_dictionary[(i, j)] = self.matrix[j][i]
+                shortestpathes_dictionary[(j, i)] = self.matrix[j][i]
 
         return shortestpathes_dictionary[(start, target)]
 
