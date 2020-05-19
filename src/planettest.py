@@ -215,11 +215,6 @@ class RoboLabPlanetTests(unittest.TestCase):
         self.assertIsNone(test_shortest_path)
 
 
-    def test_coordinate_existant(self):
-
-        self.assertIsNotNone(self.planet.coordinate_existent((1, 1)))
-        
-
     def test_depth_first_search(self):
 
         test_planet = Planet()
