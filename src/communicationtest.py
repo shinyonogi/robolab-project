@@ -9,6 +9,8 @@ import os
 import paho.mqtt.client as mqtt
 import uuid
 
+import time
+
 
 class CommunicationTest(unittest.TestCase):
 
@@ -26,17 +28,22 @@ class CommunicationTest(unittest.TestCase):
 
         
         self.planet = Planet()
-        self.communication = Communication(client, logger, self.planet, "004")
-        self.communication.planet
+        self.communication = Communication(client, logger, self.planet,  "004")
         self.communication.syntax_prove()
 
         self.communication.connect("004", "vexyOo1M27")
+
 
     def test_testplanet_message(self):
         self.communication.testplanet_message("Hasselhoff")
 
     def test_ready_message(self):
         self.communication.ready_message()
+        time.sleep(3)
+        self.assertEqual(self.communication.planet_data["planetName"], "Hasselhoff")
+        self.assertEqual(self.communication.planet_data["startX"], 0)
+        self.assertEqual(self.communication.planet_data["startY"], 0)
+        self.assertEqual(self.communication.planet_data["startOrientation"], 0)
 
 if __name__ == "__main__":
     unittest.main()
