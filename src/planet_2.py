@@ -103,6 +103,8 @@ import math
                 except:
                     continue
 
+        self.djikstra
+
 #bis hier zusammen mit Shintaro Schritt für Schritt erarbeitet!
 
 #weitere Quelle: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
@@ -129,7 +131,7 @@ import math
                 shortestpathes_dictionary[(i, j)] = self.matrix[j][i]
 
         return shortestpathes_dictionary[(start, target)]
-                    
+
 
 
 
