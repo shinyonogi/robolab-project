@@ -87,9 +87,7 @@ def run():
     # return
 
     while True:
-        custom_logger.info(
-            "Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit"
-        )
+        print("Available commands: s to start, t to set test planet, r to rescue, c to calibrate, q to quit")
         cmd = input("Please enter command: ")
         if cmd == "s":
             start_time = datetime.datetime.now().replace(microsecond=0)
@@ -101,7 +99,7 @@ def run():
             ))
         elif cmd == "r":
             explorer.run_motors(50, 50)
-            custom_logger.info("Press enter to stop")
+            print("Press enter to stop")
             input()
             explorer.stop_motors()
         elif cmd == "t":

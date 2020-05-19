@@ -229,8 +229,6 @@ class Explorer:
             else:
                 coords, direction = self.odometry.calc_coord()  # Calculate current coordinates and direction
 
-            self.odometry.clear_motor_stack()
-
             self.logger.debug("Coords: %s, Direction: %s" % (coords, direction))
 
             if not is_first_point:
@@ -283,7 +281,6 @@ class Explorer:
 
                     # It's possible that we get a target for the point we're currently on
                     # If that's the case, we set the target AFTER we've done our DFS stuff, to avoid finishing to early
-                    # TODO: actually, what happens when we arrive on a target and get a new one?
                     if coords != communication_target:
                         self.planet.set_target(communication_target)
 
@@ -535,7 +532,7 @@ class Explorer:
         target_angle = gyro_start_angle - 360 + 45  # Rotate to this angle using the gyro sensor
         max_angle = gyro_start_angle - 360 - 15  # Use the color sensor to find a path in between target_angle and this
 
-        self.run_motors(self.target_power - 5, -(self.target_power - 5))
+        self.run_motors(self.target_power - 7, -(self.target_power - 7))
 
         path_at_angles = []  # Angles at which we detected black are saved in here
         while self.gyro_sensor.angle > target_angle:

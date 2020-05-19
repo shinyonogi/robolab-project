@@ -87,7 +87,7 @@ class Odometry:
             mm = (mm_right + mm_left) / 2.0
 
             # Calculate new orientation and limit it to 0 to 2*Pi (0 to 360 degrees)
-            self.angle_rad += (mm_right - mm_left) / self.wheel_circumference_mm
+            self.angle_rad += (mm_left - mm_right) / self.wheel_circumference_mm
             self.angle_rad %= 2 * math.pi
 
             # Calculate new x and y positions
@@ -110,7 +110,7 @@ class Odometry:
             return 0
 
     def update_motor_stack(self):
-        self.motor_stack.append([self.motor_left.position, self.motor_right.position])
+        self.motor_stack.append([self.motor_right.position, self.motor_left.position])
 
     def clear_motor_stack(self):
         self.motor_stack.clear()
