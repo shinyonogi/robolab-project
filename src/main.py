@@ -83,6 +83,7 @@ def run():
         if cmd == "e":
             explorer.sound = sound
             explorer.start_calibration()
+            input("Place robot on entry and press any key to start.")
             start_time = datetime.datetime.now().replace(microsecond=0)
             explorer.start_exploration()
             exploration_time = datetime.datetime.now().replace(microsecond=0) - start_time
