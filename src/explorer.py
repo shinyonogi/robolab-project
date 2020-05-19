@@ -289,13 +289,13 @@ class Explorer:
                     if coords == self.planet.target:  # Reached target
                         self.logger.info("Target %s reached" % str(coords))
 
-                        done = self.complete()
+                        done = self.complete(target_reached=True)
                         if done:
                             break
                     elif dfs_direction is None:  # Nothing left to explore, at least that the DFS knows of
                         self.logger.info("Exploration completed")
 
-                        done = self.complete(target_reached=True)
+                        done = self.complete()
                         if done:
                             break
                     else:
