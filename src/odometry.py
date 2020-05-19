@@ -57,9 +57,9 @@ class Odometry:
         if len(self.motor_stack) == 0:  # Skip calculation if stack is empty
             return self.get_coord()
 
-        prev_pos_right = self.motor_stack[0][0]
-        prev_pos_left = self.motor_left[0][1]
-        self.motor_stack.pop(0)
+        first_pos = self.motor_stack.pop(0)
+        prev_pos_right = first_pos[0]
+        prev_pos_left = first_pos[1]
 
         while len(self.motor_stack) > 0:
             # Get and delete first element from stack
@@ -113,13 +113,7 @@ class Odometry:
             return 0
 
     def update_motor_stack(self):
-        delta_motor_left = abs(abs(self.motor_left.position) - abs(self.motor_position_left))
-        delta_motor_right = abs(abs(self.motor_right.position) - abs(self.motor_position_right))
-
-        if delta_motor_left >= 0 or delta_motor_right >= 0:
-            self.motor_stack.append([delta_motor_left, delta_motor_right])
-            self.motor_position_left = self.motor_left.position
-            self.motor_position_right = self.motor_right.position
+        self.motor_stack.append([self.motor_left.position, self.motor_right.position])
 
     def update_motor_positions(self):
         self.motor_position_right = self.motor_right.position
