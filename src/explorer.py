@@ -282,9 +282,9 @@ class Explorer:
             while last_message_at + 3 > time.time():  # Three seconds after the last sent / received message
                 communication_target = self.communication.target
                 path_select = self.communication.path_select
+                paths_unveiled = self.communication.paths_unveiled
 
-                # TODO: in case we received some pathUnveil messages, we might want to redo the DFS
-                if target_direction is None or self.planet.target != communication_target:
+                if target_direction is None or self.planet.target != communication_target or paths_unveiled:
                     if communication_target and self.planet.target != communication_target:
                         self.logger.debug("Got new target from mothership: %s" % str(communication_target))
 
@@ -326,6 +326,9 @@ class Explorer:
                     self.logger.debug("Server chose direction: %s" % target_direction)
                     target_direction = path_select
                     self.communication.reset_path_select()
+
+                if paths_unveiled:
+                    self.communication.reset_paths_unveiled()
 
                 time.sleep(0.25)
                 last_message_at = self.communication.last_message_at

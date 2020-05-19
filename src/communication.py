@@ -35,6 +35,7 @@ class Communication:
         self.path = None
         self.path_select = None
         self.target = None
+        self.paths_unveiled = False
         self.is_done = False
         self.adjust_counter = 0
 
@@ -104,6 +105,7 @@ class Communication:
                     self.path = (start, end)
 
                 self.planet.add_path(start, end, path_weight)
+                self.paths_unveiled = True
             elif m_type == "pathSelect":
                 self.path_select = m_payload.get("startDirection")
             elif m_type == "target":
@@ -121,6 +123,9 @@ class Communication:
 
     def reset_path(self):
         self.path = None
+
+    def reset_paths_unveiled(self):
+        self.paths_unveiled = None
 
     # DO NOT EDIT THE METHOD SIGNATURE
     #
