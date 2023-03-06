@@ -1,0 +1,3776 @@
+2020-03-05 15:38:08,770: Send to: explorer/004
+2020-03-05 15:38:08,771: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:38:31,981: Send to: explorer/004
+2020-03-05 15:38:31,981: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:38:34,984: Send to: explorer/004
+2020-03-05 15:38:34,984: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:38:35,060: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:38:38,063: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:38:38,064: Send to: explorer/004
+2020-03-05 15:38:38,064: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:39:37,649: Send to: explorer/004
+2020-03-05 15:39:37,649: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:39:40,653: Send to: explorer/004
+2020-03-05 15:39:40,653: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:39:40,802: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:39:43,808: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:39:43,808: Send to: explorer/004
+2020-03-05 15:39:43,809: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:40:32,679: Send to: explorer/004
+2020-03-05 15:40:32,680: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:40:35,686: Send to: explorer/004
+2020-03-05 15:40:35,686: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:40:35,711: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:40:38,717: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:40:38,717: Send to: explorer/004
+2020-03-05 15:40:38,718: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:43:42,830: Send to: explorer/004
+2020-03-05 15:43:42,830: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:43:45,833: Send to: explorer/004
+2020-03-05 15:43:45,834: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:43:45,841: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:43:48,847: Send to: explorer/004
+2020-03-05 15:43:48,848: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:43:48,848: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:43:51,854: Send to: explorer/004
+2020-03-05 15:43:51,854: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:43:51,861: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:43:54,858: Send to: explorer/004
+2020-03-05 15:43:54,859: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:43:54,865: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:43:54,883: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:43:57,872: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:43:57,886: Send to: explorer/004
+2020-03-05 15:43:57,886: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:43:57,887: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:44:00,876: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:01,199: Send to: explorer/004
+2020-03-05 15:45:01,200: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:04,206: Send to: explorer/004
+2020-03-05 15:45:04,206: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:04,213: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:07,216: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:07,216: Send to: explorer/004
+2020-03-05 15:45:07,216: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:45:10,239: Send to: explorer/004
+2020-03-05 15:45:10,239: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:10,245: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:45:13,241: Send to: explorer/004
+2020-03-05 15:45:13,242: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:13,246: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:13,260: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:16,250: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "target not set yet",
+    "debug": "{\"from\": \"client\", \"type\": \"targetReached\", \"payload\": {\"message\": \"Target Reached\"}}"
+  }
+}
+2020-03-05 15:45:16,262: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:16,289: Send to: explorer/004
+2020-03-05 15:45:16,289: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:19,254: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:19,263: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:19,290: Send to: explorer/004
+2020-03-05 15:45:19,291: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:19,294: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:22,255: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:22,266: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:22,296: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:22,300: Send to: explorer/004
+2020-03-05 15:45:22,301: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:25,260: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:25,272: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:25,303: Send to: explorer/004
+2020-03-05 15:45:25,303: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:25,304: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:25,308: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:28,266: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:28,278: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:28,311: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:28,311: Send to: explorer/004
+2020-03-05 15:45:28,311: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:28,311: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:31,268: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:31,279: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:31,314: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:31,323: Send to: explorer/004
+2020-03-05 15:45:31,324: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:31,324: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:34,273: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:34,284: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:34,317: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:34,327: Send to: explorer/004
+2020-03-05 15:45:34,327: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:34,328: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:34,351: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:37,279: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:37,285: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:37,323: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:37,329: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:37,353: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:37,367: Send to: explorer/004
+2020-03-05 15:45:37,368: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:40,285: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:40,286: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:40,329: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:40,330: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:40,355: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:40,373: Send to: explorer/004
+2020-03-05 15:45:40,374: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:40,381: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:43,292: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:43,293: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:43,336: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:43,336: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:43,358: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:43,383: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:43,384: Send to: explorer/004
+2020-03-05 15:45:43,384: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": ""
+  }
+}
+2020-03-05 15:45:46,296: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:45:46,296: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:46,341: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: ",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"\"}}"
+  }
+}
+2020-03-05 15:45:46,341: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:45:46,359: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:48:43,947: Send to: explorer/004
+2020-03-05 15:48:43,947: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:48:46,948: Send to: explorer/004
+2020-03-05 15:48:46,949: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:48:46,956: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:48:49,963: Send to: explorer/004
+2020-03-05 15:48:49,963: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:48:49,964: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:48:52,973: Send to: explorer/004
+2020-03-05 15:48:52,973: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:48:52,979: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:48:55,976: Send to: explorer/004
+2020-03-05 15:48:55,976: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:48:55,983: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:48:55,986: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:48:58,990: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:48:58,990: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "target not set yet",
+    "debug": "{\"from\": \"client\", \"type\": \"targetReached\", \"payload\": {\"message\": \"Target Reached\"}}"
+  }
+}
+2020-03-05 15:48:58,995: Send to: explorer/004
+2020-03-05 15:48:58,995: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:01,993: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:01,994: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:01,997: Send to: explorer/004
+2020-03-05 15:49:01,997: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:02,002: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:04,998: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:04,998: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:05,006: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:05,013: Send to: explorer/004
+2020-03-05 15:49:05,013: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:08,003: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:08,003: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:08,010: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:08,018: Send to: explorer/004
+2020-03-05 15:49:08,018: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:08,024: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:11,005: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:11,006: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:11,012: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:11,025: Send to: explorer/004
+2020-03-05 15:49:11,026: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:11,028: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:14,010: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:14,010: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:14,013: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:14,038: Send to: explorer/004
+2020-03-05 15:49:14,039: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:14,039: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:17,012: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:17,012: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:17,018: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:17,041: Send to: explorer/004
+2020-03-05 15:49:17,041: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:17,042: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:17,048: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:20,018: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:20,019: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:20,022: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:20,048: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:20,054: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:20,074: Send to: explorer/004
+2020-03-05 15:49:20,074: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:23,025: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:23,025: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:23,026: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:23,054: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:23,078: Send to: explorer/004
+2020-03-05 15:49:23,079: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:23,083: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:23,086: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:26,032: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:26,032: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:26,033: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:26,055: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:26,088: Send to: explorer/004
+2020-03-05 15:49:26,088: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:26,089: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "planet/Gromit/001"
+  }
+}
+2020-03-05 15:49:26,089: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:29,037: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:29,038: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:49:29,039: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:29,058: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:49:29,095: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "unknown planet: planet/Gromit/001",
+    "debug": "{\"from\": \"client\", \"type\": \"testplanet\", \"payload\": {\"planetname\": \"planet/Gromit/001\"}}"
+  }
+}
+2020-03-05 15:49:29,095: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Galar",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:54:49,250: Send to: explorer/004
+2020-03-05 15:54:49,251: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:54:52,257: Send to: explorer/004
+2020-03-05 15:54:52,257: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:54:52,268: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:54:55,274: Send to: explorer/004
+2020-03-05 15:54:55,275: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:54:55,275: {
+  "from": "client",
+  "type": "explorationCompleted",
+  "payload": {
+    "message": "Exploration Completed"
+  }
+}
+2020-03-05 15:54:58,285: Send to: explorer/004
+2020-03-05 15:54:58,285: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:01,292: Send to: explorer/004
+2020-03-05 15:55:01,293: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:01,302: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:04,306: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:04,314: Send to: explorer/004
+2020-03-05 15:55:04,314: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:07,308: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:07,319: Send to: explorer/004
+2020-03-05 15:55:07,319: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:07,326: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:10,314: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:55:10,329: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:10,336: Send to: explorer/004
+2020-03-05 15:55:10,336: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:13,316: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:13,335: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:13,339: Send to: explorer/004
+2020-03-05 15:55:13,339: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:13,346: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:16,320: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:16,341: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:55:16,350: Send to: explorer/004
+2020-03-05 15:55:16,350: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:16,350: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:19,326: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:19,348: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:19,359: Send to: explorer/004
+2020-03-05 15:55:19,360: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:19,367: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:22,327: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:55:22,350: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:22,363: Send to: explorer/004
+2020-03-05 15:55:22,363: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:22,372: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:22,372: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:25,328: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:25,355: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:25,373: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:55:25,376: Send to: explorer/004
+2020-03-05 15:55:25,376: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:55:25,377: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:28,334: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:28,360: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:28,381: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:28,388: Send to: explorer/004
+2020-03-05 15:55:28,388: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:28,393: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:55:31,337: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:31,366: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:55:31,383: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:31,391: Send to: explorer/004
+2020-03-05 15:55:31,391: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:31,394: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:31,399: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:34,343: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:34,369: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:34,389: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:34,401: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:55:34,402: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:55:34,402: Send to: explorer/004
+2020-03-05 15:55:34,402: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:55:37,349: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:55:37,375: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:55:37,392: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:55:37,408: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "target not set yet",
+    "debug": "{\"from\": \"client\", \"type\": \"targetReached\", \"payload\": {\"message\": \"Target Reached\"}}"
+  }
+}
+2020-03-05 15:56:19,464: Send to: explorer/004
+2020-03-05 15:56:19,464: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:22,466: Send to: explorer/004
+2020-03-05 15:56:22,467: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:22,471: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:25,477: Send to: explorer/004
+2020-03-05 15:56:25,478: {
+  "from": "client",
+  "type": "explorationCompleted",
+  "payload": {
+    "message": "Exploration Completed"
+  }
+}
+2020-03-05 15:56:25,478: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:28,487: Send to: explorer/004
+2020-03-05 15:56:28,487: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:31,492: Send to: explorer/004
+2020-03-05 15:56:31,492: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:31,505: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:34,510: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:34,515: Send to: explorer/004
+2020-03-05 15:56:34,515: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:37,515: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:37,516: Send to: explorer/004
+2020-03-05 15:56:37,516: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:37,524: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:40,521: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:56:40,530: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:40,537: Send to: explorer/004
+2020-03-05 15:56:40,537: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:43,528: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:43,534: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:43,539: Send to: explorer/004
+2020-03-05 15:56:43,539: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:43,546: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:46,534: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:46,535: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:56:46,549: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:46,550: Send to: explorer/004
+2020-03-05 15:56:46,550: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:49,541: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:49,542: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:49,559: Send to: explorer/004
+2020-03-05 15:56:49,560: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:49,568: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:52,544: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:56:52,544: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:52,565: Send to: explorer/004
+2020-03-05 15:56:52,566: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:52,569: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:52,572: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:55,548: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:55,548: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:55,574: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:56:55,575: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:55,575: Send to: explorer/004
+2020-03-05 15:56:55,576: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:56:58,550: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:58,550: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:56:58,579: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:56:58,587: Send to: explorer/004
+2020-03-05 15:56:58,587: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:56:58,590: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:57:01,552: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:01,552: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:57:01,585: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:01,593: Send to: explorer/004
+2020-03-05 15:57:01,594: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:01,594: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "target not set yet",
+    "debug": "{\"from\": \"client\", \"type\": \"targetReached\", \"payload\": {\"message\": \"Target Reached\"}}"
+  }
+}
+2020-03-05 15:57:01,600: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:04,554: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:04,554: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:04,587: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:04,598: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:04,601: Send to: explorer/004
+2020-03-05 15:57:04,601: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:04,602: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:07,558: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:57:07,559: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:07,594: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:57:07,601: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:57:22,510: Send to: explorer/004
+2020-03-05 15:57:22,510: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:25,512: Send to: explorer/004
+2020-03-05 15:57:25,512: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:25,520: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:28,525: Send to: explorer/004
+2020-03-05 15:57:28,525: {
+  "from": "client",
+  "type": "explorationCompleted",
+  "payload": {
+    "message": "Exploration Completed"
+  }
+}
+2020-03-05 15:57:28,526: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:31,537: Send to: explorer/004
+2020-03-05 15:57:31,537: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:34,543: Send to: explorer/004
+2020-03-05 15:57:34,544: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:34,553: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:37,560: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:37,567: Send to: explorer/004
+2020-03-05 15:57:37,567: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:40,562: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:40,568: Send to: explorer/004
+2020-03-05 15:57:40,568: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:40,577: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:43,564: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:57:43,580: Send to: explorer/004
+2020-03-05 15:57:43,581: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:43,581: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 15:57:46,570: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:46,592: Send to: explorer/004
+2020-03-05 15:57:46,593: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:46,600: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 15:57:49,572: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:49,596: Send to: explorer/004
+2020-03-05 15:57:49,597: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:49,603: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:49,607: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:52,574: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 15:57:52,608: Send to: explorer/004
+2020-03-05 15:57:52,608: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:52,609: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:57:52,609: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:55,575: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:55,614: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:55,619: Send to: explorer/004
+2020-03-05 15:57:55,619: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:55,625: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:58,581: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:57:58,615: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:57:58,621: Send to: explorer/004
+2020-03-05 15:57:58,621: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:57:58,630: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:57:58,631: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:01,584: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:01,617: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:01,635: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:58:01,636: Send to: explorer/004
+2020-03-05 15:58:01,636: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:58:01,637: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:58:04,588: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:58:04,619: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:58:04,642: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:58:04,649: Send to: explorer/004
+2020-03-05 15:58:04,650: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:58:04,656: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:58:07,595: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:07,625: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:58:07,643: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:07,654: Send to: explorer/004
+2020-03-05 15:58:07,655: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:07,659: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:58:07,664: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:10,601: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:58:10,626: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:58:10,646: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:58:10,663: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "target not set yet",
+    "debug": "{\"from\": \"client\", \"type\": \"targetReached\", \"payload\": {\"message\": \"Target Reached\"}}"
+  }
+}
+2020-03-05 15:58:10,666: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:58:10,666: Send to: explorer/004
+2020-03-05 15:58:10,667: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:58:13,608: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:58:13,632: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:58:13,650: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:58:13,666: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:59:17,695: Send to: explorer/004
+2020-03-05 15:59:17,695: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:20,698: Send to: explorer/004
+2020-03-05 15:59:20,699: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:20,707: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:23,709: Send to: explorer/004
+2020-03-05 15:59:23,709: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:59:23,709: {
+  "from": "client",
+  "type": "explorationCompleted",
+  "payload": {
+    "message": "Exploration Completed"
+  }
+}
+2020-03-05 15:59:26,717: Send to: explorer/004
+2020-03-05 15:59:26,718: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:29,725: Send to: explorer/004
+2020-03-05 15:59:29,725: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:29,733: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:32,739: Send to: explorer/004
+2020-03-05 15:59:32,740: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 0,
+    "endDirection": 0,
+    "pathStatus": "blocked"
+  }
+}
+2020-03-05 15:59:32,740: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:59:35,754: Send to: explorer/004
+2020-03-05 15:59:35,756: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:35,761: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 0,
+    "endDirection": 0,
+    "pathStatus": "blocked"
+  }
+}
+2020-03-05 15:59:38,761: Send to: explorer/004
+2020-03-05 15:59:38,762: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:38,762: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:38,768: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:41,764: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:59:41,775: Send to: explorer/004
+2020-03-05 15:59:41,775: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 15:59:41,775: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:59:44,769: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:44,782: Send to: explorer/004
+2020-03-05 15:59:44,782: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:44,789: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 15:59:47,775: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:59:47,787: Send to: explorer/004
+2020-03-05 15:59:47,788: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:47,792: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:47,796: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:50,776: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 15:59:50,798: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:59:50,799: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:59:50,800: Send to: explorer/004
+2020-03-05 15:59:50,800: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:53,782: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:53,801: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:53,808: Send to: explorer/004
+2020-03-05 15:59:53,808: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:53,809: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:56,784: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 15:59:56,802: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:59:56,814: Send to: explorer/004
+2020-03-05 15:59:56,814: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:56,815: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 15:59:56,822: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:59,789: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:59,806: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 15:59:59,819: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 15:59:59,825: Send to: explorer/004
+2020-03-05 15:59:59,825: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 15:59:59,826: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 16:00:02,795: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 16:00:02,808: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 16:00:02,821: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 16:00:02,836: Send to: explorer/004
+2020-03-05 16:00:02,836: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 16:00:02,841: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 16:00:05,798: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 16:00:05,814: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 16:00:05,823: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 16:00:05,838: Send to: explorer/004
+2020-03-05 16:00:05,838: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 16:00:05,844: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "target not set yet",
+    "debug": "{\"from\": \"client\", \"type\": \"targetReached\", \"payload\": {\"message\": \"Target Reached\"}}"
+  }
+}
+2020-03-05 16:00:05,844: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 16:00:08,803: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 16:00:08,820: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 16:00:08,826: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 16:00:08,849: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 16:00:08,850: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 16:00:08,851: Send to: explorer/004
+2020-03-05 16:00:08,851: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 16:00:11,807: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 16:00:11,823: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 16:00:11,830: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 16:00:11,851: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 17:57:37,676: Send to: explorer/004
+2020-03-05 17:57:37,676: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:57:40,683: Send to: explorer/004
+2020-03-05 17:57:40,683: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:57:40,693: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:57:43,700: Send to: explorer/004
+2020-03-05 17:57:43,701: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:57:43,701: {
+  "from": "client",
+  "type": "explorationCompleted",
+  "payload": {
+    "message": "Exploration Completed"
+  }
+}
+2020-03-05 17:57:46,708: Send to: explorer/004
+2020-03-05 17:57:46,709: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:57:49,714: Send to: explorer/004
+2020-03-05 17:57:49,715: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:57:49,723: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:57:52,728: Send to: explorer/004
+2020-03-05 17:57:52,729: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:57:52,729: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 0,
+    "endDirection": 0,
+    "pathStatus": "blocked"
+  }
+}
+2020-03-05 17:57:55,740: Send to: explorer/004
+2020-03-05 17:57:55,740: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:57:55,747: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:57:58,743: Send to: explorer/004
+2020-03-05 17:57:58,743: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:57:58,751: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 0,
+    "endDirection": 0,
+    "pathStatus": "blocked"
+  }
+}
+2020-03-05 17:57:58,755: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:01,754: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 17:58:01,762: Send to: explorer/004
+2020-03-05 17:58:01,762: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 17:58:01,763: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:04,761: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:04,771: Send to: explorer/004
+2020-03-05 17:58:04,772: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:04,780: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 17:58:07,767: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:07,775: Send to: explorer/004
+2020-03-05 17:58:07,775: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:07,783: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:07,784: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:10,769: {
+  "from": "client",
+  "type": "pathselect",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0
+  }
+}
+2020-03-05 17:58:10,787: Send to: explorer/004
+2020-03-05 17:58:10,788: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:10,788: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 17:58:10,789: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:13,776: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:13,794: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:13,799: Send to: explorer/004
+2020-03-05 17:58:13,800: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:13,807: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:16,782: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 17:58:16,801: Send to: explorer/004
+2020-03-05 17:58:16,801: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:16,802: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:16,811: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:16,813: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:19,789: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:19,808: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:19,814: Send to: explorer/004
+2020-03-05 17:58:19,815: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 17:58:19,815: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:19,816: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:22,795: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:22,814: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:22,819: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 17:58:22,825: Send to: explorer/004
+2020-03-05 17:58:22,825: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:22,831: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 17:58:25,801: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:25,817: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:25,826: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:25,828: Send to: explorer/004
+2020-03-05 17:58:25,828: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:25,832: {
+  "from": "debug",
+  "type": "error",
+  "payload": {
+    "message": "target not set yet",
+    "debug": "{\"from\": \"client\", \"type\": \"targetReached\", \"payload\": {\"message\": \"Target Reached\"}}"
+  }
+}
+2020-03-05 17:58:25,835: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:28,803: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:28,819: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-03-05 17:58:28,827: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:28,834: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:28,837: Send to: explorer/004
+2020-03-05 17:58:28,837: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetname": "Ferdinand"
+  }
+}
+2020-03-05 17:58:28,837: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:31,805: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Ferdinand",
+    "startX": 16,
+    "startY": 75,
+    "startOrientation": 0
+  }
+}
+2020-03-05 17:58:31,820: {
+  "from": "client",
+  "type": "ready"
+}
+2020-03-05 17:58:31,832: {
+  "from": "client",
+  "type": "targetReached",
+  "payload": {
+    "message": "Target Reached"
+  }
+}
+2020-03-05 17:58:31,836: {
+  "from": "debug",
+  "type": "notice",
+  "payload": {
+    "message": "active planet: Ferdinand"
+  }
+}
+2020-05-19 15:04:00,372: Send to: explorer/004
+2020-05-19 15:04:00,372: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:04:00,373: Send to: explorer/004
+2020-05-19 15:04:00,373: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:04:23,205: Send to: explorer/004
+2020-05-19 15:04:23,205: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:04:23,205: Send to: explorer/004
+2020-05-19 15:04:23,206: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:08:25,915: Connecting to mothership
+2020-05-19 15:08:25,926: Send to: explorer/004
+2020-05-19 15:08:25,926: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:08:25,927: Connecting to mothership
+2020-05-19 15:08:25,931: Send to: explorer/004
+2020-05-19 15:08:25,932: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:08:35,126: Connecting to mothership
+2020-05-19 15:08:35,133: Send to: explorer/004
+2020-05-19 15:08:35,133: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:08:35,135: Connecting to mothership
+2020-05-19 15:08:35,138: Send to: explorer/004
+2020-05-19 15:08:35,138: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:09:39,278: Connecting to mothership
+2020-05-19 15:09:39,286: Send to: explorer/004
+2020-05-19 15:09:39,286: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:09:39,287: Connecting to mothership
+2020-05-19 15:09:39,291: Send to: explorer/004
+2020-05-19 15:09:39,291: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:12:02,483: Connecting to mothership
+2020-05-19 15:12:02,491: Send to: explorer/004
+2020-05-19 15:12:02,491: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:12:02,492: Connecting to mothership
+2020-05-19 15:12:02,496: Send to: explorer/004
+2020-05-19 15:12:02,496: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:18:24,438: Connecting to mothership
+2020-05-19 15:18:24,446: Send to: explorer/004
+2020-05-19 15:18:24,447: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:18:24,447: Connecting to mothership
+2020-05-19 15:18:24,577: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 15:18:24,577: Send to: explorer/004
+2020-05-19 15:18:24,577: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:21:00,960: Connecting to mothership
+2020-05-19 15:21:00,977: Send to: explorer/004
+2020-05-19 15:21:00,977: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:21:00,977: Connecting to mothership
+2020-05-19 15:21:00,982: Send to: explorer/004
+2020-05-19 15:21:00,982: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:22:57,324: Connecting to mothership
+2020-05-19 15:22:57,332: Send to: explorer/004
+2020-05-19 15:22:57,332: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:22:57,333: Connecting to mothership
+2020-05-19 15:22:57,337: Send to: explorer/004
+2020-05-19 15:22:57,337: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:34:25,900: Connecting to mothership
+2020-05-19 15:34:25,909: Send to: explorer/004
+2020-05-19 15:34:25,910: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:34:25,926: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 15:34:28,915: Connecting to mothership
+2020-05-19 15:34:28,921: Send to: explorer/004
+2020-05-19 15:34:28,922: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:35:22,847: Connecting to mothership
+2020-05-19 15:35:22,855: Send to: explorer/004
+2020-05-19 15:35:22,855: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:35:22,870: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 15:35:25,861: Connecting to mothership
+2020-05-19 15:35:26,081: Send to: explorer/004
+2020-05-19 15:35:26,081: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:35:37,664: Connecting to mothership
+2020-05-19 15:35:37,672: Send to: explorer/004
+2020-05-19 15:35:37,672: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:35:37,683: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 15:35:40,679: Connecting to mothership
+2020-05-19 15:35:40,686: Send to: explorer/004
+2020-05-19 15:35:40,686: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:37:01,324: Connecting to mothership
+2020-05-19 15:37:01,332: Send to: explorer/004
+2020-05-19 15:37:01,332: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:37:01,344: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 15:37:04,336: Connecting to mothership
+2020-05-19 15:37:04,343: Send to: explorer/004
+2020-05-19 15:37:04,344: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 15:53:46,952: Connecting to mothership
+2020-05-19 15:53:46,960: Send to: explorer/004
+2020-05-19 15:53:46,960: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 15:53:46,976: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 15:53:49,964: Connecting to mothership
+2020-05-19 15:53:50,066: Send to: explorer/004
+2020-05-19 15:53:50,067: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 16:04:39,881: Connecting to mothership
+2020-05-19 16:04:39,891: Send to: explorer/004
+2020-05-19 16:04:39,891: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 16:04:39,892: Connecting to mothership
+2020-05-19 16:04:39,897: Send to: explorer/004
+2020-05-19 16:04:39,897: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 16:04:39,907: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 16:04:42,902: Connecting to mothership
+2020-05-19 16:04:42,909: Send to: planet/none/004
+2020-05-19 16:04:42,910: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 1,
+    "endDirection": 0,
+    "pathStatus": "free"
+  }
+}
+2020-05-19 16:04:55,615: Connecting to mothership
+2020-05-19 16:04:55,625: Send to: explorer/004
+2020-05-19 16:04:55,625: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 16:04:55,626: Connecting to mothership
+2020-05-19 16:04:55,630: Send to: explorer/004
+2020-05-19 16:04:55,630: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 16:04:55,642: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 16:04:58,636: Connecting to mothership
+2020-05-19 16:04:58,641: Send to: planet/none/004
+2020-05-19 16:04:58,642: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 1,
+    "endDirection": 0,
+    "pathStatus": "free"
+  }
+}
+2020-05-19 16:07:26,672: Connecting to mothership
+2020-05-19 16:07:26,682: Send to: explorer/004
+2020-05-19 16:07:26,682: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 16:07:26,683: Connecting to mothership
+2020-05-19 16:07:26,689: Send to: explorer/004
+2020-05-19 16:07:26,689: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 16:07:26,699: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 16:07:29,690: Connecting to mothership
+2020-05-19 16:07:29,697: Send to: planet/none/004
+2020-05-19 16:07:29,697: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 1,
+    "endDirection": 0,
+    "pathStatus": "free"
+  }
+}
+2020-05-19 16:16:30,380: Connecting to mothership
+2020-05-19 16:16:30,483: Send to: explorer/004
+2020-05-19 16:16:30,484: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 16:16:30,486: Connecting to mothership
+2020-05-19 16:16:30,491: Send to: explorer/004
+2020-05-19 16:16:30,491: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 16:16:30,500: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 16:16:33,497: Connecting to mothership
+2020-05-19 16:16:33,614: Send to: planet/none/004
+2020-05-19 16:16:33,615: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 1,
+    "endDirection": 0,
+    "pathStatus": "free"
+  }
+}
+2020-05-19 16:17:55,522: Connecting to mothership
+2020-05-19 16:17:55,530: Send to: explorer/004
+2020-05-19 16:17:55,530: {
+  "from": "client",
+  "type": "testplanet",
+  "payload": {
+    "planetName": "Hasselhoff"
+  }
+}
+2020-05-19 16:17:55,533: Connecting to mothership
+2020-05-19 16:17:55,539: Send to: explorer/004
+2020-05-19 16:17:55,539: {
+  "from": "client",
+  "type": "ready"
+}
+2020-05-19 16:17:55,549: {
+  "from": "server",
+  "type": "planet",
+  "payload": {
+    "planetName": "Hasselhoff",
+    "startX": 0,
+    "startY": 0,
+    "startOrientation": 0
+  }
+}
+2020-05-19 16:17:58,542: Connecting to mothership
+2020-05-19 16:17:58,549: Send to: planet/none/004
+2020-05-19 16:17:58,550: {
+  "from": "client",
+  "type": "path",
+  "payload": {
+    "startX": 0,
+    "startY": 0,
+    "startDirection": 0,
+    "endX": 0,
+    "endY": 1,
+    "endDirection": 180,
+    "pathStatus": "free"
+  }
+}
